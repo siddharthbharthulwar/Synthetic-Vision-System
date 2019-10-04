@@ -1,3 +1,5 @@
+#file containing functions useful in initial aggregation of DSM data
+
 
 import numpy as np
 import rasterio as rio
