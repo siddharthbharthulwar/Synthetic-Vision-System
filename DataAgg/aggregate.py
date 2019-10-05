@@ -12,14 +12,6 @@ import math
 
 #spatial extent for normal AHN grid tile is 8500 left, 437500 bottom, 90000 right, 443750 top
 
-highDSM = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R_37FZ1\\r_37fz1.tif"
-lowDSM1 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FZ1\\r5_37fz1.tif"
-lowDSM2 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37EZ2\\r5_37ez2.tif"
-lowDSM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37EN2\\r5_37en2.tif"
-lowDSM3 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
-highDTM = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\M_37FZ1\\m_37fz1.tif"
-lowDTM = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\M5_37FZ1\\m5_37fz1.tif"
-
 def load(path):
     global loadBounds
     with rio.open(path) as src:
