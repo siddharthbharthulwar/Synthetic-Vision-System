@@ -46,6 +46,3 @@ def arrayReproject(path):
                     resampling=Resampling.nearest)
 
 
-
-boundz = ag.getBounds(DSM2)
-ag.show(arrayReproject(DSM9), "reprojected", boundz)
