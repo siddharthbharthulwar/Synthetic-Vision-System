@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 """
 Created on Sat Sep 21 15:53:42 2019
 
@@ -31,3 +31,4 @@ DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
 
 ag.tripleGridShow(DSM1, DSM2, DSM3, DSM4, DSM5, DSM6, DSM7, DSM8, DSM9)
+print(ag.getMetaData(DSM9))

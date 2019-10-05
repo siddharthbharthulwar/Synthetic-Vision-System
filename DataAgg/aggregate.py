@@ -96,20 +96,10 @@ def fillShow(inputArray, title, spatial_extent):
     fig.colorbar(lidar_plot)
     # turn off the x and y axes for prettier plotting
 
-    plt.show()
 
 
-def doubleGridShow(left1, right1, left2, right2):
-    global totalCombinedArray
-    arrayLeft = load(left2)
-    arrayRight = load(right2)
-    array2Left = load(left1)
-    array2Right = load(right1)
-    combinedArray1 = np.hstack((arrayLeft, arrayRight))
-    combinedArray2 = np.hstack((array2Left, array2Right))
-    totalCombinedArray = np.vstack((combinedArray2, combinedArray1))
-    primaryBounds = getBounds(left2)
-    show(totalCombinedArray, "combined", primaryBounds)
+
+
     
 def tripleGridShow(t1, t2, t3, m1, m2, m3, b1, b2, b3):
     global tripleCombinedArray
