@@ -1,7 +1,7 @@
 #file to reproject geotiffs to mercator
 import numpy as np 
 import rasterio
-import aggregate as ag
+import aggregation as ag
 from rasterio.warp import calculate_default_transform, reproject, Resampling
 
 
