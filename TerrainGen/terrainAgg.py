@@ -8,7 +8,7 @@ class Terrain(object):
     def __init__(self):
         self.app = QtGui.QApplication(sys.argv)
         self.w = gl.GLViewWidget()
-        self.w.setGeometry(0, 1100, 1920, 1080)
+        self.w.setGeometry(0, 110, 1920, 1080)
         self.w.show()
         self.w.setWindowTitle('Synthetic Vision System')
         self.w.setCameraPosition(distance = 30, elevation = 8)
@@ -36,3 +36,4 @@ class Terrain(object):
 if __name__ == '__main__':
     t = Terrain()
     t.start()
+

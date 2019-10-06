@@ -34,7 +34,12 @@ DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
 
 #ag.tripleGridShow(DSM1, DSM2, DSM3, DSM4, DSM5, DSM6, DSM7, DSM8, DSM9)
-cuh = ag.GridArray(DSM1, 4, 5)
-print(cuh.getMetadata())
+#cuh = ag.GridArray(DSM1, 4, 5)
+#print(cuh.getMetadata())
 
-ag.show(ag.load(DSM1, 1), "test", ag.getBounds(DSM1))
+#ag.show(ag.load(DSM1, 1), "test", ag.getBounds(DSM1))
+aTest = np.array((1, 2, 3))
+bTest = np.array((4, 5, 6))
+cTest = np.array((7, 8, 9))
+dTest = np.array((10, 11, 12))
+print(ag.stack((aTest, bTest, cTest, dTest, 1, 2, 3, 4, 5)))
