@@ -90,6 +90,8 @@ def tripleGridShow(t1, t2, t3, m1, m2, m3, b1, b2, b3):
     print(tripleCombinedArray.shape)
     
 class GridArray:
+
+
     def __init__(self, arrayName, xPos, yPos):
         self.arrayValues = load(arrayName, 1)
         self.xPos = xPos
@@ -98,10 +100,7 @@ class GridArray:
 
     def getMetadata(self):
         return(self.xPos, self.yPos)
-
-
-
-
+        
 
     
 #final gridShow function will be modular to adapt to any square grid size using tuples
