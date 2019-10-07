@@ -99,17 +99,43 @@ class GridArray:
     def getMetadata(self):
         return(self.xPos, self.yPos)
      
-def stack(arrayParam):
-    sq = math.sqrt(len(arrayParam))
-    print(sq)
+def veristack(arrayParam):
     n = 1
     stackedArray = arrayParam[0]
-    while n < sq:
-        stackedArray = np.hstack((stackedArray, arrayParam[n]))
+    while n < len(arrayParam):
+        stackedArray = np.vstack((stackedArray, arrayParam[n]))
         n = n + 1
     return(stackedArray)
 
 
+#stacks arrays in square grid. input must be a square number of arrays. 
+def stack(array):
+    sq = int(math.sqrt(len(array)))
+    n = 0
+    initStackList = []
+    posList = []
+    stackedList = []
+    while n < len(array):
+        initStackList.append(array[n])
+        posList.append(n)
+        n = n + sq
+    print(initStackList)
+    n = 0 #vertical 
+    q = 0
+    cout = 0
+    while n < len(array):
+        stackedList[n] = initStackList[n]
+        cout = posList[q]
+        while cout < sq:
+            stackedList[n] = np.hstack(stackedList[n], array[cout + 1])
+            cout = cout + 1
+            print(stackedList)
+        n = n + sq
+        q = q + 1
+    veristack(stackedList)
+    return(veristack)
+
+    
 #final gridShow function will be modular to adapt to any square grid size using tuples
     
     

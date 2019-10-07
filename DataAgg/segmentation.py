@@ -42,4 +42,13 @@ aTest = np.array((1, 2, 3))
 bTest = np.array((4, 5, 6))
 cTest = np.array((7, 8, 9))
 dTest = np.array((10, 11, 12))
-print(ag.stack((aTest, bTest, cTest, dTest, 1, 2, 3, 4, 5)))
+eTest = np.array((13, 14, 15))
+fTest = np.array((16, 17, 18))
+gTest = np.array((19, 20, 21))
+hTest = np.array((22, 23, 24))
+iTest = np.array((25, 26, 27))
+
+
+
+testo = ag.stack((aTest, bTest, cTest, dTest, eTest, fTest, gTest, hTest, iTest))
+print(testo)
