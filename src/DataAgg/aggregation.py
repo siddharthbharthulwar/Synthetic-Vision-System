@@ -5,8 +5,6 @@ import numpy as np
 import rasterio as rio
 import matplotlib.pyplot as plt
 import numpy.ma as ma
-from rasterio.warp import calculate_default_transform, reproject, Resampling
-from mpl_toolkits.mplot3d.axes3d import *
 import math
 
 #spatial extent for normal AHN grid tile is 8500 left, 437500 bottom, 90000 right, 443750 top
@@ -97,47 +95,25 @@ class GridArray:
 
     def getMetadata(self):
         return(self.xPos, self.yPos)
-     
-def veristack(arrayParam):
-    n = 1
-    stackedArray = arrayParam[0]
-    while n < len(arrayParam):
-        stackedArray = np.vstack((stackedArray, arrayParam[n]))
-        n = n + 1
-    return(stackedArray)
 
-
-#stacks arrays in square grid. input must be a square number of arrays. 
+#grid array is of the form: ([column 1 values], [column 2 values], etc)
 def stack(array):
-    sq = int(math.sqrt(len(array)))
-    n = 0
-    initStackList = []
-    posList = []
-    stackedList = []
-    while n < len(array):
-        initStackList.append(array[n])
-        posList.append(n)
-        n = n + sq
-    print(initStackList)
-    n = 0 #vertical 
-    q = 0
     cout = 0
-    while n < len(array):
-        stackedList[n] = initStackList[n]
-        cout = posList[q]
-        while cout < sq:
-            stackedList[n] = np.hstack(stackedList[n], array[cout + 1])
-            cout = cout + 1
-            print(stackedList)
-        n = n + sq
-        q = q + 1
-    veristack(stackedList)
-    return(veristack)
+    horList = 0
+    vert = len(array)
+    while cout < vert:
+        while n < len(array[cout]):
+            n = 0
 
-    
-#final gridShow function will be modular to adapt to any square grid size using tuples
-    
-    
-    
-    
-    
+a = np.array(([1, 2, 3],[4, 5, 6], [7, 8, 9]))
+b = np.array(([10, 11, 12], [13, 14, 15]))
+c = np.hstack((a, b))
+
+print(a)
+print("break")
+print(b)
+print('break')
+print(c)
+
+
+#note: jagged arrays are not supported in numpy and opencv so empty arrays must be used to fill in gaps

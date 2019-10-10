@@ -30,16 +30,11 @@ DSM7 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37EZ2\\r5_37ez2.tif"
 DSM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37EN2\\r5_37en2.tif"
 DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
+LAPTOPDSM = "C:\\Users\\siddh\\Documents\\DSMS\R5_37FZ1\\r5_37fz1.tif"
 
 
-#ag.tripleGridShow(DSM1, DSM2, DSM3, DSM4, DSM5, DSM6, DSM7, DSM8, DSM9)
-
-
-img = np.hstack((ag.load(DSM7, 1), ag.load(DSM8, 1)))
-th1 = cv.threshold(img, 127, 255, cv.THRESH_BINARY)
-titles = ['yikes', 'yikes2']
-images = [img, th1]
-
+img = ag.load(LAPTOPDSM, 1)
+#greyimg = cv.cvtColor(image, cv2.)
 
 plt.imshow(img)
 plt.show()
