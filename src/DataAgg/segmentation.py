@@ -9,7 +9,8 @@ Created on Sat Sep 21 15:53:42 2019
 
 import aggregation as ag
 import numpy as np
-
+import cv2 as cv 
+import matplotlib.pyplot as plt
 
 
 """
@@ -31,21 +32,6 @@ DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
 
 
-
-#ag.tripleGridShow(DSM1, DSM2, DSM3, DSM4, DSM5, DSM6, DSM7, DSM8, DSM9)
-#cuh = ag.GridArray(DSM1, 4, 5)
-#print(cuh.getMetadata())
-
-#ag.show(ag.load(DSM1, 1), "test", ag.getBounds(DSM1))
-aTest = np.array((1, 2, 3))
-bTest = np.array((4, 5, 6))
-cTest = np.array((7, 8, 9))
-dTest = np.array((10, 11, 12))
-eTest = np.array((13, 14, 15))
-fTest = np.array((16, 17, 18))
-gTest = np.array((19, 20, 21))
-hTest = np.array((22, 23, 24))
-iTest = np.array((25, 26, 27))
-
-
 ag.tripleGridShow(DSM1, DSM2, DSM3, DSM4, DSM5, DSM6, DSM7, DSM8, DSM9)
+
+
