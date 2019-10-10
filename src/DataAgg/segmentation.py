@@ -8,9 +8,8 @@ Created on Sat Sep 21 15:53:42 2019
 
 
 import aggregation as ag
-import reprojection as rp
-import tensorflow as tf
 import numpy as np
+
 
 
 """
@@ -49,6 +48,4 @@ hTest = np.array((22, 23, 24))
 iTest = np.array((25, 26, 27))
 
 
-
-testo = ag.stack((aTest, bTest, cTest, dTest, eTest, fTest, gTest, hTest, iTest))
-print(testo)
+ag.tripleGridShow(DSM1, DSM2, DSM3, DSM4, DSM5, DSM6, DSM7, DSM8, DSM9)

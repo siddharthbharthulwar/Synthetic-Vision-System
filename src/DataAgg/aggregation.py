@@ -6,7 +6,6 @@ import rasterio as rio
 import matplotlib.pyplot as plt
 import numpy.ma as ma
 from rasterio.warp import calculate_default_transform, reproject, Resampling
-import tensorflow as tf
 from mpl_toolkits.mplot3d.axes3d import *
 import math
 
@@ -58,15 +57,16 @@ def fillShow(inputArray, title, spatial_extent):
     array = arraya.filled(-7.5)
     fig, ax = plt.subplots()
     lidar_plot = ax.imshow(array, 
-                           cmap='terrain', 
+                           cmap='gray', 
                            vmin = -10,
-                           vmax = 50,
+                           vmax = 30,
                            extent= spatial_extent)
     ax.set_title(str(title), fontsize= 20)
     ax.set_aspect('equal', 'box')
     print(spatial_extent)
 
     fig.colorbar(lidar_plot)
+    plt.show()
     # turn off the x and y axes for prettier plotting
 
     
