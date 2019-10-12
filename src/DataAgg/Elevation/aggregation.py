@@ -28,7 +28,7 @@ def load(path, fillBoolean):
 def getBounds(path):
     with rio.open(path) as src:
         lidarBounds = src.bounds
-        return(lidarBounds)
+        return(lidarBounds[0])
 
 def getMetaData(path):
     with rio.open(path) as src:
@@ -88,24 +88,25 @@ def tripleGridShow(t1, t2, t3, m1, m2, m3, b1, b2, b3):
     fillShow(tripleCombinedArray, "Triple Grid", primaryBounds)
     print(tripleCombinedArray.shape)
     
-class GridArray:
-    def __init__(self, arrayName, xPos, yPos):
-        self.arrayValues = load(arrayName, 1)
+
+def stack(paths, dimensions):
+    xdim = dimensions[0]
+    ydim = dimensions[1]
+
+
+class TerrainGrid:
+    def __init__(self, path, xPos, yPos):
+        self.arrayValues = load(path, 1)
         self.xPos = xPos
         self.yPos = yPos
 
     def getMetadata(self):
         return(self.xPos, self.yPos)
 
-#grid array is of the form: ([column 1 values], [column 2 values], etc)
-def stack(array):
-    cout = 0
-    horList = 0
-    vert = len(array)
-    while cout < vert:
-        while n < len(array[cout]):
-            n = 0
+    def stack(self):
+        print("not functional at the moment")
 
 
 
-#note: jagged arrays are not supported in numpy and opencv so empty arrays must be used to fill in gaps
+
+#note: final stack function will be used in class and will only accept rectangular array grids. 
