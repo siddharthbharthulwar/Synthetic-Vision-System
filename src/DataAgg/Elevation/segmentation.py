@@ -30,11 +30,14 @@ DSM7 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37EZ2\\r5_37ez2.tif"
 DSM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37EN2\\r5_37en2.tif"
 DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
-LAPTOPDSM = "C:\\Users\\siddh\\Documents\\DSMS\R5_37FZ1\\r5_37fz1.tif"
+LAPTOPDSM = "C:\\Users\\siddh\\Documents\\DSMS\\R5_37FZ1\\r5_37fz1.tif"
+SRTM1 = "D:\\Documents\\School\\2019-20\\ISEF 2020\SRTM\\n51_e004_1arc_v3.tif"
+SRTM3 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n52_e004_1arc_v3.tif"
 
-
-img = ag.load(LAPTOPDSM, 1)
+img1 = ag.load(SRTM1, 0)
+img2 = ag.load(SRTM3, 0)
+imgTot = np.vstack((img2, img1))
 #greyimg = cv.cvtColor(image, cv2.)
 
-plt.imshow(img)
+plt.imshow(imgTot)
 plt.show()

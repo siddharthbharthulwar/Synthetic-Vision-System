@@ -13,11 +13,12 @@ def load(path, fillBoolean):
     with rio.open(path) as src:
     # convert / read the data into a numpy array: masked= True turns `nodata` values to nan
         lidar_dem_im = src.read(1, masked=True)
-        arraya = ma.masked_values(lidar_dem_im, 3.40282e+38)
         if fillBoolean == 1:
+            arraya = ma.masked_values(lidar_dem_im, 3.40282e+38)
             array = arraya.filled(-7.5)
             return(array)
         if fillBoolean == 0:
+            arraya = lidar_dem_im
             return(arraya)
         else:
             print("No valid parameter for filling in water values. 1 for YES, 0 for NO.")
@@ -105,15 +106,6 @@ def stack(array):
         while n < len(array[cout]):
             n = 0
 
-a = np.array(([1, 2, 3],[4, 5, 6], [7, 8, 9]))
-b = np.array(([10, 11, 12], [13, 14, 15]))
-c = np.hstack((a, b))
-
-print(a)
-print("break")
-print(b)
-print('break')
-print(c)
 
 
 #note: jagged arrays are not supported in numpy and opencv so empty arrays must be used to fill in gaps
