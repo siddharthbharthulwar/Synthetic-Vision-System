@@ -32,28 +32,4 @@ DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
 LAPTOPDSM = "C:\\Users\\siddh\\Documents\\DSMS\\R5_37FZ1\\r5_37fz1.tif"
 
-SRTM1 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n52_e004_1arc_v3.tif"
-SRTM2 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n52_e005_1arc_v3.tif"
-SRTM3 = "D:\\Documents\\School\\2019-20\\ISEF 2020\SRTM\\n51_e004_1arc_v3.tif"
-SRTM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n51_e005_1arc_v3.tif"
-
-
-
-DENDSM1 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n39_w105_1arc_v3.tif"
-DENDSM2 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n39_w106_1arc_v3.tif"
-
-
-img1 = ag.load(SRTM1, 0)
-img2 = ag.load(SRTM2, 0)
-img3 = ag.load(SRTM3, 0)
-img4 = ag.load(SRTM4, 0)
-
-hIm1 = np.hstack((img1, img2))
-hIm2 = np.hstack((img3, img4))
-imgTot = np.vstack((hIm1, hIm2))
-
-plt.imshow(imgTot)
-plt.show()
-
-#greyimg = cv.cvtColor(image, cv2.)
-print(ag.getBounds(DSM9))
+ag.tripleGridShow(DSM1, DSM2, DSM3, DSM4, DSM5, DSM6, DSM7, DSM8, DSM9)

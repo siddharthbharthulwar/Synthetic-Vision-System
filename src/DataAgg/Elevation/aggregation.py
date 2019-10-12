@@ -85,7 +85,8 @@ def tripleGridShow(t1, t2, t3, m1, m2, m3, b1, b2, b3):
     bot = np.hstack((ab1, ab2, ab3))
     tripleCombinedArray = np.vstack((top, mid, bot))
     primaryBounds = getBounds(t1)
-    fillShow(tripleCombinedArray, "Triple Grid", primaryBounds)
+    plt.imshow(tripleCombinedArray)
+    plt.show()
     print(tripleCombinedArray.shape)
     
 
