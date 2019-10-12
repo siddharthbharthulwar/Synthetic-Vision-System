@@ -42,7 +42,9 @@ DENDSM2 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n39_w106_1arc_v3.tif
 img1 = ag.load(DENDSM1, 0)
 img2 = ag.load(DENDSM2, 0)
 imgTot = np.hstack((img2, img1))
-#greyimg = cv.cvtColor(image, cv2.)
 
-print(ag.getMetaData(DENDSM1))
-print(ag.getBounds(DENDSM1))
+plt.imshow(imgTot)
+plt.show()
+
+#greyimg = cv.cvtColor(image, cv2.)
+print(ag.getBounds(DSM9))

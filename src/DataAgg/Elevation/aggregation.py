@@ -28,7 +28,7 @@ def load(path, fillBoolean):
 def getBounds(path):
     with rio.open(path) as src:
         lidarBounds = src.bounds
-        return(lidarBounds[0])
+        return(lidarBounds)
 
 def getMetaData(path):
     with rio.open(path) as src:
