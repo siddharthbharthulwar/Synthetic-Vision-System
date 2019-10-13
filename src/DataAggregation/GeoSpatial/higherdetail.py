@@ -41,8 +41,8 @@ yikes = yikes.astype('uint8')
 
 print(yikes.dtype)
 yik = cv.adaptiveThreshold(yikes, 100, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
-yik = np.invert(yik)
-plt.imshow(yik)
+yik = yik.astype('float32')
+plt.imshow(yik, cmap = 'gist_gray_r')
 plt.show()
 #plt.imshow(p1.getValues(), vmin = -10, vmax = 100)
 
