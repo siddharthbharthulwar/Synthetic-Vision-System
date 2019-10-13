@@ -105,12 +105,12 @@ def stack(inputPaths, dimensions, fillBool):
         print("Dimensions and length of arrayList do not match")
 
 class TerrainGrid:
-    def __init__(self, path, dimensions, fillBoolean):
+    def __init__(self, path, dimensions, fill):
 
-        self.arrayValues = stack(path, dimensions, fillBoolean)
+        self.arrayValues = stack(path, dimensions, fill)
         self.xDimension = dimensions[0]
         self.yDimension = dimensions[1]
-        self.fillBoolean = fillBoolean
+        self.fill = fill
 
     def show(self):
         plt.imshow(self.arrayValues)
