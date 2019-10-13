@@ -115,5 +115,5 @@ class TerrainGrid:
     def show(self):
         plt.imshow(self.arrayValues)
         plt.show()
-
-
+    def getValues(self):
+        return self.arrayValues
