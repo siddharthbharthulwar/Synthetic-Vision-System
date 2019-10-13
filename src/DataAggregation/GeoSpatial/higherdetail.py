@@ -35,8 +35,15 @@ def thresholdShow(thresholdedArray, normalGrid, vmin, vmax, opacity):
 
 
 p1 = ag.TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9), (3, 2), 1)
-plt.imshow(p1.getValues(), vmin = -10, vmax = 100)
+yikes = p1.getValues()
+yikes = yikes.astype('uint8')
+#th3 = cv.adaptiveThreshold(p1.getValues(), 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 4, 2)
 
-plt.imshow(gridThreshold(p1, 5, 10, cv.THRESH_BINARY), cmap = 'binary', alpha = 0.5)
-
+print(yikes.dtype)
+yik = cv.adaptiveThreshold(yikes, 100, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
+yik = np.invert(yik)
+plt.imshow(yik)
 plt.show()
+#plt.imshow(p1.getValues(), vmin = -10, vmax = 100)
+
+#plt.imshow(gridThreshold(p1, 5, 10, cv.THRESH_BINARY), cmap = 'binary', alpha = 0.2)
