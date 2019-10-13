@@ -11,7 +11,6 @@ import aggregation as ag
 import numpy as np
 import cv2 as cv 
 import matplotlib.pyplot as plt
-from osgeo import gdal
 
 
 DSM9 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FZ2\\r5_37fz2.tif"

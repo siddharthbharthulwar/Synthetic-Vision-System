@@ -24,6 +24,6 @@ DENDSM1 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n39_w105_1arc_v3.tif
 DENDSM2 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n39_w106_1arc_v3.tif"
 
 
-n = ag.stack((SRTM1, SRTM2, SRTM3, SRTM4), (2, 2), 0)
-plt.imshow(n)
-plt.show()
+
+p1 = ag.TerrainGrid((SRTM1, SRTM2, SRTM3, SRTM4), (2, 2), 0)
+p1.show()

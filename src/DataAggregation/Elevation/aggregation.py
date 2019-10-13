@@ -111,6 +111,9 @@ class TerrainGrid:
         self.xDimension = dimensions[0]
         self.yDimension = dimensions[1]
         self.fillBoolean = fillBoolean
+
     def show(self):
         plt.imshow(self.arrayValues)
         plt.show()
+
+
