@@ -68,46 +68,49 @@ def fillShow(inputArray, title, spatial_extent):
     plt.show()
     # turn off the x and y axes for prettier plotting
 
-    
-def tripleGridShow(t1, t2, t3, m1, m2, m3, b1, b2, b3):
-    global tripleCombinedArray
-    at1 = load(t1, 1)
-    at2 = load(t2, 1)
-    at3 = load(t3, 1)
-    am1 = load(m1, 1)
-    am2 = load(m2, 1)
-    am3 = load(m3, 1)
-    ab1 = load(b1, 1)
-    ab2 = load(b2, 1)
-    ab3 = load(b3, 1)
-    top = np.hstack((at1, at2, at3))
-    mid = np.hstack((am1, am2, am3))
-    bot = np.hstack((ab1, ab2, ab3))
-    tripleCombinedArray = np.vstack((top, mid, bot))
-    primaryBounds = getBounds(t1)
-    plt.imshow(tripleCombinedArray)
-    plt.show()
-    print(tripleCombinedArray.shape)
-    
 
-def stack(paths, dimensions):
-    xdim = dimensions[0]
-    ydim = dimensions[1]
+def stack(inputPaths, dimensions, fillBool):
+    if len(inputPaths) == dimensions[0] * dimensions[1]:
+        counter = 0
+        paths = []
+        while counter < len(inputPaths):
+            paths.append(load(inputPaths[counter], fillBool))
+            counter = counter + 1
+        xdim = dimensions[0]
+        ydim = dimensions[1]
+        vert = 0
+        hor = 1
+        fin = []
+        while vert < len(paths):
+            fin.append(paths[vert])
+            vert = vert + xdim
+        #creates a list with all values in the first column of path array
+        vert = 0
+        posMark = 0
+        while vert < ydim:
+            while hor < xdim: #error is that hor is less than xdim for 2nd iteration
+                fin[vert] = np.hstack((fin[vert], paths[hor + posMark]))
+                hor = hor + 1
+            posMark = posMark + xdim
+            hor = 1
+            vert = vert + 1
 
+        vertical = 1
+        finalArray = fin[0]
+        while vertical < ydim:
+            finalArray = np.vstack((finalArray, fin[vertical]))
+            vertical = vertical + 1
+        return(finalArray)
+    else:
+        print("Dimensions and length of arrayList do not match")
 
 class TerrainGrid:
-    def __init__(self, path, xPos, yPos):
-        self.arrayValues = load(path, 1)
-        self.xPos = xPos
-        self.yPos = yPos
+    def __init__(self, path, dimensions, fillBoolean):
 
-    def getMetadata(self):
-        return(self.xPos, self.yPos)
-
-    def stack(self):
-        print("not functional at the moment")
-
-
-
-
-#note: final stack function will be used in class and will only accept rectangular array grids. 
+        self.arrayValues = stack(path, dimensions, fillBoolean)
+        self.xDimension = dimensions[0]
+        self.yDimension = dimensions[1]
+        self.fillBoolean = fillBoolean
+    def show(self):
+        plt.imshow(self.arrayValues)
+        plt.show()

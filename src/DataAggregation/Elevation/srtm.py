@@ -24,21 +24,6 @@ DENDSM1 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n39_w105_1arc_v3.tif
 DENDSM2 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n39_w106_1arc_v3.tif"
 
 
-img1 = ag.load(SRTM1, 0)
-img2 = ag.load(SRTM2, 0)
-img3 = ag.load(SRTM3, 0)
-img4 = ag.load(SRTM4, 0)
-
-hIm1 = np.hstack((img1, img2))
-hIm2 = np.hstack((img3, img4))
-imgTot = np.vstack((hIm1, hIm2))
-
-
-den1 = ag.load(DENDSM1, 0)
-den2 = ag.load(DENDSM2, 0)
-dentotal = np.hstack((den2, den1))
-plt.imshow(dentotal)
+n = ag.stack((SRTM1, SRTM2, SRTM3, SRTM4), (2, 2), 0)
+plt.imshow(n)
 plt.show()
-
-#greyimg = cv.cvtColor(image, cv2.)
-print(ag.getBounds(DENDSM2))
