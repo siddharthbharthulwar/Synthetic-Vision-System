@@ -70,39 +70,45 @@ def fillShow(inputArray, title, spatial_extent):
 
 
 def stack(inputPaths, dimensions, fillBool):
-    if len(inputPaths) == dimensions[0] * dimensions[1]:
-        counter = 0
-        paths = []
-        while counter < len(inputPaths):
-            paths.append(load(inputPaths[counter], fillBool))
-            counter = counter + 1
-        xdim = dimensions[0]
-        ydim = dimensions[1]
-        vert = 0
-        hor = 1
-        fin = []
-        while vert < len(paths):
-            fin.append(paths[vert])
-            vert = vert + xdim
-        #creates a list with all values in the first column of path array
-        vert = 0
-        posMark = 0
-        while vert < ydim:
-            while hor < xdim: #error is that hor is less than xdim for 2nd iteration
-                fin[vert] = np.hstack((fin[vert], paths[hor + posMark]))
-                hor = hor + 1
-            posMark = posMark + xdim
-            hor = 1
-            vert = vert + 1
-
-        vertical = 1
-        finalArray = fin[0]
-        while vertical < ydim:
-            finalArray = np.vstack((finalArray, fin[vertical]))
-            vertical = vertical + 1
-        return(finalArray)
+    print(type(inputPaths))
+    if isinstance(inputPaths, str) == True:
+        a = load(inputPaths, fillBool)
+        return a
     else:
-        print("Dimensions and length of arrayList do not match")
+
+        if len(inputPaths) == dimensions[0] * dimensions[1]:
+            counter = 0
+            paths = []
+            while counter < len(inputPaths):
+                paths.append(load(inputPaths[counter], fillBool))
+                counter = counter + 1
+            xdim = dimensions[0]
+            ydim = dimensions[1]
+            vert = 0
+            hor = 1
+            fin = []
+            while vert < len(paths):
+                fin.append(paths[vert])
+                vert = vert + xdim
+            #creates a list with all values in the first column of path array
+            vert = 0
+            posMark = 0
+            while vert < ydim:
+                while hor < xdim: #error is that hor is less than xdim for 2nd iteration
+                    fin[vert] = np.hstack((fin[vert], paths[hor + posMark]))
+                    hor = hor + 1
+                posMark = posMark + xdim
+                hor = 1
+                vert = vert + 1
+
+            vertical = 1
+            finalArray = fin[0]
+            while vertical < ydim:
+                finalArray = np.vstack((finalArray, fin[vertical]))
+                vertical = vertical + 1
+            return(finalArray)
+        else:
+            print("Dimensions and length of arrayList do not match")
 
 class TerrainGrid:
     def __init__(self, path, dimensions, fill):

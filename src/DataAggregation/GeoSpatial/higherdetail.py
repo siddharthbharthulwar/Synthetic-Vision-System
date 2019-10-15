@@ -34,7 +34,7 @@ def thresholdShow(thresholdedArray, normalGrid, vmin, vmax, opacity):
 '''
 
 
-p1 = ag.TerrainGrid((DSM7, DSM8), (2, 1), 0)
+p1 = ag.TerrainGrid((LAPTOPDSM), (1, 1), 0)
 yikes = p1.getValues()
 yikes = yikes.astype('uint8')
 #th3 = cv.adaptiveThreshold(p1.getValues(), 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 4, 2)
@@ -43,7 +43,7 @@ print(yikes.dtype)
 yik = cv.adaptiveThreshold(yikes, 100, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 3, 2)
 yik = yik.astype('float32')
 yika = ma.masked_values(yik, 100)
-#plt.imshow(p1.getValues(), vmin = -10, vmax = 10, alpha = 0.9)
+plt.imshow(p1.getValues(), vmin = -10, vmax = 10, alpha = 0.9)
 
 plt.imshow(yika, cmap = 'gist_gray', alpha = 0.5)
 
