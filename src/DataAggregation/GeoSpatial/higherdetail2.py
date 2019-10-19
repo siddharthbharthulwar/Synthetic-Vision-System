@@ -34,7 +34,7 @@ def thresholdShow(thresholdedArray, normalGrid, vmin, vmax, opacity):
 
 
 p1 = ag.TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9), (3, 2), 1)
-plt.imshow(p1.getValues(), vmin = -10, vmax = 100)
+plt.imshow(p1.getValues(), vmin = -10, vmax = 35)
 
 plt.imshow(gridThreshold(p1, 5, 10, cv.THRESH_BINARY), cmap = 'binary', alpha = 0.5)
 

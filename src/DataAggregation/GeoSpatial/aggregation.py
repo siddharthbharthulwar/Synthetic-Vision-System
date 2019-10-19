@@ -70,7 +70,6 @@ def fillShow(inputArray, title, spatial_extent):
 
 
 def stack(inputPaths, dimensions, fillBool):
-    print(type(inputPaths))
     if isinstance(inputPaths, str) == True:
         a = load(inputPaths, fillBool)
         return a
