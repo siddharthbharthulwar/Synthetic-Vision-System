@@ -23,15 +23,12 @@ DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
 LAPTOPDSM = "C:\\Users\\siddh\\Documents\\DSMS\\R5_37FZ1\\r5_37fz1.tif"
 
-def gridThreshold(terrainGrid, treshVal, max, treshType):
-    ret, tresh1 = cv.threshold(terrainGrid.getValues(), treshVal, max, treshType)
-    arraya = ma.masked_values(tresh1, 0)
-    return arraya
 
 
-p1 = ag.TerrainGrid(HIGH,(3, 2), 1)
 
-#plt.imshow(p1.getValues(), vmin=-50, vmax = -25, cmap = 'gist_gray_r')
-plt.imshow(gridThreshold(p1, 2.88, 5.5, cv.THRESH_TOZERO), cmap = 'viridis', vmin =5, vmax = 100)
+p1 = ag.TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9),(3, 2), 1)
+a = p1.arrayThreshold(2.5, 5.5, cv.THRESH_TOZERO)
+plt.imshow(a, cmap = 'viridis')
+
 
 plt.show()

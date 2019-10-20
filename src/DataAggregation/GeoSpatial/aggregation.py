@@ -6,6 +6,8 @@ import rasterio as rio
 import matplotlib.pyplot as plt
 import numpy.ma as ma
 import math
+import cv2 as cv 
+
 
 #spatial extent for normal AHN grid tile is 8500 left, 437500 bottom, 90000 right, 443750 top
 
@@ -110,6 +112,7 @@ def stack(inputPaths, dimensions, fillBool):
             print("Dimensions and length of arrayList do not match")
 
 class TerrainGrid:
+    #class for a grid of rastered array tiff files
     def __init__(self, path, dimensions, fill):
 
         self.arrayValues = stack(path, dimensions, fill)
@@ -120,5 +123,12 @@ class TerrainGrid:
     def show(self, colormap):
         plt.imshow(self.arrayValues, cmap=colormap)
         plt.show()
+    #simple matplotlib plotting of the terraingrid
     def getValues(self):
         return self.arrayValues
+    #accessor method to values of the terraingrid
+    def arrayThreshold(self, value, outval, type):
+        a = cv.threshold(self.arrayValues, value, outval, type)
+        return ma.masked_values(a[1], 0)
+    #opencv tozero threshold of all array values: values above "value" are preserved, values below are removed from array.
+    #no idea why a is a tuple when the threshold function of opencv is supposed to return a single array, so that's why a[1] is what is being masked
