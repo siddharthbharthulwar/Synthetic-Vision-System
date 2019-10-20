@@ -28,15 +28,10 @@ def gridThreshold(terrainGrid, treshVal, max, treshType):
     arraya = ma.masked_values(tresh1, 0)
     return arraya
 
-'''
-def thresholdShow(thresholdedArray, normalGrid, vmin, vmax, opacity):
-    plt.imshow(nor)
-'''
 
+p1 = ag.TerrainGrid(HIGH,(3, 2), 1)
 
-p1 = ag.TerrainGrid(HIGH, (1,1), 1)
-plt.imshow(p1.getValues(), vmin = -10, vmax = 35)
-
-plt.imshow(gridThreshold(p1, 5, 10, cv.THRESH_BINARY), cmap = 'binary', alpha = 0.5)
+#plt.imshow(p1.getValues(), vmin=-50, vmax = -25, cmap = 'gist_gray_r')
+plt.imshow(gridThreshold(p1, 2.88, 5.5, cv.THRESH_TOZERO), cmap = 'viridis', vmin =5, vmax = 100)
 
 plt.show()
