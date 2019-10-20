@@ -12,6 +12,7 @@ import cv2 as cv
 import numpy.ma as ma
 import matplotlib.pyplot as plt
 
+HIGH = "D:\\Documents\\School\\2019-20\\ISEF 2020\\HIGHAHN\\R_37HN1\\r_37hn1.tif"
 
 DSM9 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FZ2\\r5_37fz2.tif"
 DSM6 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN2\\r5_37fn2.tif"
@@ -33,7 +34,7 @@ def thresholdShow(thresholdedArray, normalGrid, vmin, vmax, opacity):
 '''
 
 
-p1 = ag.TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9), (3, 2), 1)
+p1 = ag.TerrainGrid(HIGH, (1,1), 1)
 plt.imshow(p1.getValues(), vmin = -10, vmax = 35)
 
 plt.imshow(gridThreshold(p1, 5, 10, cv.THRESH_BINARY), cmap = 'binary', alpha = 0.5)

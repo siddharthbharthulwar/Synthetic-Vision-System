@@ -117,8 +117,8 @@ class TerrainGrid:
         self.yDimension = dimensions[1]
         self.fill = fill
 
-    def show(self):
-        plt.imshow(self.arrayValues)
+    def show(self, colormap):
+        plt.imshow(self.arrayValues, cmap=colormap)
         plt.show()
     def getValues(self):
         return self.arrayValues
