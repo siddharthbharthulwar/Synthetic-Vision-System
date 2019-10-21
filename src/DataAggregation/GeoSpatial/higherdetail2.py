@@ -28,7 +28,7 @@ LAPTOPDSM = "C:\\Users\\siddh\\Documents\\DSMS\\R5_37FZ1\\r5_37fz1.tif"
 
 p1 = ag.TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9),(3, 2), 1)
 a = p1.arrayThreshold(2.5, 5.5, cv.THRESH_TOZERO)
-plt.imshow(a, cmap = 'viridis')
+plt.imshow(a, cmap = 'viridis', vmin = 2.5, vmax = 100)
 
 
 plt.show()
