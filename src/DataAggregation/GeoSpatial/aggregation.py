@@ -25,6 +25,11 @@ def load(path, fillBoolean):
         else:
             print("No valid parameter for filling in water values. 1 for YES, 0 for NO.")
 
+def rioTransform(path, fillboolean):
+    with rio.open(path) as src:
+        lidar_dem_im = src.read(1, masked=True)
+        metadata = src.meta
+        transformAffine = metadata['transform']
 
         
 def getBounds(path):
@@ -35,6 +40,12 @@ def getBounds(path):
 def getMetaData(path):
     with rio.open(path) as src:
         return(src.meta)
+
+
+def getAffine(path):
+    with rio.open(path) as src:
+        retrieve = src.meta
+        return retrieve['transform']
 
 def show(inputArray, title, spatial_extent):
     array = ma.masked_values(inputArray, 3.40282e+38)
@@ -120,8 +131,8 @@ class TerrainGrid:
         self.yDimension = dimensions[1]
         self.fill = fill
 
-    def show(self, colormap):
-        plt.imshow(self.arrayValues, cmap=colormap)
+    def show(self, colormap, min, max):
+        plt.imshow(self.arrayValues, cmap=colormap, vmin = min, vmax = max)
         plt.show()
     #simple matplotlib plotting of the terraingrid
     def getValues(self):
