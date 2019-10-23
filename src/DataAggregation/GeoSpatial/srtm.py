@@ -26,4 +26,4 @@ DENDSM2 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n39_w106_1arc_v3.tif
 
 
 p1 = ag.TerrainGrid((SRTM1, SRTM2, SRTM3, SRTM4), (2, 2), 0)
-p1.show('viridis')
+p1.show('viridis', 0, 5)
