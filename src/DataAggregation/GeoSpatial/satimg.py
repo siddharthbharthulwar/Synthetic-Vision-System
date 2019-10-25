@@ -7,3 +7,9 @@ a = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SatelliteImagery\\3601228_n1e226
 l = ag.load(a, 0)
 plt.imshow(l)
 plt.show()
+
+
+
+
+
+
