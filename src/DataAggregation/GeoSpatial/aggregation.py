@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 import numpy.ma as ma
 import math
 import cv2 as cv 
+import rasterio.warp
+import rasterio.features
+
 
 
 #spatial extent for normal AHN grid tile is 8500 left, 437500 bottom, 90000 right, 443750 top
@@ -46,41 +49,6 @@ def getAffine(path):
     with rio.open(path) as src:
         retrieve = src.meta
         return retrieve['transform']
-
-def show(inputArray, title, spatial_extent):
-    array = ma.masked_values(inputArray, 3.40282e+38)
-    fig, ax = plt.subplots()
-    lidar_plot = ax.imshow(array, 
-                           cmap='terrain', 
-                           vmin = -10,
-                           vmax = 50,
-                           extent= spatial_extent)
-    ax.set_title(str(title), fontsize= 20)
-    ax.set_aspect('equal', 'box')
-    print(spatial_extent)
-
-    fig.colorbar(lidar_plot)
-    # turn off the x and y axes for prettier plotting
-
-    plt.show()
-    
-def fillShow(inputArray, title, spatial_extent):
-    arraya = ma.masked_values(inputArray, 3.40282e+38)
-    array = arraya.filled(-7.5)
-    fig, ax = plt.subplots()
-    lidar_plot = ax.imshow(array, 
-                           cmap='gray', 
-                           vmin = -10,
-                           vmax = 30,
-                           extent= spatial_extent)
-    ax.set_title(str(title), fontsize= 20)
-    ax.set_aspect('equal', 'box')
-    print(spatial_extent)
-
-    fig.colorbar(lidar_plot)
-    plt.show()
-    # turn off the x and y axes for prettier plotting
-
 
 def stack(inputPaths, dimensions, fillBool):
     if isinstance(inputPaths, str) == True:
@@ -122,6 +90,26 @@ def stack(inputPaths, dimensions, fillBool):
         else:
             print("Dimensions and length of arrayList do not match")
 
+def listBounds(path):
+    count = 0
+    final = []
+    while count < len(path):
+        with rio.open(path[count]) as src:
+            final.append(src.bounds)
+        count = count + 1
+    return final
+
+#converts the instance's AHN bounds into lat and lon coordinates
+def transformBounds(normalBounds):
+    returnList = []
+    count = 0
+    while count < len(normalBounds):
+        temp = normalBounds[count]
+        returnList.append(rasterio.warp.transform_bounds('EPSG:28992', {'init': 'epsg:4326'}, temp[0], temp[1], temp[2], temp[3]))
+        count = count + 1
+    return returnList
+
+
 class TerrainGrid:
     #class for a grid of rastered array tiff files
     def __init__(self, path, dimensions, fill):
@@ -130,13 +118,13 @@ class TerrainGrid:
         self.xDimension = dimensions[0]
         self.yDimension = dimensions[1]
         self.fill = fill
+        self.bounds = listBounds(path)
+        self.transformBounds = transformBounds(listBounds(path))
 
     def show(self, colormap, min, max):
         plt.imshow(self.arrayValues, cmap=colormap, vmin = min, vmax = max)
         plt.show()
     #simple matplotlib plotting of the terraingrid
-    def getValues(self):
-        return self.arrayValues
     #accessor method to values of the terraingrid
     def arrayThreshold(self, value, outval, type):
         a = cv.threshold(self.arrayValues, value, outval, type)

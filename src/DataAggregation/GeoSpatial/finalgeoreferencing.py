@@ -24,9 +24,5 @@ a = ag.getBounds(DSM9)
 with rasterio.open(DSM9) as dataset:
     bounds_trans = rasterio.warp.transform_bounds(dataset.crs, {'init': 'epsg:4326'}, a[0], a[1], a[2], a[3])
     print(bounds_trans)
+    print(dataset.crs)
 
-testget = ag.TerrainGrid(DSM9, (1,1), 1)
-testget.show('viridis', -5, 20)
-
-
-#todo: incorporate into class
