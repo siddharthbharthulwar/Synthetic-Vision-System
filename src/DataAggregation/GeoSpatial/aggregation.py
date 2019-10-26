@@ -120,9 +120,6 @@ def tileDimensions(bounds):
         count = count + 1
     return returnList
 
-
-
-
 class TerrainGrid:
     #class for a grid of rastered array tiff files
     def __init__(self, path, dimensions, fill):
@@ -132,6 +129,8 @@ class TerrainGrid:
         self.fill = fill
         self.bounds = listBounds(path)
         self.transformBounds = transformBounds(listBounds(path))
+        self.raw_dimensions = tileDimensions(transformBounds)
+
 
     def show(self, colormap, min, max):
         plt.imshow(self.arrayValues, cmap=colormap, vmin = min, vmax = max)
