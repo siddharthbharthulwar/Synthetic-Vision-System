@@ -45,4 +45,6 @@ plt.show()
 
 '''
 yikes = ag.TerrainGrid((DSM4, DSM5, DSM6), (3, 1), 1)
-print(yikes.transformBounds)
+a = ag.tileDimensions(yikes.transformBounds)
+print(a)
+yikes.show('viridis', -20, 20)

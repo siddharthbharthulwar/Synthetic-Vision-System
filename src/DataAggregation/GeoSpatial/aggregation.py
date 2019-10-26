@@ -109,14 +109,26 @@ def transformBounds(normalBounds):
         count = count + 1
     return returnList
 
+def tileDimensions(bounds):
+    returnList = []
+    count = 0
+    while count < len(bounds):
+        current = bounds[count]
+        dlat = current[3] - current[1]
+        dlon = current[2] - current[0]
+        returnList.append((dlat, dlon))
+        count = count + 1
+    return returnList
+
+
+
 
 class TerrainGrid:
     #class for a grid of rastered array tiff files
     def __init__(self, path, dimensions, fill):
 
         self.arrayValues = stack(path, dimensions, fill)
-        self.xDimension = dimensions[0]
-        self.yDimension = dimensions[1]
+        self.dimensions = dimensions
         self.fill = fill
         self.bounds = listBounds(path)
         self.transformBounds = transformBounds(listBounds(path))
