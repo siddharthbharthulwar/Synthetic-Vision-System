@@ -109,11 +109,11 @@ def transformBounds(normalBounds):
         count = count + 1
     return returnList
 
-def tileDimensions(bounds):
+def tileDimensions(param):
     returnList = []
     count = 0
-    while count < len(bounds):
-        current = bounds[count]
+    while count < len(param):
+        current = param[count]
         dlat = current[3] - current[1]
         dlon = current[2] - current[0]
         returnList.append((dlat, dlon))
@@ -129,7 +129,7 @@ class TerrainGrid:
         self.fill = fill
         self.bounds = listBounds(path)
         self.transformBounds = transformBounds(listBounds(path))
-        self.raw_dimensions = tileDimensions(transformBounds)
+        self.raw_dimensions = tileDimensions(transformBounds(listBounds(path)))
 
 
     def show(self, colormap, min, max):
