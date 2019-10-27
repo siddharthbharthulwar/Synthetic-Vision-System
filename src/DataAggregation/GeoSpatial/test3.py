@@ -3,6 +3,7 @@ import rasterio.warp
 import numpy as np 
 import matplotlib.pyplot as plt 
 import aggregation as ag
+import cv2 as cv 
 
 HIGH = "D:\\Documents\\School\\2019-20\\ISEF 2020\\HIGHAHN\\R_37HN1\\r_37hn1.tif"
 
@@ -39,6 +40,14 @@ with rasterio.open(SRTM3) as src:
 
 a = ag.TerrainGrid((SRTM3), (1,1), 0)
 b = a.arrayValues
-c = b[100:300]
-plt.imshow(c)
+c = b[100:300, 670:1000]
+
+
+print(c.shape)
+z = ag.TerrainGrid((DSM7, DSM8), (2,1), 1)
+y = z.arrayThreshold(3, 5.5, cv.THRESH_TOZERO)
+x = np.kron(c, np.ones((6,6)))
+print(x.shape)
+plt.imshow(x)
+plt.imshow(y, alpha=.6)
 plt.show()
