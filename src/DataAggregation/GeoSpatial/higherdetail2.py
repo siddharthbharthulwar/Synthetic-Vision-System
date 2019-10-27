@@ -32,6 +32,16 @@ SRTM2 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n52_e005_1arc_v3.tif"
 SRTM3 = "D:\\Documents\\School\\2019-20\\ISEF 2020\SRTM\\n51_e004_1arc_v3.tif"
 SRTM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n51_e005_1arc_v3.tif"
 
+
+eham1 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CN2\\r5_25cn2.tif"
+eham2 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DN1\\r5_25dn1.tif"
+eham3 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DN2\\r5_25dn2.tif"
+eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.tif"
+eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
+eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.tif"
+
+
+
 '''
 p1 = ag.TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9),(3, 2), 1)
 a = p1.arrayThreshold(5, 5.5, cv.THRESH_TOZERO)
@@ -44,7 +54,6 @@ plt.imshow(a)
 plt.show()
 
 '''
-yikes = ag.TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9), (3, 2), 1)
-b = yikes.arrayThreshold(2.5, 5, cv.THRESH_TOZERO)
-plt.imshow(b)
+test = ag.TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3,2), 1)
+plt.imshow(test.arrayThreshold(3, 5, cv.THRESH_TOZERO), vmin = -5, vmax = 50)
 plt.show()
