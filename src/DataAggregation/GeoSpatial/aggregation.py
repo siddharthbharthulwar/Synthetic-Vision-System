@@ -90,7 +90,11 @@ def stack(inputPaths, dimensions, fillBool):
         else:
             print("Dimensions and length of arrayList do not match")
 
-def listBounds(path):
+def listBounds(parameterVal):
+    if isinstance(parameterVal, str):
+        path = [parameterVal]
+    else:
+        path = parameterVal
     count = 0
     final = []
     while count < len(path):
@@ -101,6 +105,7 @@ def listBounds(path):
 
 #converts the instance's AHN bounds into lat and lon coordinates
 def transformBounds(normalBounds):
+
     returnList = []
     count = 0
     while count < len(normalBounds):

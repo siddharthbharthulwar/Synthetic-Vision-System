@@ -45,6 +45,6 @@ plt.show()
 
 '''
 yikes = ag.TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9), (3, 2), 1)
-a = ag.tileDimensions(yikes.transformBounds)
-print(a)
-yikes.show('viridis', -20, 20)
+b = yikes.arrayThreshold(2.5, 5, cv.THRESH_TOZERO)
+plt.imshow(b)
+plt.show()
