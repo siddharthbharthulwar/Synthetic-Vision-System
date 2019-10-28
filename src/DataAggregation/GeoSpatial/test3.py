@@ -40,14 +40,19 @@ with rasterio.open(SRTM3) as src:
 
 a = ag.TerrainGrid((SRTM3), (1,1), 0)
 b = a.arrayValues
-c = b[100:300, 670:1000]
+c = b[80:289, 610:950]
 
 
-print(c.shape)
+
 z = ag.TerrainGrid((DSM7, DSM8), (2,1), 1)
-y = z.arrayThreshold(3, 5.5, cv.THRESH_TOZERO)
+
+tau = a.raw_dimensions[0]
+mu = z.raw_dimensions[0]
+print(mu[0] / tau[0])
+
+y = z.arrayThreshold(1, 5.5, cv.THRESH_TOZERO)
 x = np.kron(c, np.ones((6,6)))
-print(x.shape)
+
 plt.imshow(x)
 plt.imshow(y, alpha=.6)
 plt.show()
