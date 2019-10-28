@@ -1,29 +1,34 @@
 #include <iostream>
 
-void setup(){
-    std::cout << "Test if true" << std::endl;
+using namespace std;
+
+int fib(int x) {
+
+   if((x==1)||(x==0)) {
+
+      return(x);
+
+   }else {
+
+      return(fib(x-1)+fib(x-2));
+   }
+
 }
 
-void init(int parameter){
-    int arrayLen = parameter;
-    std::cout << arrayLen << std::endl;
+int main() {
+
+   int x , i=0;
+   cout << "Enter the number of terms of series : ";
+   cin >> x;
+
+   cout << "\nFibonnaci Series : ";
+
+   while(i < x) {
+      cout << " " << fib(i);
+
+      i++;
+      
+   }
+   return 0;
 }
-
-bool isTrue(int parameter){
-    if (100 < parameter){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
-
-
-
-int main(){
-    int x = 1000;
-    std::cout << isTrue(x) << std::endl;
-    return 0;
-}
-
 
