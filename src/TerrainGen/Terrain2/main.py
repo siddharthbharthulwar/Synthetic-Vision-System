@@ -1,10 +1,5 @@
 import pyglet
 
-window = pyglet.window.Window()
-context = window.context
-config = context.config
-config.double_buffer
-
-
-display = pyglet.canvas.get_display()
-
+window = pyglet.window.Window(width = 800, height = 600, caption = 'Pyglet', resizable = True)
+window.set_exclusive_mouse(False)
+pyglet.app.run()
