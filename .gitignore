@@ -1,1 +1,5 @@
 .vscode
+*.exe
+*.pyc
+.vscode/settings.json
+.vscode/settings.json

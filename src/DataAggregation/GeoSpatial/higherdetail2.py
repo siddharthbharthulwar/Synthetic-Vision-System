@@ -55,5 +55,9 @@ plt.show()
 
 '''
 test = ag.TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3,2), 1)
+'''
+test.show('viridis', -5, 20)
+'''
+
 plt.imshow(test.arrayThreshold(3, 5, cv.THRESH_TOZERO), vmin = -5, vmax = 50)
 plt.show()
