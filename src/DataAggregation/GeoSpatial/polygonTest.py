@@ -29,34 +29,10 @@ eham3 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DN2\\r5_25dn2.t
 eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.tif"
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 
-'''
-with rasterio.open(SRTM3) as src:
 
-    lidar_dem = src.read()
-    print(lidar_dem.shape)
-    print(lidar_dem[1:2])
+t = ag.TerrainGrid(DSM9, (1,1), 1)
+s = t.arrayThreshold(2.718, 5.5, cv.THRESH_BINARY)
+r = cv.findContours(s, 1, 2)
 
-'''
-
-a = ag.TerrainGrid((SRTM3), (1,1), 0)
-b = a.arrayValues
-c = b[80:289, 610:950]
-
-
-
-z = ag.TerrainGrid((DSM7, DSM8), (2,1), 1)
-print(z.bounds)
-
-tau = a.raw_dimensions[0]
-mu = z.raw_dimensions[0]
-print(mu[0] / tau[0])
-
-y = z.arrayThreshold(1, 5.5, cv.THRESH_TOZERO)
-x = np.kron(c, np.ones((6,6)))
-
-plt.imshow(x)
-plt.imshow(y, alpha=.6)
-
-print(a.bounds, a.transformBounds)
+plt.imshow(r)
 plt.show()
-
