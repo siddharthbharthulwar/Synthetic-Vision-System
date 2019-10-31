@@ -39,7 +39,7 @@ with rasterio.open(SRTM3) as src:
 '''
 
 a = ag.TerrainGrid((SRTM3), (1,1), 0)
-b = a.arrayValues
+b = a.arrayThreshold(1, 5.5, cv.THRESH_TOZERO)
 c = b[80:289, 610:950]
 
 
@@ -53,6 +53,6 @@ print(mu[0] / tau[0])
 y = z.arrayThreshold(1, 5.5, cv.THRESH_TOZERO)
 x = np.kron(c, np.ones((6,6)))
 
-plt.imshow(x)
+plt.imshow(x, cmap='gist_gray_r')
 plt.imshow(y, alpha=.6)
 plt.show()

@@ -3,3 +3,5 @@
 *.pyc
 .vscode/settings.json
 .vscode/settings.json
+.vscode/settings.json
+src/DataAggregation/GeoSpatial/__pycache__/aggregation.cpython-36.pyc
