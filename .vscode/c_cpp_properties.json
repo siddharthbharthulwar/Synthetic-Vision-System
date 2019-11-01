@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:\\Users\\siddh\\Projects\\Synthetic Vision System\\dependencies\\GLFW\\include\\GLFW"
             ],
             "defines": [
                 "_DEBUG",
