@@ -24,6 +24,8 @@ int main(void)
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
+        cout << "breakpoint pass";
+        
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
