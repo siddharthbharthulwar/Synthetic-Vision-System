@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:\\Users\\siddh\\Projects\\Synthetic Vision System\\dependencies\\GLFW\\include\\GLFW"
+                "C:\\Users\\siddh\\Projects\\Synthetic Vision System\\src\\TerrainGen\\CPP\\GL"
             ],
             "defines": [
                 "_DEBUG",
