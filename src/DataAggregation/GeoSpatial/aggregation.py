@@ -74,7 +74,7 @@ def stack(inputPaths, dimensions, fillBool):
             vert = 0
             posMark = 0
             while vert < ydim:
-                while hor < xdim: #error is that hor is less than xdim for 2nd iteration
+                while hor < xdim: 
                     fin[vert] = np.hstack((fin[vert], paths[hor + posMark]))
                     hor = hor + 1
                 posMark = posMark + xdim

@@ -58,6 +58,10 @@ test = ag.TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3,2), 1)
 '''
 test.show('viridis', -5, 20)
 '''
+yug = test.arrayValues
 
-plt.imshow(test.arrayThreshold(3, 5, cv.THRESH_TOZERO), vmin = -5, vmax = 50)
+yug = yug.astype('uint8')
+
+yikes = cv.Canny(yug, 30, 200)
+plt.imshow(yikes)
 plt.show()
