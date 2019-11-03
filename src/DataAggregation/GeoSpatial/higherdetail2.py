@@ -42,26 +42,18 @@ eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.t
 
 
 
-'''
-p1 = ag.TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9),(3, 2), 1)
-a = p1.arrayThreshold(5, 5.5, cv.THRESH_TOZERO)
-
-
-p2 = ag.TerrainGrid((SRTM1, SRTM2, SRTM3, SRTM4), (2, 2), 0)
-plt.imshow(p2.values)
-
-plt.imshow(a)
-plt.show()
-
-'''
+#for some reason, thresholding the input array to the canny algorithm only displays really tall objects
+#TODO: fix above
 test = ag.TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3,2), 1)
-'''
-test.show('viridis', -5, 20)
-'''
-yug = test.arrayValues
 
-yug = yug.astype('uint8')
+z = test.arrayThreshold(2.5, 5.5, cv.THRESH_TOZERO)
 
-yikes = cv.Canny(yug, 30, 200)
-plt.imshow(yikes)
+z = z.astype('uint8')
+
+y = cv.Canny(z, 31, 200)
+y = y.astype('float32')
+x = ma.masked_values(y, 0)
+
+plt.imshow(test.arrayValues)
+plt.imshow(x, cmap = 'gist_gray_r')
 plt.show()
