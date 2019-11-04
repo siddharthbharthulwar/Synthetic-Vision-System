@@ -20,5 +20,6 @@ f = f[1]
 f = f.astype('float32')
 g = ma.masked_values(f, 249)
 h = ma.masked_values(g, 0)
+
 plt.imshow(h, vmin = -5, vmax = 50)
 plt.show()
