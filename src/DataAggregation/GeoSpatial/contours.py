@@ -1,11 +1,4 @@
 
-"""
-Created on Mon Oct 14 2019 at 3:56 PM
-@author: siddharth bharthulwar
-"""
-
-
-
 import aggregation as ag
 import numpy as np
 import cv2 as cv 
@@ -13,7 +6,7 @@ import numpy.ma as ma
 import matplotlib.pyplot as plt
 import rasterio as rio
 import affine as affine
-import time
+
 
 HIGH = "D:\\Documents\\School\\2019-20\\ISEF 2020\\HIGHAHN\\R_37HN1\\r_37hn1.tif"
 
@@ -42,27 +35,13 @@ eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.t
 
 
 
-#for some reason, thresholding the input array to the canny algorithm only displays really tall objects
-#TODO: fix above
-'''
-test = ag.TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3,2), 1)
-'''
-
-test = ag.TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9), (3,2), 1)
-
-
-
-
-z = test.arrayValues
-
-z = z.astype('uint8')
-
-y = cv.Canny(z, 31, 200)
-y = y.astype('float32')
-x = y
-
-x = ma.masked_values(y, 0)
-
-plt.imshow(test.arrayValues)
-plt.imshow(x, cmap = 'gist_gray_r')
+img = ag.TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3,2) ,1)
+rlimg = img.arrayValues.astype('uint8')
+rling = ma.masked_values(rlimg, 253)
+plt.imshow(rlimg)
 plt.show()
+ret,thresh = cv.threshold(rlimg,127,255,0)
+contours,hierarchy = cv.findContours(thresh, 1, 2)
+cnt = contours[0]
+M = cv.moments(cnt)
+print( M )
