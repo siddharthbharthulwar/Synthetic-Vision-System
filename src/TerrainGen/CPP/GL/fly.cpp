@@ -85,11 +85,13 @@ void timer(int v) {
 // camera settings to match the new window shape, and go back to modelview
 // matrix mode.
 void reshape(int w, int h) {
+
   glViewport(0, 0, w, h);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(60.0, (GLfloat)w/(GLfloat)h, 0.05, 300.0);
   glMatrixMode(GL_MODELVIEW);
+  
 }
 
 // init(): Initialize GLUT and enter the GLUT event loop.
