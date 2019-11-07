@@ -44,4 +44,4 @@ ret,thresh = cv.threshold(rlimg,127,255,0)
 contours,hierarchy = cv.findContours(thresh, 1, 2)
 cnt = contours[0]
 M = cv.moments(cnt)
-print( M )
+print(M)
