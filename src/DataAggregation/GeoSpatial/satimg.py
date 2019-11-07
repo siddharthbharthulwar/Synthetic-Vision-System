@@ -10,11 +10,12 @@ l = ag.load(a, 0)
 l = l.astype('uint8')
 t = cv.Canny(l, 65, 555)
 z = t.astype('float32')
+'''
 tau = ma.masked_values(z, 0)
-
-
+'''
+tau = z
 #plt.imshow(l)
-plt.imshow(tau, cmap='gist_gray')
+plt.imshow(tau)
 plt.show()
 
 

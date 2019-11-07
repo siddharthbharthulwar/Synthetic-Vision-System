@@ -21,6 +21,8 @@
 #include "landscape.h"
 #include <iostream>
 
+
+
 // A landscape to fly around, with some parameters that are manipuated by the
 // program.
 Landscape landscape(200, 143);

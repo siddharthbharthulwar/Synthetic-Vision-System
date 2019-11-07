@@ -48,7 +48,7 @@ eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.t
 test = ag.TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3,2), 1)
 '''
 
-test = ag.TerrainGrid((DSM8), (1,1),  1)
+test = ag.TerrainGrid((eham1), (1,1),  1)
 
 
 
@@ -57,11 +57,12 @@ z = test.arrayValues
 
 z = z.astype('uint8')
 
-y = cv.Canny(z, 31, 200)
+y = cv.Canny(z, 200, 400)
 y = y.astype('float32')
 x = y
 
 x = ma.masked_values(y, 0)
+
 
 plt.imshow(test.arrayValues)
 plt.imshow(x, cmap = 'gist_gray_r')

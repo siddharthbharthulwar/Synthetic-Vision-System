@@ -37,6 +37,8 @@ void Cockpit::create() {
   glEndList();
 }
 
+
+
 inline void Cockpit::draw() {
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
