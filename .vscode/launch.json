@@ -21,14 +21,14 @@
             "name": "C++ Launch (GDB)",                
             "type": "cppdbg",                         
             "request": "launch",                        
-            "targetArchitecture": "x86",                
+            "targetArchitecture": "x64",                
             "program": "${workspaceRoot}\\${fileBasename}.exe",                 
             "miDebuggerPath":"C:\\MinGW\\bin\\gdb.exe", 
             "args": [],     
             "stopAtEntry": false,                  
             "cwd": "${workspaceRoot}",                  
             "externalConsole": true,                  
-            "preLaunchTask": "g++"　　                  
+            "preLaunchTask": "g++"
             }
 
     ]

@@ -1,15 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Dependencies",
     "\\src",
-    "\\src\\DataAggregation",
-    "\\src\\DataAggregation\\Geospatial",
-    "\\src\\TerrainGen",
-    "\\src\\TerrainGen\\CPP",
-    "\\src\\TerrainGen\\CPP\\GL",
-    "\\src\\TerrainGen\\CPP\\GL\\Test"
+    "\\src\\dataAggregation",
+    "\\src\\dataAggregation\\terrain"
   ],
-  "SelectedNode": "\\src\\TerrainGen\\CPP\\GL\\Test\\main.cpp",
+  "SelectedNode": "\\src\\dataAggregation",
   "PreviewInSolutionExplorer": false
 }
