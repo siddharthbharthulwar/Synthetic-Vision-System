@@ -1,8 +1,10 @@
 .vscode
 *.exe
 *.pyc
-.vscode/
-.vs/
-.src\DataAggregation\__pycache__/
+.vscode\
+.vs\
+.src\DataAggregation\__pycache__\
 *.sqlite
 .vs/Synthetic Vision System/v16/.suo
+*.db
+*.opendb
