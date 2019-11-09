@@ -41,14 +41,17 @@ eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.t
 eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.tif"
 
 
-a = ag.TerrainGrid((eham5), (1,1), 0)
+a = ag.TerrainGrid((DSM8), (1,1), 0)
+list1 = []
 
-a.show('viridis', -10, 30)
-
-
+a.show('viridis', -5, 40)
 b = a.arrayValues
-c = b[449:450, 750:950]
-d = np.squeeze(c)
-plt.plot(d)
-plt.plot(0)
+
+count = 30
+iterations = 31
+
+while count < iterations:
+    plt.plot(np.squeeze(b[1190+count:1191+count, 360:460]))
+    count = count + 1
+
 plt.show()
