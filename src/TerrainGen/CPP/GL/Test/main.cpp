@@ -7,7 +7,6 @@ int main(){
 
 
     cout << "Hello World";
-    cout << "\nPress Enter to Close";
-    cin.ignore();
+    cin.get();
     return 0;
 }
