@@ -19,11 +19,11 @@ def load(path, fillBoolean):
     # convert / read the data into a numpy array: masked= True turns `nodata` values to nan
         lidar_dem_im = src.read(1, masked=True)
         if fillBoolean == 1:
-            arraya = ma.masked_values(lidar_dem_im, 3.40282e+38)
-            array = arraya.filled(-7.5)
+            arraya = ma.masked_values(lidar_dem_im, np.amax(lidar_dem_im))
+            array = arraya.filled(np.average(arraya))
             return(array)
         if fillBoolean == 0:
-            arraya = lidar_dem_im
+            arraya = ma.masked_values(lidar_dem_im, np.amax(lidar_dem_im))
             return(arraya)
         else:
             print("No valid parameter for filling in water values. 1 for YES, 0 for NO.")
@@ -51,6 +51,7 @@ def getAffine(path):
         return retrieve['transform']
 
 def stack(inputPaths, dimensions, fillBool):
+
     if isinstance(inputPaths, str) == True:
         a = load(inputPaths, fillBool)
         return a

@@ -1,6 +1,6 @@
 
 """
-Created on Sat Nov 9 at 11:15 AM
+Created on Sat Nov 9 at 5:06 PM
 @author: siddharth bharthulwar
 """
 
@@ -12,8 +12,9 @@ import cv2 as cv
 import numpy.ma as ma
 import matplotlib.pyplot as plt
 import rasterio as rio
-import affine as affine
 import time
+import scipy as sp 
+import skimage
 
 HIGH = "D:\\Documents\\School\\2019-20\\ISEF 2020\\HIGHAHN\\R_37HN1\\r_37hn1.tif"
 
@@ -40,19 +41,46 @@ eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.t
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.tif"
 
+thresh1 = 127
+thresh2 = 254
 
-a = ag.TerrainGrid((DSM8), (1,1), 1)
-list1 = []
+#Load image
+bcc = ag.TerrainGrid((DSM8),(1,1),1)
+im = bcc.arrayValues
 
-a.show('viridis', -5, 100)
-b = a.arrayValues
+#Get threashold mask for different regions
+gryim = np.mean(im[:,:,0:2],2)
+region1 =  (thresh1<gryim)
+region2 =  (thresh2<gryim)
+nregion1 = ~ region1
+nregion2 = ~ region2
 
+#Plot figure and two regions
+fig, axs = plt.subplots(2,2)
+axs[0,0].imshow(im)
+axs[0,1].imshow(region1)
+axs[1,0].imshow(region2)
 
-count = 0
-iterations = 1
+#Clean up any holes, etc (not needed for simple figures here)
+#region1 = sp.ndimage.morphology.binary_closing(region1)
+#region1 = sp.ndimage.morphology.binary_fill_holes(region1)
+#region1.astype('bool')
+#region2 = sp.ndimage.morphology.binary_closing(region2)
+#region2 = sp.ndimage.morphology.binary_fill_holes(region2)
+#region2.astype('bool')
 
-while count < iterations:
-    plt.plot(np.squeeze(b[1215+count:1216+count, 360:460]))
-    count = count + 1
+#Get location of edge by comparing array to it's 
+#inverse shifted by a few pixels
+shift = -2
+edgex1 = (region1 ^ np.roll(nregion1,shift=shift,axis=0))
+edgey1 = (region1 ^ np.roll(nregion1,shift=shift,axis=1))
+edgex2 = (region2 ^ np.roll(nregion2,shift=shift,axis=0)) 
+edgey2 = (region2 ^ np.roll(nregion2,shift=shift,axis=1))
 
+#Plot location of edge over image
+axs[1,1].imshow(im)
+axs[1,1].contour(edgex1,2,colors='r',lw=2.)
+axs[1,1].contour(edgey1,2,colors='r',lw=2.)
+axs[1,1].contour(edgex2,2,colors='g',lw=2.)
+axs[1,1].contour(edgey2,2,colors='g',lw=2.)
 plt.show()

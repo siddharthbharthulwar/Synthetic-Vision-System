@@ -36,12 +36,6 @@ eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.t
 
 
 img = ag.TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3,2) ,1)
-rlimg = img.arrayValues.astype('uint8')
-rling = ma.masked_values(rlimg, 253)
-plt.imshow(rlimg)
+imgray = cv.cvtColor(img.arrayValues, cv.COLOR_BGR2GRAY)
+plt.imshow(imgray)
 plt.show()
-ret,thresh = cv.threshold(rlimg,127,255,0)
-contours,hierarchy = cv.findContours(thresh, 1, 2)
-cnt = contours[0]
-M = cv.moments(cnt)
-print(M)
