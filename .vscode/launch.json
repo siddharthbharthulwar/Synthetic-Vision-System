@@ -18,11 +18,11 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "C++ Launch (GDB)",                
+            "name": "C++ Launch",                
             "type": "cppdbg",                         
             "request": "launch",                        
             "targetArchitecture": "x64",                
-            "program": "${workspaceRoot}\\${fileBasename}.exe",                 
+            "program": "${workspaceRoot}\\src\\terr\\Build\\Win_Build\\engine",                 
             "miDebuggerPath":"C:\\MinGW\\bin\\gdb.exe", 
             "args": [],     
             "stopAtEntry": false,                  

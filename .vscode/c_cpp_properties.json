@@ -4,8 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:\\Users\\siddh\\Projects\\Dependencies/**",
-                "C:/Users/siddh/Projects/Dependencies/glut-3.7.6-bin"
+                "${workspaceRoot}"
             ],
             "defines": [
                 "_DEBUG",
