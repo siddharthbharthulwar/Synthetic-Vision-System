@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/siddh/Projects/LWJGL2/lwjgl-2.9.3/native/windows"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/AppleJavaExtensions.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/asm-debug-all.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/jinput.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/laf-plugin-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/laf-widget-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/log4j-api-2.0-beta9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/lwjgl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/lwjgl_test.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/lwjgl_util_applet.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/lwjgl-debug.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/lzma.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/substance-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/siddh/Projects/LWJGL2/trident-7.2.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
