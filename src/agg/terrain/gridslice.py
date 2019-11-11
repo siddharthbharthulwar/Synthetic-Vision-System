@@ -1,4 +1,3 @@
-
 """
 Created on Sat Nov 9 at 11:15 AM
 @author: siddharth bharthulwar
@@ -44,15 +43,5 @@ eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.t
 a = ag.TerrainGrid((DSM8), (1,1), 1)
 list1 = []
 
-a.show('viridis', -5, 100)
-b = a.arrayValues
-
-
-count = 0
-iterations = 1
-basic = 1210
-while count < iterations:
-    plt.plot(np.squeeze(b[basic+count:basic+1+count, 600:800]))
-    count = count + 1
-
+plt.plot(a.horslice(400, 400, 500))
 plt.show()
