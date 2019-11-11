@@ -1,11 +1,3 @@
-
-"""
-Created on Sat Nov 9 at 11:15 AM
-@author: siddharth bharthulwar
-"""
-
-
-#this file displays the histogram of a certain line of array values.
 import aggregation as ag
 import numpy as np
 import cv2 as cv 
@@ -44,15 +36,28 @@ eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.t
 a = ag.TerrainGrid((DSM8), (1,1), 1)
 list1 = []
 
-a.show('viridis', -5, 100)
 b = a.arrayValues
-
+dy = 5
 
 count = 0
-iterations = 1
+iterations = 4
 basic = 1210
+xmin = 600
+xmax = 800
+
+newArrayList = []
 while count < iterations:
-    plt.plot(np.squeeze(b[basic+count:basic+1+count, 600:800]))
+    temp = np.squeeze(b[basic+count:basic+1+count, xmin:xmax])
+    count2 = 0
+    while count2 < len(temp):
+        if abs(temp[count2] - temp[count2 + 1]) > dy:
+            store = count2
+            print(store)
+            while abs(temp[count2] - temp[count2 + 1]) > dy:
+                count2 = count2 + 1
+            print(count2)
+            newArrayList.append(temp[0:1, store:count2])
+    plt.plot(temp)
     count = count + 1
 
 plt.show()
