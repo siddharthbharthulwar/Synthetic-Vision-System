@@ -50,9 +50,9 @@ b = a.arrayValues
 
 count = 0
 iterations = 2
-basic = 400
+basic = 399
 while count < iterations:
-    plt.plot(np.squeeze(b[basic+count:basic+1+count, 360:460]))
+    plt.plot(np.squeeze(b[basic+count:basic+1+count, 323:336]))
     count = count + 1
 
 plt.show()
