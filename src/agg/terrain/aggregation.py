@@ -155,6 +155,10 @@ class TerrainGrid:
 
     def gridslice_2d(self, xinit, xfinal, yinit, yfinal):
         return(self.arrayValues[yinit:yfinal, xinit:xfinal])
+<<<<<<< HEAD
+=======
+
+>>>>>>> efb6199dce49dd056152e894acb35985d6b4d830
     #opencv tozero threshold of all array values: values above "value" are preserved, values below are removed from array.
     #no idea why a is a tuple when the threshold function of opencv is supposed to return a single array, so that's why a[1] is what is being masked
     #with SRTM geospatial dataset, the value of thresholding can be set given the base ground altitude.
