@@ -17,7 +17,7 @@ import affine as affine
 import time
 from skimage import data
 from skimage.feature import corner_harris, corner_subpix, corner_peaks
-from skimage.transform import war, AffineTransform
+from skimage.transform import warp, AffineTransform
 
 HIGH = "D:\\Documents\\School\\2019-20\\ISEF 2020\\HIGHAHN\\R_37HN1\\r_37hn1.tif"
 
@@ -57,7 +57,7 @@ with rasterio.open(DSM8) as src:
         'height': height
     })
 
-    fullArray =  0
+    print(transform)
     '''
     with rasterio.open(SRTM2) as dst:
         for i in range(1, src.count + 1):
