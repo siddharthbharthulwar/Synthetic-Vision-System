@@ -52,7 +52,7 @@ test = ag.TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3,2), 1)
 
 
 z = test.arrayValues
-
+print(z.shape)
 z = z.astype('uint8')
 
 y = cv.Canny(z, 200, 400)

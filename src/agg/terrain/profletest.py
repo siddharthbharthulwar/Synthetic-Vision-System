@@ -42,6 +42,8 @@ plt.plot(E)
 plt.show()
 
 
+
+
 F = ag.TerrainGrid((DSM7), (2,1), 0)
 plt.imshow(F.arrayValues[630:650, 200:800])
 plt.show()

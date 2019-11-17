@@ -5,6 +5,7 @@ import sys
 from opensimplex import OpenSimplex
 
 
+
 class Terrain(object):
     def __init__(self):
         self.app = QtGui.QApplication(sys.argv)
@@ -65,3 +66,4 @@ class Terrain(object):
 if __name__ == '__main__':
     t = Terrain()
     t.start()
+
