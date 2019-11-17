@@ -2,7 +2,7 @@ import numpy as np
 from pyqtgraph import QtCore, QtGui
 import pyqtgraph.opengl as gl
 import sys
-from opensimplex import OpenSimplex
+
 
 
 class Terrain(object):
@@ -24,11 +24,10 @@ class Terrain(object):
 
         self.nfaces = len(self.ypoints)
 
-        self.tmp = OpenSimplex()
 
         verts = np.array([
             [
-                x, y, self.tmp.noise2d(x=n/ 5, y = m / 5)
+                x, y, np.random.normal(0.01)
             ] for n, x in enumerate(self.xpoints) for m, y in enumerate(self.ypoints)
         ], dtype = np.float32)
 
@@ -61,8 +60,10 @@ class Terrain(object):
         if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
             QtGui.QApplication.instance().exec_()
 
-
+'''
 if __name__ == '__main__':
     t = Terrain()
     t.start()
+'''
 
+t = ag.TerrainGrid({SRTM})
