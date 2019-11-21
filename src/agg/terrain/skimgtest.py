@@ -39,7 +39,7 @@ eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.t
 eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.tif"
 
 a = ag.TerrainGrid((eham2), (1,1), 1).arrayValues
-edges = canny(a)
+edges = canny(a / 100)
 fill = ndimage.binary_fill_holes(edges)
 
 
