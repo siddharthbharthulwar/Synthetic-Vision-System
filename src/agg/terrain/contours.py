@@ -1,12 +1,20 @@
-
 import aggregation as ag
 import numpy as np
 import cv2 as cv 
 import numpy.ma as ma
 import matplotlib.pyplot as plt
-import rasterio as rio
+import rasterio
+from rasterio.warp import calculate_default_transform, reproject, Resampling
 import affine as affine
-
+import time
+from skimage import data
+from skimage.exposure import histogram
+from skimage.feature import canny
+from scipy import ndimage as ndimage
+from skimage.viewer import ImageViewer
+from skimage.filters import sobel
+from skimage.filters import gaussian
+from skimage.segmentation import active_contour
 
 HIGH = "D:\\Documents\\School\\2019-20\\ISEF 2020\\HIGHAHN\\R_37HN1\\r_37hn1.tif"
 
@@ -33,9 +41,16 @@ eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.t
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.tif"
 
+a = ag.TerrainGrid((DSM7), (1,1), 1).arrayValues
 
 
-img = ag.TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3,2) ,1)
-imgray = cv.cvtColor(img.arrayValues, cv.COLOR_BGR2GRAY)
-plt.imshow(imgray)
-plt.show()
+s = np.linspace(0, 2*np.pi, 400)
+r = 100 + 100*np.sin(s)
+c = 220 + 100*np.cos(s)
+
+init = np.array([r, c]).T
+
+snake = active_contour(gaussian(a, 3), init, alpha=0.015, beta = 10, gamma = 0.001)
+
+viewer = ImageViewer(snake)
+viewer.show()

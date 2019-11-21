@@ -12,6 +12,7 @@ from skimage.exposure import histogram
 from skimage.feature import canny
 from scipy import ndimage as ndimage
 from skimage.viewer import ImageViewer
+from skimage.filters import sobel
 
 HIGH = "D:\\Documents\\School\\2019-20\\ISEF 2020\\HIGHAHN\\R_37HN1\\r_37hn1.tif"
 
@@ -38,10 +39,12 @@ eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.t
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.tif"
 
-a = ag.TerrainGrid((eham2), (1,1), 1).arrayValues
+a = ag.TerrainGrid((DSM7), (1,1), 1).arrayValues
 edges = canny(a / 100)
 fill = ndimage.binary_fill_holes(edges)
 
 
-viewer = ImageViewer(fill)
+elevation_map = sobel(a)
+
+viewer = ImageViewer(elevation_map)
 viewer.show()
