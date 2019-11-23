@@ -138,6 +138,7 @@ class TerrainGrid:
         self.bounds = listBounds(path)
         self.transformBounds = transformBounds(listBounds(path))
         self.raw_dimensions = tileDimensions(transformBounds(listBounds(path)))
+        self.shape = self.arrayValues.shape
 
 
     def show(self, colormap, min, max):
@@ -158,9 +159,20 @@ class TerrainGrid:
     def gridslice_2d(self, xinit, xfinal, yinit, yfinal):
         return(self.arrayValues[yinit:yfinal, xinit:xfinal])
 
-    def interpolate(self):
-        interp2d()
-        return 0
+    def scipolate(self, scalefactor):
+        min = 0
+        xMax = self.shape[1] - 1
+        yMax = self.shape[0] - 1
+        X = np.linspace(min, xMax, self.shape[1])
+        Y = np.linspace(min, yMax, self.shape[0])
+
+        x, y = np.meshgrid(X, Y)
+
+        f = interpolate.interp2d(x, y, self.arrayValues)
+        Xnew = np.linspace(min, xMax, self.shape[1] * scalefactor)
+        Ynew = np.linspace(min, yMax, self.shape[0] * scalefactor)
+
+        return f(Xnew, Ynew)
 
 
 #TODO: reproject the AHN data to align with the SRTM data properly
