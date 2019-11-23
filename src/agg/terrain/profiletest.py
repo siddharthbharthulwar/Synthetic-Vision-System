@@ -30,6 +30,7 @@ eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.t
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 
 A = ag.TerrainGrid((DSM7), (2,1) ,0)
+A.show('viridis', -5, 30)
 
 B = A.horslice(640, 200, 800)
 

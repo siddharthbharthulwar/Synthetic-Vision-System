@@ -39,10 +39,12 @@ eham2 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DN1\\r5_25dn1.t
 eham3 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DN2\\r5_25dn2.tif"
 eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.tif"
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
-eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.tif"
+eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_2s5DZ2\\r5_25dz2.tif"
 
-a = ag.TerrainGrid((DSM7), (1,1), 1).arrayValues
+test1 = r"D:\Documents\School\2019-20\ISEF 2020\ML\Real\R5_66HN1\r5_66hn1.tif"
 
+a = ag.TerrainGrid((test1), (1,1), 1)
+a.show('viridis', -20, 20)
 
 s = np.linspace(0, 2*np.pi, 400)
 r = 100 + 100*np.sin(s)
@@ -50,7 +52,7 @@ c = 220 + 100*np.cos(s)
 
 init = np.array([r, c]).T
 
-snake = active_contour(gaussian(a, 3), init, alpha=0.015, beta = 10, gamma = 0.001)
+snake = active_contour(gaussian(a.arrayValues, 3), init, alpha=0.015, beta = 10, gamma = 0.001)
 
 viewer = ImageViewer(snake)
 viewer.show()

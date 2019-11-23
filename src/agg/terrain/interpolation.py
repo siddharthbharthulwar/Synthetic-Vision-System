@@ -1,4 +1,4 @@
-import aggregation as ag
+from aggregation import TerrainGrid
 import numpy as np
 import cv2 as cv 
 import numpy.ma as ma
@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import rasterio as rio
 import affine as affine
 import time
+from scipy import interpolate
+
 
 HIGH = "D:\\Documents\\School\\2019-20\\ISEF 2020\\HIGHAHN\\R_37HN1\\r_37hn1.tif"
 
@@ -32,32 +34,23 @@ eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.t
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.tif"
 
+a = TerrainGrid((SRTM4), (1,1), 0).arrayValues[300:400, 300:400]
+plt.imshow(a)
+plt.show()
+min = 0
+max = 99
 
-a = ag.TerrainGrid((DSM8), (1,1), 1)
-list1 = []
+X = np.linspace(min, max, 100)
+Y = np.linspace(min, max, 100)
+print(X)
+x, y = np.meshgrid(X, Y)
 
-b = a.arrayValues
-dy = 5
+f = interpolate.interp2d(x, y, a)
 
-count = 0
-iterations = 4
-basic = 1210
-xmin = 600
-xmax = 800
+Xnew = np.linspace(min, max, 800)
+Ynew = np.linspace(min, max, 800)
 
-newArrayList = []
-while count < iterations:
-    temp = np.squeeze(b[basic+count:basic+1+count, xmin:xmax])
-    count2 = 0
-    while count2 < len(temp):
-        if abs(temp[count2] - temp[count2 + 1]) > dy:
-            store = count2
-            print(store)
-            while abs(temp[count2] - temp[count2 + 1]) > dy:
-                count2 = count2 + 1
-            print(count2)
-            newArrayList.append(temp[0:1, store:count2])
-    plt.plot(temp)
-    count = count + 1
+test100 = f(Xnew, Ynew)
 
+plt.imshow(test100)
 plt.show()

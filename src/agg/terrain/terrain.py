@@ -93,26 +93,3 @@ if __name__ == '__main__':
     t = Terrain()
     t.start()
 
-'''
-
-agt = ag.TerrainGrid((SRTM3), (1,1), 0)
-bgt = agt.arrayValues[1000:1020, 1000:1020]
-
-gList = []
-
-def iterate(array):
-    count = 0
-    print(array.shape[0], array.shape[1])
-    while count < array.shape[0]:
-        count1 = 0
-        while count1 < array.shape[1]:
-            gList.append(array[count, count1])
-            count1 = count1 + 1
-        count = count + 1
-
-
-iterate(bgt)
-print(bgt[5, 0])
-plt.imshow(bgt)
-plt.show()
-'''

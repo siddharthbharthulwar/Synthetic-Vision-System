@@ -9,6 +9,8 @@ import math
 import cv2 as cv 
 import rasterio.warp
 import rasterio.features
+from scipy import interpolate
+
 
 
 
@@ -156,5 +158,11 @@ class TerrainGrid:
     def gridslice_2d(self, xinit, xfinal, yinit, yfinal):
         return(self.arrayValues[yinit:yfinal, xinit:xfinal])
 
+    def interpolate(self):
+        interp2d()
+        return 0
+
 
 #TODO: reproject the AHN data to align with the SRTM data properly
+
+
