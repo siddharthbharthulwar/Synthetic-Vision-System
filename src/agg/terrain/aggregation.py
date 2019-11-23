@@ -174,6 +174,8 @@ class TerrainGrid:
 
         return f(Xnew, Ynew)
 
+    def elevationProfile(self, orientation, )
+
 
 #TODO: reproject the AHN data to align with the SRTM data properly
 
