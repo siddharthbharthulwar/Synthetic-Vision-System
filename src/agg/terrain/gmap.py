@@ -1,22 +1,12 @@
-
-import cv2 as cv 
-import numpy as np 
-import matplotlib.pyplot as plt
-import aggregation as ag 
+from aggregation import TerrainGrid
 
 
-path = "D:\\Documents\\School\\2019-20\\ISEF 2020\\GMAP\\satimg1.png"
-
-a = ag.load(path, 0)
-b = a.astype('uint8')
-c = cv.Canny(b, 215, 411)
-d = c.astype('float32')
-
-
-plt.imshow(d)
-plt.show()
+eham1 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CN2\\r5_25cn2.tif"
+eham2 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DN1\\r5_25dn1.tif"
+eham3 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DN2\\r5_25dn2.tif"
+eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.tif"
+eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 
 
-
-
-
+a = TerrainGrid((eham1, eham2, eham4, eham5), (2,2), 1)
+a.viewer_3d('gist_gray', -5, 30)

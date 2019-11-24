@@ -178,9 +178,9 @@ class TerrainGrid:
 
         return f(Xnew, Ynew)
 
-    def viewer_3d(self, colormap, min, max):
+    def viewer_3d(self, color, min, max):
         mlab.figure(size=(1920, 1080), bgcolor=(0.16, 0.28, 0.46))
-        mlab.surf(self.arrayValues, colormap='viridis', warp_scale=0.2,
+        mlab.surf(self.arrayValues, colormap= color, warp_scale=0.2,
             vmin= min, vmax=max)
 
         mlab.view(-5.9, 83, 570, [5.3, 20, 238])
