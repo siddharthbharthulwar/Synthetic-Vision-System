@@ -10,6 +10,7 @@ import cv2 as cv
 import rasterio.warp
 import rasterio.features
 from scipy import interpolate
+from mayavi import mlab
 
 
 
@@ -177,6 +178,15 @@ class TerrainGrid:
 
         return f(Xnew, Ynew)
 
+    def viewer_3d(self, colormap, min, max):
+        mlab.figure(size=(1920, 1080), bgcolor=(0.16, 0.28, 0.46))
+        mlab.surf(self.arrayValues, colormap='viridis', warp_scale=0.2,
+            vmin= min, vmax=max)
+
+        mlab.view(-5.9, 83, 570, [5.3, 20, 238])
+        mlab.show()     
+
+
     def elevationProfile(self, orientation, index, starting, stopping):
         if orientation == 'h':
             plt.plot(self.horslice(index, starting, stopping))
@@ -186,6 +196,8 @@ class TerrainGrid:
             plt.show()
         else:
             print("Error: Orientation must be either horizontal(h) or vertical(v)")
+
+
 
 
 
