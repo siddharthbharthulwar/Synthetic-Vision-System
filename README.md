@@ -10,4 +10,7 @@
  - SciPy
  - Mayavi
  - GDAL
+ - LWJGL 2
+ - GLEW
+ - GLFW
 
