@@ -141,8 +141,8 @@ class TerrainGrid:
         self.shape = self.arrayValues.shape
 
 
-    def show(self, colormap, min, max):
-        plt.imshow(self.arrayValues, cmap=colormap, vmin = min, vmax = max)
+    def show(self):
+        plt.imshow(self.arrayValues, cmap='viridis', vmin = np.amin(self.arrayValues), vmax = np.amaxmax(self.arrayValues))
         plt.show()
     #simple matplotlib plotting of the terraingrid
     #accessor method to values of the terraingrid
@@ -174,7 +174,17 @@ class TerrainGrid:
 
         return f(Xnew, Ynew)
 
-    def elevationProfile(self, orientation, )
+    def elevationProfile(self, orientation, index, starting, stopping):
+        if orientation == 'h':
+            plt.plot(self.horslice(index, starting, stopping))
+            plt.show()
+        if orientation == 'v':
+            plt.plot(self.verslice(index, starting, stopping))
+            plt.show()
+        else:
+            print("Error: Orientation must be either horizontal(h) or vertical(v)")
+
+
 
 
 #TODO: reproject the AHN data to align with the SRTM data properly

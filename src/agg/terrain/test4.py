@@ -29,5 +29,8 @@ eham3 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DN2\\r5_25dn2.t
 eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.tif"
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 
-a = TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9), (3,2), 1)
-a.show('viridis', -5, 40)
+
+ml1 = r"D:\Documents\School\2019-20\ISEF 2020\ML\Processed\r5_16cn2.tif"
+
+a = TerrainGrid((eham4), (1,1), 1)
+a.show('viridis', -5, 20)
