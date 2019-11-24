@@ -33,4 +33,8 @@ eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.t
 ml1 = r"D:\Documents\School\2019-20\ISEF 2020\ML\Processed\r5_16cn2.tif"
 
 a = TerrainGrid((eham4), (1,1), 1)
-a.show('viridis', -5, 20)
+a.show(-5, 30)
+b = a.elevationProfile(
+    'h',
+    640, 640, 700
+)

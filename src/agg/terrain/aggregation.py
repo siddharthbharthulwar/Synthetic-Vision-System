@@ -141,8 +141,11 @@ class TerrainGrid:
         self.shape = self.arrayValues.shape
 
 
-    def show(self):
-        plt.imshow(self.arrayValues, cmap='viridis', vmin = np.amin(self.arrayValues), vmax = np.amaxmax(self.arrayValues))
+    def dynamicShow(self):
+        plt.imshow(self.arrayValues, cmap='viridis', vmin = np.amin(self.arrayValues), vmax = np.amax(self.arrayValues))
+        plt.show()
+    def show(self, min, max):
+        plt.imshow(self.arrayValues, cmap='viridis', vmin = min, vmax = max)
         plt.show()
     #simple matplotlib plotting of the terraingrid
     #accessor method to values of the terraingrid
