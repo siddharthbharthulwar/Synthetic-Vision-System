@@ -187,7 +187,7 @@ class TerrainGrid:
         mlab.show()     
 
 
-    def elevationProfile(self, orientation, index, starting, stopping):
+    def showElevationProfile(self, orientation, index, starting, stopping):
         if orientation == 'h':
             plt.plot(self.horslice(index, starting, stopping))
             plt.show()
@@ -196,12 +196,20 @@ class TerrainGrid:
             plt.show()
         else:
             print("Error: Orientation must be either horizontal(h) or vertical(v)")
-
+    def elevationProfile(self, orientation, index, starting, stopping):
+        if orientation == 'h':
+            return self.horslice(index, starting, stopping)
+        if orientation == 'v':
+            return self.verslice(index, starting, stopping)
+        else:
+            print("Error: Orientation must be either horizontal(h) or vertical(v)")
 
 
 
 
 
 #TODO: reproject the AHN data to align with the SRTM data properly
+#TODO: interpolate SRTM arrays with rectangular bivariate spline from scipy package
+#TODO: use watershed filtering to extract building footprints
 
 
