@@ -19,5 +19,5 @@ SRTM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n51_e005_1arc_v3.tif"
 l1 = r"D:\Documents\School\2019-20\ISEF 2020\SRTM\n39_w105_1arc_v3.tif"
 l2 = r"D:\Documents\School\2019-20\ISEF 2020\SRTM\n39_w106_1arc_v3.tif"
 a = TerrainGrid((l2, l1), (2, 1), 1)
-b = TerrainGrid((SRTM3), (1,1), 0)
-a.viewer_3d('gnuplot', 1500, 2500)
+b = TerrainGrid((eham1, eham2, eham4, eham5), (2, 2), 1)
+b.viewer_3d('gnuplot', -5, 5)

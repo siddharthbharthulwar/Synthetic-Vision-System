@@ -6,7 +6,7 @@ Created on Sat Nov 9 at 11:15 AM
 
 
 #this file displays the histogram of a certain line of array values.
-import aggregation as ag
+from aggregation import TerrainGrid
 import numpy as np
 import cv2 as cv 
 import numpy.ma as ma
@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import rasterio as rio
 import affine as affine
 import time
+from scipy import interpolate
 
 HIGH = "D:\\Documents\\School\\2019-20\\ISEF 2020\\HIGHAHN\\R_37HN1\\r_37hn1.tif"
 
@@ -41,6 +42,26 @@ eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.t
 eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.tif"
 
 
-a = ag.TerrainGrid((SRTM1), (1,1), 0).arrayValues[200:400, 1200:1400]
+
+
+a = TerrainGrid((SRTM3), (1,1), 0).arrayValues[100:500, 700:1100]
+
 plt.imshow(a)
+plt.show()
+min = 0
+max = 399
+
+X = np.linspace(min, max, 400)
+Y = np.linspace(min, max, 400)
+print(X)
+x, y = np.meshgrid(X, Y)
+
+f = interpolate.interp2d(x, y, a)
+
+Xnew = np.linspace(min, max, 800)
+Ynew = np.linspace(min, max, 800)
+
+test100 = f(Xnew, Ynew)
+
+plt.imshow(test100)
 plt.show()

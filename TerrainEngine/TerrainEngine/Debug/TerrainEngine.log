@@ -1,2 +1,2 @@
 ﻿  main.cpp
-  TerrainEngine.vcxproj -> C:\Users\siddh\Projects\Synthetic Vision System\TerrainEngine\Debug\TerrainEngine.exe
+C:\Users\siddh\Projects\Synthetic Vision System\TerrainEngine\TerrainEngine\main.cpp : fatal error C1090: PDB API call failed, error code '3': C:\Users\siddh\Projects\Synthetic Vision System\TerrainEngine\TerrainEngine\Debug\vc142.pdb

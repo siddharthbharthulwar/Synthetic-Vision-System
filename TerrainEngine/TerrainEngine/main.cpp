@@ -5,11 +5,6 @@
 
 #include <GLFW/glfw3.h>
 
-
-
-
-
-
 int main(void)
 {
     GLFWwindow* window;
@@ -38,7 +33,7 @@ int main(void)
     unsigned int buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, gl_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
 
 
     /* Loop until the user closes the window */
