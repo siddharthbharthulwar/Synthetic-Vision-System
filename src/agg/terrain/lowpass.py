@@ -1,20 +1,16 @@
+
+
+
 from aggregation import TerrainGrid
 import numpy as np
 import cv2 as cv 
 import numpy.ma as ma
 import matplotlib.pyplot as plt
-import rasterio
-from rasterio.warp import calculate_default_transform, reproject, Resampling
+import rasterio as rio
 import affine as affine
 import time
-from skimage import data
-from skimage.exposure import histogram
-from skimage.feature import canny
-from scipy import ndimage as ndimage
-from skimage.viewer import ImageViewer
-from skimage.filters import sobel
-from skimage.filters import gaussian
-from skimage.segmentation import active_contour
+from scipy.signal import butter, lfilter, freqz
+from scipy.interpolate import RectBivariateSpline
 
 HIGH = "D:\\Documents\\School\\2019-20\\ISEF 2020\\HIGHAHN\\R_37HN1\\r_37hn1.tif"
 
@@ -39,29 +35,6 @@ eham2 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DN1\\r5_25dn1.t
 eham3 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DN2\\r5_25dn2.tif"
 eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.tif"
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
-eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_2s5DZ2\\r5_25dz2.tif"
+eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.tif"
 
-max_allowable = 2 #maximum allowable terrain slope(in meters)
-
-a = TerrainGrid((eham3), (1, 1), 1)
-
-profile = a.elevationProfile('h', 400, 0, 1000)
-max = profile.shape[0]
-
-
-
-susArray = np.zeros(profile.shape)
-count = 0
-while count < max - 1:
-    if abs(profile[count + 1] - profile[count]) >= max_allowable:
-        susArray[count] = profile[count]
-        susArray[count + 1] = profile[count + 1]
-        count = count + 1
-    else:
-        count = count + 1
-
-
-susArray = ma.masked_values(susArray, 0)
-plt.plot(profile)
-plt.plot(susArray, alpha = 0.8)
-plt.show()
+a = TerrainGrid((eham1, eham2, eham4, eham5), (2,2), 1).arrayValues
