@@ -45,7 +45,10 @@ max_allowable = 2 #maximum allowable terrain slope(in meters)
 
 a = TerrainGrid((eham3), (1, 1), 1)
 
-profile = a.elevationProfile('h', 400, 0, 1000)
+
+
+
+profile = a.elevationProfile('h', 420, 0, 1250)
 max = profile.shape[0]
 
 

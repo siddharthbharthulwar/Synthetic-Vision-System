@@ -203,8 +203,24 @@ class TerrainGrid:
             return self.verslice(index, starting, stopping)
         else:
             print("Error: Orientation must be either horizontal(h) or vertical(v)")
-
-
+    def extract(terrainGrid, orientation, index, max_allowable):
+        if orientation == 'h':
+            profile = terrainGrid.elevationProfile('h', index, 0, terrainGrid.arrayValues.shape[0])
+            max = terrainGrid.arrayValues.shape[0]
+        if orientation == 'v':
+            profile = terrainGrid.elevationProfile('v', index, 0, terrainGrid.arrayValues.shape[1])
+            max = terrainGrid.arrayValues.shape[1]
+        susArray = np.zeros(profile.shape)
+        count = 0
+        while count < max - 2:
+            if (abs((profile[count + 2] - profile[count]) / 2) >= max_allowable or abs(profile[count + 1] - profile[count]) >= max_allowable) and ((profile[count + 1] > 0) or (profile[count + 2] > 0)):
+                susArray[count] = profile[count]
+                susArray[count + 2] = profile[count + 2]
+                count = count + 1
+            else:
+                count = count + 1
+        susArray = ma.masked_values(susArray, 0)
+        return susArray
 
 
 
