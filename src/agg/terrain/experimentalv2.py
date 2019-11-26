@@ -43,7 +43,6 @@ eham6 = r"D:\Documents\School\2019-20\ISEF 2020\AHN\R5_25DZ2 (1)\r5_25dz2.tif"
 
 max_allowable = 2 #maximum allowable terrain slope(in meters)
 
-a = TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3, 2), 1)
 
 def extract(terrainGrid, orientation, index, max_allowable):
     if orientation == 'h':
@@ -70,27 +69,32 @@ plt.plot(extract(a, 'h', 420, 2.5))
 plt.show()
 
 '''
-
+'''
 def totalExtract(terrainGrid, orientation, max_allowable):
     if orientation == 'h':
         orientationHeader = terrainGrid.arrayValues.shape[0]
-        print(orientationHeader)
     if orientation == 'v':
         orientationHeader = terrainGrid.arrayValues.shape[1]
-        print(orientationHeader)
     count = 0
     finalList = []
     while count < orientationHeader:
         finalList.append(extract(terrainGrid, orientation, count, max_allowable))
         count = count + 1
-    finalList = np.array(finalList)
-    return finalList
+    if orientation == 'h':
+        return (np.array(finalList))
+    if orientation == 'v':
+        final = np.array(finalList)
+        return np.rot90(np.fliplr(final), 1)
 
-b = totalExtract(a, 'h', 2.5)
+b = totalExtract(a, 'v', 2.5)
+c = totalExtract(a, 'h', 2.5)
 b = ma.masked_values(b, 0)
+c = ma.masked_values(c, 0)
 plt.imshow(a.arrayValues)
 plt.imshow(b, cmap = 'gist_gray_r', alpha = 0.5)
+plt.imshow(c, cmap = 'gist_gray_r', alpha = 0.5)
 plt.show()
+'''
 '''
     imcount = 0
     final = []
@@ -109,3 +113,15 @@ plt.show()
         imcount = imcount + 1
     return 
 '''
+
+
+a = TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9), (3, 2), 1)
+'''
+b = a.totalExtract('h', 2.71)
+c = a.totalExtract('v', 2.71)
+plt.imshow(a.arrayValues)
+plt.imshow(b, cmap = 'gist_gray_r', alpha = 0.5)
+plt.imshow(c, cmap = 'gist_gray_r', alpha = 0.5)
+plt.show()
+'''
+a.showElevationProfile('h', 400, 0, 1000)

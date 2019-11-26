@@ -128,7 +128,24 @@ def tileDimensions(param):
         returnList.append((dlat, dlon))
         count = count + 1
     return returnList
-
+def extract(terrainGrid, orientation, index, max_allowable):
+    if orientation == 'h':
+        profile = terrainGrid.elevationProfile('h', index, 0, terrainGrid.arrayValues.shape[0])
+        max = terrainGrid.arrayValues.shape[0]
+    if orientation == 'v':
+        profile = terrainGrid.elevationProfile('v', index, 0, terrainGrid.arrayValues.shape[1])
+        max = terrainGrid.arrayValues.shape[0]
+    susArray = np.zeros(profile.shape)
+    count = 0
+    while count < max - 2:
+        if (abs((profile[count + 2] - profile[count]) / 2) >= max_allowable or abs(profile[count + 1] - profile[count]) >= max_allowable) and ((profile[count + 1] > 0) or (profile[count + 2] > 0)):
+            susArray[count] = profile[count]
+            susArray[count + 2] = profile[count + 2]
+            count = count + 1
+        else:
+            count = count + 1
+    susArray = ma.masked_values(susArray, 0)
+    return susArray
 class TerrainGrid:
     #class for a grid of rastered array tiff files
     def __init__(self, path, dimensions, fill):
@@ -203,25 +220,22 @@ class TerrainGrid:
             return self.verslice(index, starting, stopping)
         else:
             print("Error: Orientation must be either horizontal(h) or vertical(v)")
-    def extract(terrainGrid, orientation, index, max_allowable):
+    def totalExtract(self, orientation, max_allowable):
         if orientation == 'h':
-            profile = terrainGrid.elevationProfile('h', index, 0, terrainGrid.arrayValues.shape[0])
-            max = terrainGrid.arrayValues.shape[0]
+            orientationHeader = self.arrayValues.shape[0]
         if orientation == 'v':
-            profile = terrainGrid.elevationProfile('v', index, 0, terrainGrid.arrayValues.shape[1])
-            max = terrainGrid.arrayValues.shape[1]
-        susArray = np.zeros(profile.shape)
+            orientationHeader = self.arrayValues.shape[1]
         count = 0
-        while count < max - 2:
-            if (abs((profile[count + 2] - profile[count]) / 2) >= max_allowable or abs(profile[count + 1] - profile[count]) >= max_allowable) and ((profile[count + 1] > 0) or (profile[count + 2] > 0)):
-                susArray[count] = profile[count]
-                susArray[count + 2] = profile[count + 2]
-                count = count + 1
-            else:
-                count = count + 1
-        susArray = ma.masked_values(susArray, 0)
-        return susArray
-
+        finalList = []
+        while count < orientationHeader:
+            finalList.append(extract(self, orientation, count, max_allowable))
+            count = count + 1
+        if orientation == 'h':
+            return ma.masked_values((np.array(finalList)), 0)
+        if orientation == 'v':
+            final = np.array(finalList)
+            return ma.masked_values(np.rot90(np.fliplr(final), 1), 0)
+    
 
 
 #TODO: reproject the AHN data to align with the SRTM data properly
