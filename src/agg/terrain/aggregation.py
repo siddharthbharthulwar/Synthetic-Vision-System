@@ -131,10 +131,10 @@ def tileDimensions(param):
 def extract(terrainGrid, orientation, index, max_allowable):
     if orientation == 'h':
         profile = terrainGrid.elevationProfile('h', index, 0, terrainGrid.arrayValues.shape[0])
-        max = terrainGrid.arrayValues.shape[0]
+        max = profile.shape[0]
     if orientation == 'v':
         profile = terrainGrid.elevationProfile('v', index, 0, terrainGrid.arrayValues.shape[1])
-        max = terrainGrid.arrayValues.shape[0]
+        max = profile.shape[0]
     susArray = np.zeros(profile.shape)
     count = 0
     while count < max - 2:
@@ -235,6 +235,7 @@ class TerrainGrid:
         if orientation == 'v':
             final = np.array(finalList)
             return ma.masked_values(np.rot90(np.fliplr(final), 1), 0)
+        
     
 
 
