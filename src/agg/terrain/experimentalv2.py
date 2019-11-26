@@ -39,11 +39,11 @@ eham2 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DN1\\r5_25dn1.t
 eham3 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DN2\\r5_25dn2.tif"
 eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.tif"
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
-eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_2s5DZ2\\r5_25dz2.tif"
+eham6 = r"D:\Documents\School\2019-20\ISEF 2020\AHN\R5_25DZ2 (1)\r5_25dz2.tif"
 
 max_allowable = 2 #maximum allowable terrain slope(in meters)
 
-a = TerrainGrid((DSM8), (1, 1), 1)
+a = TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3, 2), 1)
 
 def extract(terrainGrid, orientation, index, max_allowable):
     if orientation == 'h':
@@ -51,7 +51,7 @@ def extract(terrainGrid, orientation, index, max_allowable):
         max = profile.shape[0]
     if orientation == 'v':
         profile = terrainGrid.elevationProfile('v', index, 0, terrainGrid.arrayValues.shape[1])
-        max = profile.shape[1]
+        max = profile.shape[0]
     susArray = np.zeros(profile.shape)
     count = 0
     while count < max - 2:
@@ -74,8 +74,10 @@ plt.show()
 def totalExtract(terrainGrid, orientation, max_allowable):
     if orientation == 'h':
         orientationHeader = terrainGrid.arrayValues.shape[0]
+        print(orientationHeader)
     if orientation == 'v':
         orientationHeader = terrainGrid.arrayValues.shape[1]
+        print(orientationHeader)
     count = 0
     finalList = []
     while count < orientationHeader:
