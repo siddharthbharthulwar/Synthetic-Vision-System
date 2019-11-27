@@ -37,12 +37,17 @@ eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.t
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.tif"
 
+new1 = r"D:\Documents\School\2019-20\ISEF 2020\ML\Processed\r5_44cn1.tif"
 
 start = time.time()
-a = TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9), (3,2), 1)
-plt.imshow(a.arrayValues)
+a = TerrainGrid(new1, (1,1), 1)
+
+plt.imshow(a.arrayValues, vmin = -5, vmax = 50)
+
 plt.imshow(a.totalExtract('h', 2.75), cmap = 'gist_gray_r', alpha = 0.8)
+
 plt.imshow(a.totalExtract('v', 2.75), cmap = 'gist_gray_r', alpha = 0.8)
+
 end = time.time()
 print(end - start, "seconds elapsed. ")
 plt.show()
