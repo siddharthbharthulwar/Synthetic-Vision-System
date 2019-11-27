@@ -138,6 +138,7 @@ def extract(terrainGrid, orientation, index, max_allowable):
     susArray = np.zeros(profile.shape)
     count = 0
     while count < max - 2:
+        #decision algorithm below: needs modification!!!
         if (abs((profile[count + 2] - profile[count]) / 2) >= max_allowable or abs(profile[count + 1] - profile[count]) >= max_allowable) and ((profile[count + 1] > 0) or (profile[count + 2] > 0)):
             susArray[count] = profile[count]
             susArray[count + 2] = profile[count + 2]
@@ -242,5 +243,6 @@ class TerrainGrid:
 #TODO: reproject the AHN data to align with the SRTM data properly
 #TODO: interpolate SRTM arrays with rectangular bivariate spline from scipy package
 #TODO: use watershed filtering to extract building footprints
+#TODO: refine if statement for better filter
 
 
