@@ -26,14 +26,9 @@ eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.t
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 eham6 = r"D:\Documents\School\2019-20\ISEF 2020\ML\Processed\r5_25dz2.tif"
 
-a = TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9), (3,2), 1)
+a = TerrainGrid((eham1, eham2, eham3, eham4, eham5, eham6), (3,2), 1)
+b = a.arrayValues
 
-b = a.totalSlope('h').astype('uint8')
-c = a.totalSlope('v').astype('uint8')
-
-d = cv.adaptiveThreshold(b, 100, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
-#plt.imshow(d.astype('float32'), vmin = -5, vmax = 8, alpha = 0.5)
-
-#plt.imshow(c.astype('uint8'), vmin = -5, vmax = 8, alpha = 0.5)
-plt.imshow(a.totalSlope('h'), vmin = -5, vmax = 10)
+plt.imshow(ma.masked_inside(a.totalSlope('h'), -5, 5), vmin = -5, vmax = 10)
+plt.imshow(ma.masked_inside(a.totalSlope('v'), -5, 5), vmin = -5, vmax = 10)
 plt.show()
