@@ -11,7 +11,7 @@ import rasterio.warp
 import rasterio.features
 from scipy import interpolate
 from mayavi import mlab
-
+import time as time
 
 
 
@@ -266,6 +266,21 @@ class TerrainGrid:
         if orientation == 'v':
             return np.rot90(np.fliplr(np.array(finalList)))
         
+    def arrayDerivative(self, orientation, iterations):
+        start = time.time()
+        if orientation == "h":
+            orientationHeader = self.arrayValues.shape[0]
+        if orientation == "v":
+            orientationHeader = self.arrayValues.shape[1]
+        count = 0
+        base = self
+        while count < iterations:
+            base.arrayValues = base.totalSlope(orientation)
+            count +=1
+        end = time.time()
+        print("Time elapsed: ", end - start," seconds. ")
+        return base
+
         
     
 
