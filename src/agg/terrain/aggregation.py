@@ -139,13 +139,26 @@ def extract(terrainGrid, orientation, index, max_allowable):
     count = 0
     while count < max - 2:
         #decision algorithm below: needs modification!!!
-        if (abs((profile[count + 2] - profile[count]) / 2) >= max_allowable or abs(profile[count + 1] - profile[count]) >= max_allowable) and ((profile[count + 1] > 0) or (profile[count + 2] > 0)):
+        if abs(profile[count + 1] - profile[count]) >= max_allowable:
             susArray[count] = profile[count]
             susArray[count + 2] = profile[count + 2]
             count = count + 1
         else:
             count = count + 1
     susArray = ma.masked_values(susArray, 0)
+    return susArray
+def slopeExtract(terrainGrid, orientation, index):
+    if orientation == 'h':
+        profile = terrainGrid.elevationProfile('h', index, 0, terrainGrid.arrayValues.shape[0])
+        max = profile.shape[0]
+    if orientation == 'v':
+        profile = terrainGrid.elevationProfile('v', index, 0, terrainGrid.arrayValues.shape[1])
+        max = profile.shape[0]
+    susArray = np.zeros(profile.shape)
+    count = 0
+    while count < max - 1:
+        susArray[count] = profile[count + 1] - profile[count]
+        count += 1
     return susArray
 class TerrainGrid:
     #class for a grid of rastered array tiff files
@@ -231,11 +244,28 @@ class TerrainGrid:
         while count < orientationHeader:
             finalList.append(extract(self, orientation, count, max_allowable))
             count = count + 1
+            print(count)
         if orientation == 'h':
             return ma.masked_values((np.array(finalList)), 0)
         if orientation == 'v':
             final = np.array(finalList)
             return ma.masked_values(np.rot90(np.fliplr(final), 1), 0)
+    def totalSlope(self, orientation):
+        if orientation == 'h':
+            orientationHeader = self.arrayValues.shape[0]
+        if orientation == 'v':
+            orientationHeader = self.arrayValues.shape[1]
+        count = 0
+        finalList = []
+        while count < orientationHeader:
+            finalList.append(slopeExtract(self, orientation, count))
+            count +=1 
+            print(count)
+        if orientation == 'h':
+            return np.array(finalList)
+        if orientation == 'v':
+            return np.rot90(np.fliplr(np.array(finalList)))
+        
         
     
 

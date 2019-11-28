@@ -41,24 +41,17 @@ eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.t
 new1 = r"D:\Documents\School\2019-20\ISEF 2020\ML\Processed\r5_65hn1.tif"
 
 start = time.time()
-a = TerrainGrid((DSM7, DSM8), (2,1), 1)
+a = TerrainGrid((eham1), (1,1), 1)
 
-plt.imshow(a.arrayValues, vmin = -5, vmax = 50)
-
-plt.imshow(a.totalExtract('h', 3.5), cmap = 'gist_gray_r', alpha = 0.8)
-
-plt.imshow(a.totalExtract('v', 3.5), cmap = 'gist_gray_r', alpha = 0.8)
-
+plt.imshow(a.arrayValues, cmap = 'viridis', vmin = -5, vmax = 80)
 end = time.time()
-print(end - start, "seconds elapsed. ")
+print(end - start,  " seconds elapsed for initial plot. ")
+start = time.time()
+plt.imshow(a.totalExtract('h', 3.5), cmap = 'gist_gray_r', alpha = 0.6)
+end = time.time()
+print(end - start, " seconds elapsed for horizontal slicing. ")
+start = time.time()
+plt.imshow(a.totalExtract('v', 3.5), cmap = 'gist_gray_r', alpha = 0.6)
+end = time.time()
+print(end - start, " seconds elapsed for vertical slicing. ")
 plt.show()
-
-mlab.figure(size=(1920, 1080), bgcolor = (0.16, 0.28, 0.46))
-mlab.surf(a.arrayValues, colormap = 'viridis', warp_scale = 0.2
-, vmin = -5, vmax = 50)
-mlab.surf(a.totalExtract('h', 3.5), colormap = 'gist_yarg', warp_scale = 0.2
-, vmin = -5, vmax = 50)
-mlab.surf(a.totalExtract('v', 3.5), colormap = 'gist_yarg', warp_scale = 0.2
-, vmin = -5, vmax = 50)
-mlab.view(-5.9, 83, 570, [5.3, 20, 238])
-mlab.show()
