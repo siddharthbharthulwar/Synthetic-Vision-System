@@ -1,7 +1,8 @@
 from aggregation import TerrainGrid
 import numpy as np 
 import matplotlib.pyplot as plt
-
+import numpy.ma as ma
+import cv2 as cv
 DSM9 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FZ2\\r5_37fz2.tif"
 DSM6 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN2\\r5_37fn2.tif"
 DSM8 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FZ1\\r5_37fz1.tif"
@@ -25,9 +26,14 @@ eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.t
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 eham6 = r"D:\Documents\School\2019-20\ISEF 2020\ML\Processed\r5_25dz2.tif"
 
-a = TerrainGrid(eham2, (1,1), 1)
-plt.imshow(a.totalSlope('h'), vmin = -5, vmax = 12, alpha = 0.5)
-plt.imshow(a.totalSlope('v'), vmin = -5, vmax = 12, alpha = 0.5)
+a = TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9), (3,2), 1)
+
+b = a.totalSlope('h').astype('uint8')
+c = a.totalSlope('v').astype('uint8')
+
+d = cv.adaptiveThreshold(b, 100, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
+#plt.imshow(d.astype('float32'), vmin = -5, vmax = 8, alpha = 0.5)
+
+#plt.imshow(c.astype('uint8'), vmin = -5, vmax = 8, alpha = 0.5)
+plt.imshow(a.totalSlope('h'), vmin = -5, vmax = 10)
 plt.show()
-
-
