@@ -31,12 +31,10 @@ eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.t
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 eham6 = r"D:\Documents\School\2019-20\ISEF 2020\ML\Processed\r5_25dz2.tif"
 
-a = TerrainGrid(DSM8, (1,1), 1)
+a = TerrainGrid(HIGH, (1,1), 0)
+a.show(-5, 30)
 '''
 a.arrayValues = a.totalSlope('h')
 plt.plot(a.elevationProfile('h', 2480, 2000, 2200))
 plt.show()
 '''
-
-plt.imshow(a.totalSlope('h'), vmin = -5, vmax = 10)
-plt.show()

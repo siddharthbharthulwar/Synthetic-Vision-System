@@ -5,6 +5,7 @@ import sys
 from opensimplex import OpenSimplex
 import aggregation as ag 
 import matplotlib.pyplot as plt
+from scipy.ndimage.filters import gaussian_filter
 
 
 DSM9 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FZ2\\r5_37fz2.tif"
@@ -30,6 +31,8 @@ eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ2\\r5_25dz2.t
 DENSRTM = "D:\\Documents\School\\2019-20\\ISEF 2020\\SRTM\\n39_w105_1arc_v3.tif"
 
 
+
+
 class Terrain(object):
     def __init__(self):
         self.app = QtGui.QApplication(sys.argv)
@@ -44,15 +47,16 @@ class Terrain(object):
         self.w.addItem(grid)
 
         self.nsteps = 1
-        self.ypoints = range(-200, 500, self.nsteps)
-        self.xpoints = range(-200, 500, self.nsteps)
+        self.ypoints = range(-500, 500, self.nsteps)
+        self.xpoints = range(-500, 500, self.nsteps)
 
         self.nfaces = len(self.ypoints)
 
 
-        self.act = ag.TerrainGrid((DSM7), (1,1), 0)
-        print(self.act.arrayValues.shape)
-        self.tmp = self.act.arrayValues[0:700, 0:700]
+        self.act = gaussian_filter(ag.TerrainGrid((SRTM1, SRTM2, SRTM3, SRTM4), (2,2), 0).arrayValues, sigma = 2.7)
+
+        print(self.act.shape)
+        self.tmp = self.act[4500:5500, 500:1500]
 
 
         verts = np.array([[x, y, self.tmp[n, m]] for n, x in enumerate(self.xpoints) for m, y in enumerate(self.ypoints)], dtype = np.float32)

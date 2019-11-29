@@ -23,7 +23,7 @@ def load(path, fillBoolean):
         lidar_dem_im = src.read(1, masked=True)
         if fillBoolean == 1:
             arraya = ma.masked_values(lidar_dem_im, np.amax(lidar_dem_im))
-            array = arraya.filled(np.average(arraya))
+            array = arraya.filled(0.436)
             return(array)
         if fillBoolean == 0:
             arraya = ma.masked_values(lidar_dem_im, np.amax(lidar_dem_im))

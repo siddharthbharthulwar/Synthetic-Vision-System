@@ -50,5 +50,3 @@ a = TerrainGrid((DSM7, DSM8, DSM9), (3, 1), 1)
 b = a.elevationProfile('h', 1120, 1000, 2000)
 
 count = 0
-while count < b.shape[0]:
-    
