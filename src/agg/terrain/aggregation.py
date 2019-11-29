@@ -141,7 +141,7 @@ def extract(terrainGrid, orientation, index, max_allowable):
         #decision algorithm below: needs modification!!!
         if abs(profile[count + 1] - profile[count]) >= max_allowable:
             susArray[count] = profile[count]
-            susArray[count + 2] = profile[count + 2]
+            susArray[count + 1] = profile[count + 1]
             count = count + 1
         else:
             count = count + 1

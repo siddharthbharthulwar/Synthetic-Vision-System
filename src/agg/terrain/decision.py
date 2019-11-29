@@ -41,32 +41,14 @@ eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.t
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 eham6 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_2s5DZ2\\r5_25dz2.tif"
 
-max_allowable = 6 #maximum allowable terrain slope(in meters)
+max_allowable = 4 #maximum allowable terrain slope(in meters)
 terrain_baseline = -4 
+given_value = 6
 
-a = TerrainGrid((HIGH), (1, 1), 1)
+a = TerrainGrid((DSM7, DSM8, DSM9), (3, 1), 1)
 
-b = a.elevationProfile('h', 400, 400, 8400)
-susArray = np.zeros(b.shape)
-susArray2 = np.zeros(b.shape)
+b = a.elevationProfile('h', 1120, 1000, 2000)
+
 count = 0
-
-while count < b.shape[0] - 1:
-    if b[count + 1] - b[count] >= max_allowable:
-        susArray[count + 1] = b[count + 1]
-        susArray[count] = b[count]
-        count += 1
-    else:
-        count +=1
-count = 0
-while count < b.shape[0] - 1:
-    if b[count] - b[count + 1] >= max_allowable:
-        susArray2[count + 1] = b[count + 1]
-        susArray2[count] = b[count]
-        count += 1
-    else:
-        count +=1
-plt.plot(b)
-plt.plot(ma.masked_values(susArray, 0))
-plt.plot(ma.masked_values(susArray2, 0))
-plt.show()
+while count < b.shape[0]:
+    

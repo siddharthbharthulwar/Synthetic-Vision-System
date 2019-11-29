@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 import numpy.ma as ma
 import cv2 as cv
 import time
+
+HIGH = "D:\\Documents\\School\\2019-20\\ISEF 2020\\HIGHAHN\\R_37HN1\\r_37hn1.tif"
+
+
 DSM9 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FZ2\\r5_37fz2.tif"
 DSM6 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN2\\r5_37fn2.tif"
 DSM8 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FZ1\\r5_37fz1.tif"
@@ -27,4 +31,12 @@ eham4 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25CZ2\\r5_25cz2.t
 eham5 = "D:\\Documents\School\\2019-20\\ISEF 2020\\AHNEHAM\\R5_25DZ1\\r5_25dz1.tif"
 eham6 = r"D:\Documents\School\2019-20\ISEF 2020\ML\Processed\r5_25dz2.tif"
 
-a = TerrainGrid((DSM4, DSM5, DSM6, DSM7, DSM8, DSM9), (3,2), 1)
+a = TerrainGrid(DSM8, (1,1), 1)
+'''
+a.arrayValues = a.totalSlope('h')
+plt.plot(a.elevationProfile('h', 2480, 2000, 2200))
+plt.show()
+'''
+
+plt.imshow(a.totalSlope('h'), vmin = -5, vmax = 10)
+plt.show()
