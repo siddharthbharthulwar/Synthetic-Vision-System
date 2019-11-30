@@ -58,5 +58,5 @@ def tiff_to_png(inputDir, outputDir):
     print(end - start, " seconds elapsed processing ", max, " images. ")
 
 
-tiff_to_png(r"D:\Documents\School\2019-20\ISEF 2020\ML\Processed", r"D:\Documents\School\2019-20\ISEF 2020\ML\PNG")
+tiff_to_png(r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed", r"D:\Documents\School\2019-20\ISEF 2020\FinalProcessed")
 
