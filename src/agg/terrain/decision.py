@@ -15,6 +15,7 @@ from skimage.viewer import ImageViewer
 from skimage.filters import sobel
 from skimage.filters import gaussian
 from skimage.segmentation import active_contour
+import os
 
 HIGH = "D:\\Documents\\School\\2019-20\\ISEF 2020\\HIGHAHN\\R_37HN1\\r_37hn1.tif"
 
@@ -47,6 +48,7 @@ given_value = 6
 
 a = TerrainGrid((DSM7, DSM8, DSM9), (3, 1), 1)
 
-b = a.elevationProfile('h', 1120, 1000, 2000)
-
-count = 0
+csfont = {'fontname' : 'Google Sans'}
+plt.title("X vs Y", **csfont)
+plt.imshow(a.arrayValues)
+plt.show()
