@@ -9,7 +9,7 @@ b = r"D:\Documents\School\2019-20\ISEF 2020\ML\PNG\r5_30hz2.png"
 
 img = cv.imread(b)
 imgray = cv.cvtColor(img, cv.COLOR_RGB2GRAY)
-ret, thresh = cv.threshold(imgray, 120, 255, 0)
+ret, thresh = cv.threshold(imgray, 50, 255, 0)
 
 im2, contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
@@ -22,6 +22,5 @@ print(contours)
 print("break")
 print(approx)
 cv.imshow("Image", img)
-cv.imshow(approx)
 cv.waitKey(0)
 cv.destroyAllWindows()

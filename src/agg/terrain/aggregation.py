@@ -214,7 +214,7 @@ class TerrainGrid:
         mlab.surf(self.arrayValues, colormap= color, warp_scale=0.2,
             vmin= min, vmax=max)
 
-        mlab.view(-5.9, 83, 570, [5.3, 20, 238])
+        mlab.view(-5.9, 900, 570, [5.3, 20, 238])
         mlab.show()     
 
 

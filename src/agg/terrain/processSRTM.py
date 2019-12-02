@@ -15,6 +15,9 @@ SRTM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n51_e005_1arc_v3.tif"
 
 a = TerrainGrid((SRTM3), (1,1), 0)
 print(np.mean(ma.masked_values(a.arrayValues, 0)))
-a.arrayValues = gaussian_filter(a.arrayValues[0:400, 200:600], sigma = 1)
+'''
+a.arrayValues = gaussian_filter(a.arrayValues[0:400, 200:600], sigma = 2.5)
 
+'''
+a.arrayValues = gaussian_filter(a.arrayValues, sigma = 3.8) * 1.5
 a.viewer_3d('viridis', -5, 30)
