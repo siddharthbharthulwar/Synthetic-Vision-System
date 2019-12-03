@@ -24,7 +24,7 @@ DSM7 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37EZ2\\r5_37ez2.tif"
 DSM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37EN2\\r5_37en2.tif"
 DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
-
+'''
 kernel = np.ones((2,2), np.uint8)
 
 a = TerrainGrid((rd0, rd1), (2,1), 1)
@@ -42,3 +42,20 @@ plt.show()
 plt.imshow(np.array(img_erdil))
 plt.show()
 
+'''
+
+def arrayErode(array, threshval, kernel, iter):
+    b = cv.threshold(array, threshval, 255, cv.THRESH_BINARY)[1]
+    img_erosion = cv.erode(b, kernel, iterations = iter)
+    return np.array(img_erosion)
+
+def arraydilate(array, threshval, kernel, iter):
+    b = cv.threshold(array, threshval, 255, cv.THRESH_BINARY)[1]
+    img_dilation = cv.erode(b, kernel, iterations = iter)
+    return np.array(img_dilation)
+
+def processTotal(array, threshval, kernel, iter):
+    b = cv.threshold(array, threshval, 255, cv.THRESH_BINARY)[1]
+    img_erosion = cv.erode(b, kernel, iterations = iter)
+    img_errdil = cv.dilate(np.array(img_erosion), kernel, iterations = iter)
+    return img_errdil
