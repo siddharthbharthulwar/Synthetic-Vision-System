@@ -282,7 +282,6 @@ class TerrainGrid:
         return base
     def erodilate(self, thresh, kernel, iterate):
         b = cv.threshold(self.arrayValues, thresh, 255, cv.THRESH_BINARY)[1]
-        print(b.shape)
         img_erosion = cv.erode(b, kernel, iterations = iterate)
         img_errdil = cv.dilate(np.array(img_erosion), kernel, iterations = iterate)
         return img_errdil
