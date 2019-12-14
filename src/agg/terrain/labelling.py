@@ -10,6 +10,7 @@ rd1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
 
 
 a = TerrainGrid((rd0, rd1), (2,1), 1)
+'''
 c = cv.threshold(a.arrayValues, 5, 200, cv.THRESH_BINARY)[1].astype('uint8')
 
 b = a.erodilate(5, np.ones((2,2), np.uint8) , 2).astype('uint8')
@@ -26,3 +27,6 @@ print(labels)
 plt.imshow(labels)
 plt.show()
 
+'''
+plt.imshow(a.label(4.5, np.ones((2,2), dtype = 'uint8'), 1, 4))
+plt.show()

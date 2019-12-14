@@ -171,6 +171,7 @@ class TerrainGrid:
         self.transformBounds = transformBounds(listBounds(path))
         self.raw_dimensions = tileDimensions(transformBounds(listBounds(path)))
         self.shape = self.arrayValues.shape
+        self.dupValues = stack(path, dimensions, fill)
 
 
     def dynamicShow(self):
@@ -285,7 +286,14 @@ class TerrainGrid:
         img_erosion = cv.erode(b, kernel, iterations = iterate)
         img_errdil = cv.dilate(np.array(img_erosion), kernel, iterations = iterate)
         return img_errdil
-
+    def label(self, threshold, kernel, iterations, connectivity):
+        b = cv.threshold(self.arrayValues, threshold, 255, cv.THRESH_BINARY)[1].astype('uint8')
+        img_erosion = cv.erode(b, kernel, iterations= iterations)
+        img_errdil = cv.dilate(np.array(img_erosion), kernel, iterations = iterations)
+        n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
+        self.dupValues = labels
+        print(self.dupValues)
+        return labels
         
     
 
