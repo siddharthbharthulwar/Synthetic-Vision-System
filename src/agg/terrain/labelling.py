@@ -25,22 +25,19 @@ c = cv.threshold(a.arrayValues, 5, 200, cv.THRESH_BINARY)[1].astype('uint8')
 b = a.erodilate(3.6, np.ones((2,2), np.uint8) , 1).astype('uint8')
 
 n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity=8)
-
-
-
-colors = np.random.randint(0, 255, size = n_labels, dtype = np.uint8)
-colors[0] = 0
-false_colors = colors[labels]
-
+print(n_labels)
 retl = []
 for i in np.unique(labels):
-    retl.append(cv.threshold(labels.astype('uint16'), i + 1, 1, cv.THRESH_BINARY_INV)[1])
+    retl.append(ma.masked_not_equal(labels, i))
+    print(i)
 
 print(len(retl))
 print(n_labels)
 
 plt.imshow(retl[1])
 plt.show()
+
+
 
 plt.imshow(np.zeros(labels.shape), cmap = 'gist_gray')
 plt.imshow(ma.masked_values(labels, 0))
