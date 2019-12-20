@@ -28,21 +28,16 @@ n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connecti
 
 
 
-colors = np.random.randint(0, 255, size = n_labels, dtype = np.uint8)
-colors[0] = 0
-false_colors = colors[labels]
+contours, hierarchy = cv.findContours(b, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)[-2:]
+idx = 0
+for cnt in contours:
+    idx +=1 
+    x, y, w, h = cv.boundingRect(cnt)
+    roi = a.arrayValues[y:y+h, x:x+w]
+    color = (rng.randint(0, 256), rng.randint(0, 256), rng.randint(0, 256))
+    cv.drawContours(a.arrayValues, [cnt], 0, color, -1)
 
-retl = []
-for i in np.unique(labels):
-    retl.append(cv.threshold(labels.astype('uint16'), i + 1, 1, cv.THRESH_BINARY_INV)[1])
+cv.imshow('image', a.arrayValues)
+cv.waitKey(0)
 
-print(len(retl))
-print(n_labels)
-
-plt.imshow(retl[1])
-plt.show()
-
-plt.imshow(np.zeros(labels.shape), cmap = 'gist_gray')
-plt.imshow(ma.masked_values(labels, 0))
-plt.show()
 
