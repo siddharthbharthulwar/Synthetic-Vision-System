@@ -294,6 +294,8 @@ class TerrainGrid:
         self.dupValues = labels
         print(self.dupValues)
         return labels
+
+        
         
     
 
