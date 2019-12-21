@@ -292,9 +292,19 @@ class TerrainGrid:
         img_errdil = cv.dilate(np.array(img_erosion), kernel, iterations = iterations)
         n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
         self.dupValues = labels
-        print(self.dupValues)
         return labels
-
+    def semanticlabel(self, threshold, connectivity, minArea, variance):
+        b = self.erodilate(threshold, np.ones((2,2), np.uint8), 1).astype('uint16')
+        self.n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = 8)
+        retl = []
+        start = time.time()
+        for i in np.unique(labels):
+            if (stats[i, 4] > minArea):
+                retl.append(np.var((ma.masked_not_equal(labels, i) / i) * self.arrayValues))
+            print(i)
+        end = time.time()
+        print(len(retl), " objects evaluated in ", end - start , " seconds of total ", self.n_labels, " objects. ")
+        return retl
         
         
     

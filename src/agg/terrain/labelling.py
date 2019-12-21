@@ -30,7 +30,11 @@ b = a.erodilate(2.9, np.ones((2,2), np.uint8) , 1).astype('uint8')
 n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity=8)
 print(n_labels)
 
+
+
 plt.imshow(a.arrayValues)
+
+
 plt.imshow(ma.masked_values(labels, 0), cmap = 'gist_gray', vmin = 0, vmax = 1)
 plt.show()
 
@@ -41,8 +45,11 @@ start = time()
 minsize = 500
 for i in np.unique(labels):
     if (stats[i, 4] > minsize):
-
-        retl.append(np.var((ma.masked_not_equal(labels, i) / i)* a.arrayValues))
+        perm = np.var((ma.masked_not_equal(labels, i) / i)* a.arrayValues)
+        if (perm > 2):
+            retl.append([perm, 'veg'])
+        else:
+            retl.append([perm, 'bld'])
     print(i)
 end = time()
 print(len(retl))
