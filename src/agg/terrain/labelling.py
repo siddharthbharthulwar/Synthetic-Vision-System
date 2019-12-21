@@ -4,6 +4,7 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 import numpy.ma as ma
 import random as rng
+from time import time
 
 rd0 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37ez2.tif"
 rd1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
@@ -26,17 +27,23 @@ b = a.erodilate(3.6, np.ones((2,2), np.uint8) , 1).astype('uint8')
 
 n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity=8)
 print(n_labels)
-retl = []
-for i in np.unique(labels):
-    retl.append(ma.masked_not_equal(labels, i))
-    print(i)
 
+retl = []
+start = time()
+for i in np.unique(labels):
+    retl.append(np.var((ma.masked_not_equal(labels, i) / i)* a.arrayValues))
+    print(i)
+end = time()
 print(len(retl))
 print(n_labels)
+print(end - start ," seconds to complete task. ")
 
-plt.imshow(retl[1])
+print(retl)
+
+fig, ax = plt.subplots()
+n, bins, patches = ax.hist(retl, 100, density = 1)
+ax.plot(bins)
 plt.show()
-
 
 
 plt.imshow(np.zeros(labels.shape), cmap = 'gist_gray')
