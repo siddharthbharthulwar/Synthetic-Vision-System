@@ -19,8 +19,8 @@ DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
 
 a = TerrainGrid((rd0), (1,1), 1)
-a.arrayValues = a.arrayValues[10000:12000, 7000:9000]
-
+a.arrayValues = a.arrayValues[7000:10000, 0:3500]
+a.show(-5, 50)
 c = cv.threshold(a.arrayValues, 5, 200, cv.THRESH_BINARY)[1].astype('uint8')
 
 b = a.erodilate(3.6, np.ones((2,2), np.uint8) , 1).astype('uint8')
@@ -30,8 +30,11 @@ print(n_labels)
 
 retl = []
 start = time()
+minsize = 100
 for i in np.unique(labels):
-    retl.append(np.var((ma.masked_not_equal(labels, i) / i)* a.arrayValues))
+    if (stats[i, 4] > minsize):
+
+        retl.append(np.var((ma.masked_not_equal(labels, i) / i)* a.arrayValues))
     print(i)
 end = time()
 print(len(retl))
@@ -39,14 +42,30 @@ print(n_labels)
 print(end - start ," seconds to complete task. ")
 
 print(retl)
+print(retl[1])
 
-fig, ax = plt.subplots()
-n, bins, patches = ax.hist(retl, 100, density = 1)
-ax.plot(bins)
+n, bins, patches = plt.hist(retl, 250, facecolor='blue', alpha=0.5)
 plt.show()
 
+buildings = []
+vegetation = []
 
+count = 0
+while (count < retl.length):
+    if (retl[count] > 1.5):
+        vegetation.append(retl[count])
+        count = count + 1
+    else:
+        buildings.append(retl[count])
+        count + 1
+
+print(len(buildings), " buildings")
+print(len(vegetation), " vegetation")
+
+print("break")
+
+'''
 plt.imshow(np.zeros(labels.shape), cmap = 'gist_gray')
 plt.imshow(ma.masked_values(labels, 0))
 plt.show()
-
+'''
