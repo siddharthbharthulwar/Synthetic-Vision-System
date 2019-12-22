@@ -30,9 +30,7 @@ c = cv.threshold(a.arrayValues, 2, 200, cv.THRESH_BINARY)[1].astype('uint8')
 
 b = a.erodilate(4, np.ones((1,1), np.uint8) , 1).astype('uint8')
 b = cv.dilate(b, np.ones((2,2), np.uint8), iterations = 1)
-plt.imshow(a.arrayValues)
-plt.imshow(ma.masked_values(b, 0), cmap = 'gist_gray_r')
-plt.show()
+
 
 n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity=8)
 print(n_labels)
@@ -55,13 +53,12 @@ minsize = 500
 for i in np.unique(labels):
     if (stats[i, 4] > minsize):
         perm = np.var((ma.masked_not_equal(labels, i) / i)* a.arrayValues)
-        if (perm > 1.5):
+        if (perm > 1):
             retl.append(perm)
             veg.append(i)
         else:
             retl.append(perm)
             bld.append(i)
-    print(i)
 end = time()
 print(len(retl))
 print(n_labels)
@@ -77,14 +74,14 @@ plt.show()
 
 i = 0
 while (i < len(veg)):
-    plt.imshow((ma.masked_not_equal(labels, i) / i) * a.arrayValues)
+    plt.imshow((ma.masked_not_equal(labels, veg[i]) / veg[i]) * a.arrayValues)
     print(i, " w/ ", retl[i])
     plt.show()
     i += 1
 
 i = 0
 while (i < len(bld)):
-    plt.imshow((ma.masked_not_equal(labels, i) / i) * a.arrayValues)
+    plt.imshow((ma.masked_not_equal(labels, bld[i]) / bld[i]) * a.arrayValues)
     print(i, " w/ ", retl[i])
     plt.show()
     i += 1
