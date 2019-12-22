@@ -22,10 +22,17 @@ DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
 
 a = TerrainGrid((rd0), (1,1), 1)
-a.arrayValues = a.arrayValues[10000:12000, 0:4000]
+a.arrayValues = a.arrayValues[3000:10000, 0:10000]
+
+
+
 c = cv.threshold(a.arrayValues, 2, 200, cv.THRESH_BINARY)[1].astype('uint8')
 
-b = a.erodilate(2.9, np.ones((2,2), np.uint8) , 1).astype('uint8')
+b = a.erodilate(4, np.ones((1,1), np.uint8) , 1).astype('uint8')
+b = cv.dilate(b, np.ones((2,2), np.uint8), iterations = 1)
+plt.imshow(a.arrayValues)
+plt.imshow(ma.masked_values(b, 0), cmap = 'gist_gray_r')
+plt.show()
 
 n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity=8)
 print(n_labels)
@@ -41,28 +48,44 @@ plt.show()
 
 
 retl = []
+bld = []
+veg = []
 start = time()
 minsize = 500
 for i in np.unique(labels):
     if (stats[i, 4] > minsize):
         perm = np.var((ma.masked_not_equal(labels, i) / i)* a.arrayValues)
-        if (perm > 2):
-            retl.append([perm, 'veg'])
+        if (perm > 1.5):
+            retl.append(perm)
+            veg.append(i)
         else:
-            retl.append([perm, 'bld'])
+            retl.append(perm)
+            bld.append(i)
     print(i)
 end = time()
 print(len(retl))
 print(n_labels)
 print(end - start ," seconds to complete task. ")
 
-print(retl)
-print(retl[1])
 
-
+print("break")
+print(len(veg), " instances of vegetation in image")
+print(len(bld), " instances of buildings in image")
 
 n, bins, patches = plt.hist(retl, 250, facecolor='blue', alpha=0.5)
 plt.show()
+
+i = 1000
+while (i < len(bld)):
+    plt.imshow((ma.masked_not_equal(labels, i) / i) * a.arrayValues)
+    print(i, " w/ ", retl[i])
+    plt.show()
+
+i = 1400
+while (i < len(bld)):
+    plt.imshow((ma.masked_not_equal(labels, i) / i) * a.arrayValues)
+    print(i, " w/ ", retl[i])
+    plt.show()
 
 
 '''

@@ -293,7 +293,7 @@ class TerrainGrid:
         n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
         self.dupValues = labels
         return labels
-    def semanticlabel(self, threshold, connectivity, minArea, variance):
+    def semanticvariance(self, threshold, connectivity, minArea, variance):
         b = self.erodilate(threshold, np.ones((2,2), np.uint8), 1).astype('uint16')
         self.n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = 8)
         retl = []
