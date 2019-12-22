@@ -22,14 +22,14 @@ DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
 
 a = TerrainGrid((rd0), (1,1), 1)
-a.arrayValues = a.arrayValues[9000:10000, 3000:4000]
+a.arrayValues = a.arrayValues[8000:10000, 3000:5000]
 
 
 
-c = cv.threshold(a.arrayValues, 2, 200, cv.THRESH_BINARY)[1].astype('uint8')
+c = cv.threshold(a.arrayValues, 4, 200, cv.THRESH_BINARY)[1].astype('uint8')
 
 b = a.erodilate(4, np.ones((1,1), np.uint8) , 1).astype('uint8')
-b = cv.dilate(b, np.ones((2,2), np.uint8), iterations = 1)
+b = cv.dilate(c, np.ones((1,1), np.uint8), iterations = 4)
 
 
 n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity=8)
@@ -48,17 +48,24 @@ plt.show()
 retl = []
 bld = []
 veg = []
+bldvar = []
+vegvar = []
 start = time()
 minsize = 500
+
 for i in np.unique(labels):
     if (stats[i, 4] > minsize):
         perm = np.var((ma.masked_not_equal(labels, i) / i)* a.arrayValues)
         if (perm > 1):
             retl.append(perm)
             veg.append(i)
+            vegvar.append(len(retl) - 1)
+            
         else:
             retl.append(perm)
             bld.append(i)
+            bldvar.append(len(retl) - 1)
+retl.remove(retl[0])
 end = time()
 print(len(retl))
 print(n_labels)
@@ -75,20 +82,14 @@ plt.show()
 i = 0
 while (i < len(veg)):
     plt.imshow((ma.masked_not_equal(labels, veg[i]) / veg[i]) * a.arrayValues)
-    print(i, " w/ ", retl[i])
+    print(i, " w/ ", retl[vegvar[i]])
     plt.show()
     i += 1
 
 i = 0
 while (i < len(bld)):
     plt.imshow((ma.masked_not_equal(labels, bld[i]) / bld[i]) * a.arrayValues)
-    print(i, " w/ ", retl[i])
+    print(i, " w/ ", retl[bldvar[i]])
     plt.show()
     i += 1
 
-
-'''
-plt.imshow(np.zeros(labels.shape), cmap = 'gist_gray')
-plt.imshow(ma.masked_values(labels, 0))
-plt.show()
-'''
