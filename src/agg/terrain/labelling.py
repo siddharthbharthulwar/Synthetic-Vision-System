@@ -22,7 +22,7 @@ DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
 
 a = TerrainGrid((rd0), (1,1), 1)
-a.arrayValues = a.arrayValues[3000:10000, 0:10000]
+a.arrayValues = a.arrayValues[9000:10000, 3000:4000]
 
 
 
@@ -75,17 +75,19 @@ print(len(bld), " instances of buildings in image")
 n, bins, patches = plt.hist(retl, 250, facecolor='blue', alpha=0.5)
 plt.show()
 
-i = 1000
-while (i < len(bld)):
+i = 0
+while (i < len(veg)):
     plt.imshow((ma.masked_not_equal(labels, i) / i) * a.arrayValues)
     print(i, " w/ ", retl[i])
     plt.show()
+    i += 1
 
-i = 1400
+i = 0
 while (i < len(bld)):
     plt.imshow((ma.masked_not_equal(labels, i) / i) * a.arrayValues)
     print(i, " w/ ", retl[i])
     plt.show()
+    i += 1
 
 
 '''
