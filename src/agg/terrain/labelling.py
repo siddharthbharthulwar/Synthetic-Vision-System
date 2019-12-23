@@ -51,7 +51,7 @@ for i in unique:
         print(i)
         var = np.var((ma.masked_not_equal(labels, i) / i) * a.arrayValues)
         variance.append(var)
-        if (var > 1.2):
+        if (var > 2.5):
             vegetation.append(i)
             invegetation.append(incount)
             incount +=1 

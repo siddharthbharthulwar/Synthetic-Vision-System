@@ -293,19 +293,67 @@ class TerrainGrid:
         n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
         self.dupValues = labels
         return labels
-    def semanticvariance(self, threshold, connectivity, minArea, variance):
-        b = self.erodilate(threshold, np.ones((2,2), np.uint8), 1).astype('uint16')
-        self.n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = 8)
-        retl = []
+    def classification(self, threshold, iterations, connectivity, min_area, cutoff):
+        b = self.erodilate(threshold, np.ones((1,1), np.uint8), 1).astype('uint8')
+        n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
+        plt.imshow(a.arrayValues)
+        plt.imshow(ma.masked_values(labels, 0), cmap = 'gist_gray', vmin = 0, vmax = 1)
+        plt.show()
+
+        variance = []
+        buildings = []
+        vegetation = []
+
+        inbuildings = []
+        invegetation = []
+
+        unique = np.delete(np.unique(labels), 0)
+
+        incount = 0
+
         start = time.time()
-        for i in np.unique(labels):
-            if (stats[i, 4] > minArea):
-                retl.append(np.var((ma.masked_not_equal(labels, i) / i) * self.arrayValues))
-            print(i)
+
+        for i in unique:
+
+            if (stats[i, 4] > min_area):
+                var = np.var((ma.masked_not_equal(labels, i) / i) * self.arrayValues)
+                variance.append(var)
+
+                if (var > cutoff):
+
+                    vegetation.append(i)
+                    invegetation.append(incount)
+                    incount +=1
+
+                else:
+
+                    buildings.append(i)
+                    inbuildings.append(incount)
+                    incount +=1
+
         end = time.time()
-        print(len(retl), " objects evaluated in ", end - start , " seconds of total ", self.n_labels, " objects. ")
-        return retl
+
+        print(len(buildings), " buildings and ", len(vegetation), " trees processed in ", end - start, " seconds. ")
         
+        count = 0
+        while (count < len(buildings)):
+            plt.imshow((ma.masked_not_equal(labels, buildings[count]) / buildings[count]) * a.arrayValues)
+            print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
+            plt.show()
+            count +=1
+
+        count = 0
+        while (count < len(vegetation)):
+            plt.imshow((ma.masked_not_equal(labels, vegetation[count]) / vegetation[count]) * a.arrayValues)
+            print("Real index of: ", vegetation[count], " and relative index of: ", invegetation[count], " with variance of: ", variance[invegetation[count]], " (V)")
+            plt.show()
+            count +=1
+
+        self.n_labels = len(buildings) + len(vegetation)
+        self.varlist = variance
+        self.bldlist = buildings
+        self.veglist = vegetation
+
         
     
 
