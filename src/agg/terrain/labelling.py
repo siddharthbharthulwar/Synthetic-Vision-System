@@ -12,19 +12,8 @@ rasdf = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37hn2.tif"
 
 r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
 
-
-DSM9 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FZ2\\r5_37fz2.tif"
-DSM6 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN2\\r5_37fn2.tif"
-DSM8 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FZ1\\r5_37fz1.tif"
-DSM7 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37EZ2\\r5_37ez2.tif"
-DSM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37EN2\\r5_37en2.tif"
-DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
-
-
 a = TerrainGrid((rd0), (1,1), 1)
 a.arrayValues = a.arrayValues[8000:10000, 3000:5000]
-
-
 
 c = cv.threshold(a.arrayValues, 4, 200, cv.THRESH_BINARY)[1].astype('uint8')
 
@@ -44,61 +33,46 @@ plt.imshow(ma.masked_values(labels, 0), cmap = 'gist_gray', vmin = 0, vmax = 1)
 plt.show()
 
 
+variance = []
 
-retl = []
+buildings = []
+vegetation = [] 
 
-bld = []
-veg = []
-bldvar = []
-vegvar = []
-start = time()
-minsize = 500
-bldsum = 0
-vegsum = 0
+inbuildings = []
+invegetation = []
+
+unique = np.delete(np.unique(labels), 0)
 
 
-for i in np.unique(labels):
-    if (stats[i, 4] > minsize):
-        perm = np.var((ma.masked_not_equal(labels, i) / i)* a.arrayValues).item()
-        if (perm > 0.4):
-            retl.append(perm)
-            veg.append(i)
-            vegvar.append(len(retl) - 1)
-            vegsum +=perm
-            
+incount = 0
+
+for i in unique:
+    if (stats[i, 4] > 500):
+        print(i)
+        var = np.var((ma.masked_not_equal(labels, i) / i) * a.arrayValues)
+        variance.append(var)
+        if (var > 1.2):
+            vegetation.append(i)
+            invegetation.append(incount)
+            incount +=1 
         else:
-            retl.append(perm)
-            bld.append(i)
-            bldvar.append(len(retl) - 1)
-            bldsum += perm
-retl.remove(retl[0])
-end = time()
-print(len(retl))
-print(n_labels)
-print(end - start ," seconds to complete task. ")
+            buildings.append(i)
+            inbuildings.append(incount)
+            incount +=1
+
+print(len(buildings), len(vegetation), len(variance))
 
 
-print("break")
-print(len(veg), " instances of vegetation in image")
-print(len(bld), " instances of buildings in image")
-
-print(bldsum / len(bld), " average variance in buildings.")
-print(vegsum / len(veg), " average variance in vegatation. ")
-
-n, bins, patches = plt.hist(retl, 250, facecolor='blue', alpha=0.5)
-plt.show()
-
-i = 0
-while (i < len(veg)):
-    plt.imshow((ma.masked_not_equal(labels, veg[i]) / veg[i]) * a.arrayValues)
-    print(i, " w/ ", retl[vegvar[i]])
+count = 0
+while (count < len(buildings)):
+    plt.imshow((ma.masked_not_equal(labels, buildings[count]) / buildings[count]) * a.arrayValues)
+    print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
     plt.show()
-    i += 1
+    count +=1
 
-i = 0
-while (i < len(bld)):
-    plt.imshow((ma.masked_not_equal(labels, bld[i]) / bld[i]) * a.arrayValues)
-    print(i, " w/ ", retl[bldvar[i]])
+count = 0
+while (count < len(vegetation)):
+    plt.imshow((ma.masked_not_equal(labels, vegetation[count]) / vegetation[count]) * a.arrayValues)
+    print("Real index of: ", vegetation[count], " and relative index of: ", invegetation[count], " with variance of: ", variance[invegetation[count]], " (V)")
     plt.show()
-    i += 1
-
+    count +=1
