@@ -32,7 +32,7 @@ b = a.erodilate(4, np.ones((1,1), np.uint8) , 1).astype('uint8')
 b = cv.dilate(c, np.ones((1,1), np.uint8), iterations = 4)
 
 
-n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity=8)
+n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity=4)
 print(n_labels)
 
 
@@ -46,25 +46,31 @@ plt.show()
 
 
 retl = []
+
 bld = []
 veg = []
 bldvar = []
 vegvar = []
 start = time()
 minsize = 500
+bldsum = 0
+vegsum = 0
+
 
 for i in np.unique(labels):
     if (stats[i, 4] > minsize):
-        perm = np.var((ma.masked_not_equal(labels, i) / i)* a.arrayValues)
-        if (perm > 1):
+        perm = np.var((ma.masked_not_equal(labels, i) / i)* a.arrayValues).item()
+        if (perm > 0.4):
             retl.append(perm)
             veg.append(i)
             vegvar.append(len(retl) - 1)
+            vegsum +=perm
             
         else:
             retl.append(perm)
             bld.append(i)
             bldvar.append(len(retl) - 1)
+            bldsum += perm
 retl.remove(retl[0])
 end = time()
 print(len(retl))
@@ -75,6 +81,9 @@ print(end - start ," seconds to complete task. ")
 print("break")
 print(len(veg), " instances of vegetation in image")
 print(len(bld), " instances of buildings in image")
+
+print(bldsum / len(bld), " average variance in buildings.")
+print(vegsum / len(veg), " average variance in vegatation. ")
 
 n, bins, patches = plt.hist(retl, 250, facecolor='blue', alpha=0.5)
 plt.show()
