@@ -14,9 +14,7 @@ DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 r0 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37ez2.tif"
 r1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
 
-a = TerrainGrid((r0, r1), (2,1), 1)
+a = TerrainGrid((r0), (1,1), 1)
+a.arrayValues = a.arrayValues[0:4000, 0:4000]
 
-
-b = a.erodilate(3.5, np.ones((3,3), np.uint8), 1)
-plt.imshow(b)
-plt.show()
+a.classification(3, 1, 4, 500, 2.2, True, 40, 250)

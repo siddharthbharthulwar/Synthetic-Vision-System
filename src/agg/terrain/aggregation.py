@@ -293,10 +293,10 @@ class TerrainGrid:
         n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
         self.dupValues = labels
         return labels
-    def classification(self, threshold, iterations, connectivity, min_area, cutoff):
+    def classification(self, threshold, iterations, connectivity, min_area, cutoff, histogram, outlier, bins):
         b = self.erodilate(threshold, np.ones((1,1), np.uint8), 1).astype('uint8')
         n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
-        plt.imshow(a.arrayValues)
+        plt.imshow(self.arrayValues)
         plt.imshow(ma.masked_values(labels, 0), cmap = 'gist_gray', vmin = 0, vmax = 1)
         plt.show()
 
@@ -314,7 +314,7 @@ class TerrainGrid:
         start = time.time()
 
         for i in unique:
-
+            print(i, " / ", n_labels)
             if (stats[i, 4] > min_area):
                 var = np.var((ma.masked_not_equal(labels, i) / i) * self.arrayValues)
                 variance.append(var)
@@ -335,9 +335,23 @@ class TerrainGrid:
 
         print(len(buildings), " buildings and ", len(vegetation), " trees processed in ", end - start, " seconds. ")
         
+
+        
+
+        if (histogram):
+            realvar = []
+            for i in variance:
+                if i < outlier:
+                    realvar.append(i)
+                
+            n, bins, patches = plt.hist(variance, bins, facecolor='blue', alpha=0.5)
+            plt.show()
+        
+
+
         count = 0
         while (count < len(buildings)):
-            plt.imshow((ma.masked_not_equal(labels, buildings[count]) / buildings[count]) * a.arrayValues)
+            plt.imshow((ma.masked_not_equal(labels, buildings[count]) / buildings[count]) * self.arrayValues)
             print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
             plt.show()
             count +=1
