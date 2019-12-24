@@ -15,6 +15,6 @@ r0 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37ez2.tif"
 r1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
 
 a = TerrainGrid((r0), (1,1), 1)
-a.arrayValues = a.arrayValues[0:4000, 0:4000]
+
 
 a.classification(3, 1, 4, 500, 2.2, True, 40, 250)
