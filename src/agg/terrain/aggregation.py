@@ -283,13 +283,13 @@ class TerrainGrid:
         return base
     def erodilate(self, thresh, kernel, iterate):
         b = cv.threshold(self.arrayValues, thresh, 255, cv.THRESH_BINARY)[1]
-        img_erosion = cv.erode(b, kernel, iterations = iterate)
-        img_errdil = cv.dilate(np.array(img_erosion), kernel, iterations = iterate)
+        img_erosion = cv.erode(b, np.ones((kernel, kernel), np.uint8), iterations = iterate)
+        img_errdil = cv.dilate(np.array(img_erosion), np.ones((kernel, kernel), np.uint8), iterations = iterate)
         return img_errdil
-    def label(self, threshold, kernel, iterations, connectivity):
+    def label(self, threshold, kernelsize, iterations, connectivity):
         b = cv.threshold(self.arrayValues, threshold, 255, cv.THRESH_BINARY)[1].astype('uint8')
-        img_erosion = cv.erode(b, kernel, iterations= iterations)
-        img_errdil = cv.dilate(np.array(img_erosion), kernel, iterations = iterations)
+        img_erosion = cv.erode(b, np.ones((kernelsize, kernelsize), np.uint8), iterations= iterations)
+        img_errdil = cv.dilate(np.array(img_erosion), np.ones((kernelsize, kernelsize), np.uint8), iterations = iterations)
         n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
         self.dupValues = labels
         return labels
