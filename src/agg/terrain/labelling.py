@@ -12,8 +12,8 @@ rasdf = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37hn2.tif"
 ehamr = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_25dn2.tif"
 r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
 
-a = TerrainGrid((rd1), (1,1), 1)
-a.arrayValues = a.arrayValues[7500: 9500, 4000:6000]
+a = TerrainGrid((rd0), (1,1), 1)
+
 
 c = cv.threshold(a.arrayValues, 2.9, 200, cv.THRESH_BINARY)[1].astype('uint8')
 
@@ -69,7 +69,7 @@ print(len(buildings), len(vegetation), len(variance))
 end = time.time()
 print(end - start ," seconds elapsed cuh.")
 
-
+'''
 count = 0
 
 while (count < len(buildings)):
@@ -83,17 +83,17 @@ while (count < len(vegetation)):
     print("Real index of: ", vegetation[count], " and relative index of: ", invegetation[count], " with variance of: ", variance[invegetation[count]], " (V)")
     plt.show()
     count +=1
-
+'''
 plt.imshow(a.arrayValues)
 plt.imshow(ma.masked_values(newArray, 0), cmap = 'tab10', vmin = 0, vmax = 19)
 plt.show()
 
 histogram2 = []
 for i in histogram:
-    if (i < 20):
+    if (i < 50):
         histogram2.append(i)
 
 
-n, bins, patches = plt.hist(histogram2, 25, facecolor='blue', alpha=0.5)
+n, bins, patches = plt.hist(histogram2, 250, facecolor='blue', alpha=0.5)
 plt.show()
 
