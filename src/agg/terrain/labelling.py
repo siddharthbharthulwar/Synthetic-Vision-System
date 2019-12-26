@@ -13,21 +13,13 @@ ehamr = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_25dn2.tif"
 r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
 
 a = TerrainGrid((rd0), (1,1), 1)
+a.arrayValues = a.arrayValues[8000:9000, 4000:5000]
 
+c = cv.threshold(a.arrayValues, 2.4, 200, cv.THRESH_BINARY)[1].astype('uint8')
+c = cv.erode(c, np.ones((5,5), np.uint8), iterations = 1)
+c = cv.dilate(c, np.ones((5,5), np.uint8), iterations = 1)
 
-c = cv.threshold(a.arrayValues, 2.9, 200, cv.THRESH_BINARY)[1].astype('uint8')
-
-b = a.erodilate(4, 2, 1).astype('uint8')
-plt.imshow(a.arrayValues)
-plt.imshow(ma.masked_values(b, 0), cmap = 'gist_gray_r')
-plt.show()
-
-plt.imshow(a.arrayValues)
-plt.imshow(c)
-plt.show()
-
-
-n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity=4)
+n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(c, connectivity=4)
 print(n_labels)
 
 variance = []
@@ -48,7 +40,7 @@ newArray = np.zeros(labels.shape, np.uint8)
 start = time.time()
 for i in unique:
     print(i)
-    if (stats[i, 4] > 500):
+    if (stats[i, 4] > 200):
 
         org = ma.masked_not_equal(labels, i) / i
         var = np.std(org * bray)
