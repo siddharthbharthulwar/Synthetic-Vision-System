@@ -13,7 +13,7 @@ ehamr = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_25dn2.tif"
 r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
 
 a = TerrainGrid((rd1), (1,1), 1)
-a.arrayValues = a.arrayValues[9000: 9500, 4000:5000]
+a.arrayValues = a.arrayValues[7500: 9500, 4000:6000]
 
 c = cv.threshold(a.arrayValues, 2.9, 200, cv.THRESH_BINARY)[1].astype('uint8')
 
@@ -42,6 +42,7 @@ unique = np.delete(np.unique(labels), 0)
 
 
 incount = 0
+bray = a.totalSlope('h')
 
 newArray = np.zeros(labels.shape, np.uint8)
 start = time.time()
@@ -50,7 +51,7 @@ for i in unique:
     if (stats[i, 4] > 500):
 
         org = ma.masked_not_equal(labels, i) / i
-        var = np.std((org) * a.arrayValues)
+        var = np.std(org * bray)
         variance.append(var)
         histogram.append(var * stats[i, 4] / 500)
         if (var > 2.8):
@@ -70,6 +71,7 @@ print(end - start ," seconds elapsed cuh.")
 
 
 count = 0
+
 while (count < len(buildings)):
     plt.imshow((ma.masked_not_equal(labels, buildings[count]) / buildings[count]) * a.arrayValues)
     print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")

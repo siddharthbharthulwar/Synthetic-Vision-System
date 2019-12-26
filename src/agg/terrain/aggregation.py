@@ -258,6 +258,7 @@ class TerrainGrid:
             orientationHeader = self.arrayValues.shape[1]
         count = 0
         finalList = []
+        print(count)
         while count < orientationHeader:
             finalList.append(slopeExtract(self, orientation, count))
             count +=1 

@@ -16,5 +16,8 @@ r1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
 
 a = TerrainGrid((r0), (1,1), 1)
 
+plt.imshow(a.totalSlope('h'), vmin = -5, vmax = 5)
+plt.show()
 
-a.classification(3, 1, 4, 500, 2.2, True, 40, 250)
+plt.imshow(a.totalSlope('v'))
+plt.show()
