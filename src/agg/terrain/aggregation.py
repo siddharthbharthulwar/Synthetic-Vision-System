@@ -313,11 +313,11 @@ class TerrainGrid:
         incount = 0
 
         start = time.time()
-
+        derivative = self.totalSlope('h')
         for i in unique:
             print(i, " / ", n_labels)
             if (stats[i, 4] > min_area):
-                var = np.var((ma.masked_not_equal(labels, i) / i) * self.arrayValues)
+                var = np.var((ma.masked_not_equal(labels, i) / i) * derivative)
                 variance.append(var)
 
                 if (var > cutoff):
