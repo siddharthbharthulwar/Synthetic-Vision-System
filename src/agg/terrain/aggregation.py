@@ -312,32 +312,39 @@ class TerrainGrid:
 
         incount = 0
 
+        finbld = np.zeros(labels.shape, np.uint8)
+        finveg = np.zeros(labels.shape, np.uint8)
+
         start = time.time()
         derivative = self.totalSlope('h')
         for i in unique:
-            print(i, " / ", n_labels)
-            if (stats[i, 4] > min_area):
-                var = np.var((ma.masked_not_equal(labels, i) / i) * derivative)
+            print(i)
+            if (stats[i, 4] > 200):
+
+                org = ma.masked_not_equal(labels, i) / i
+                var = np.std(org * derivative)
                 variance.append(var)
-
-                if (var > cutoff):
-
+                histogram.append(var * stats[i, 4] / 500)
+                if (var > 1.4):
                     vegetation.append(i)
                     invegetation.append(incount)
-                    incount +=1
-
+                    incount +=1 
+                    finbld = np.add(finbld, org.filled(0))
                 else:
-
                     buildings.append(i)
                     inbuildings.append(incount)
                     incount +=1
+                    finveg = np.add(finveg, org.filled(0))
 
         end = time.time()
 
         print(len(buildings), " buildings and ", len(vegetation), " trees processed in ", end - start, " seconds. ")
         
-
-        
+        plt.imshow(self.arrayValues)
+        plt.imshow(ma.masked_values(finbld, 0), cmap = 'gist_gray', vmin = 0, vmax = 1)
+        plt.imshow(ma.masked_values(finveg, 0), cmap = 'winter', vmin = 0, vmax = 1)
+        plt.title("Bivariate Classification")
+        plt.show()
 
         if (histogram):
             realvar = []

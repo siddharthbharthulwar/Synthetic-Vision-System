@@ -12,17 +12,22 @@ rasdf = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37hn2.tif"
 ehamr = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_25dn2.tif"
 r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
 
-a = TerrainGrid((rd0), (1,1), 1)
-a.arrayValues = a.arrayValues[8000:9000, 4000:5000]
+a = TerrainGrid((ehamr), (1,1), 1)
+a.arrayValues = a.arrayValues[0:3000, 2000:5000]
+
+a.show(-5, 50)
 
 c = cv.threshold(a.arrayValues, 2.4, 200, cv.THRESH_BINARY)[1].astype('uint8')
+'''
 c = cv.erode(c, np.ones((5,5), np.uint8), iterations = 1)
 c = cv.dilate(c, np.ones((5,5), np.uint8), iterations = 1)
-
+'''
 n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(c, connectivity=4)
 print(n_labels)
 
 variance = []
+
+
 
 buildings = []
 vegetation = [] 
@@ -35,8 +40,11 @@ unique = np.delete(np.unique(labels), 0)
 
 incount = 0
 bray = a.totalSlope('h')
+plt.imshow(bray, vmin = -2, vmax = 2)
+plt.show()
 
-newArray = np.zeros(labels.shape, np.uint8)
+blda = np.zeros(labels.shape, np.uint8)
+vega = np.zeros(labels.shape, np.uint8)
 start = time.time()
 for i in unique:
     print(i)
@@ -46,38 +54,24 @@ for i in unique:
         var = np.std(org * bray)
         variance.append(var)
         histogram.append(var * stats[i, 4] / 500)
-        if (var > 2.8):
+        if (var > 2.5):
             vegetation.append(i)
             invegetation.append(incount)
             incount +=1 
-            newArray = np.add(newArray, 20 * org.filled(0))
+            blda = np.add(blda, org.filled(0))
         else:
             buildings.append(i)
             inbuildings.append(incount)
             incount +=1
-            newArray = np.add(newArray, 5 * org.filled(0))
+            vega = np.add(vega,org.filled(0))
 
 print(len(buildings), len(vegetation), len(variance))
 end = time.time()
 print(end - start ," seconds elapsed cuh.")
 
-'''
-count = 0
-
-while (count < len(buildings)):
-    plt.imshow((ma.masked_not_equal(labels, buildings[count]) / buildings[count]) * a.arrayValues)
-    print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
-    plt.show()
-    count +=1
-count = 0
-while (count < len(vegetation)):
-    plt.imshow((ma.masked_not_equal(labels, vegetation[count]) / vegetation[count]) * a.arrayValues)
-    print("Real index of: ", vegetation[count], " and relative index of: ", invegetation[count], " with variance of: ", variance[invegetation[count]], " (V)")
-    plt.show()
-    count +=1
-'''
 plt.imshow(a.arrayValues)
-plt.imshow(ma.masked_values(newArray, 0), cmap = 'tab10', vmin = 0, vmax = 19)
+plt.imshow(ma.masked_values(blda, 0), cmap = 'gist_gray', vmin = 0, vmax = 1)
+plt.imshow(ma.masked_values(vega, 0), cmap = 'winter', vmin = 0, vmax = 1)
 plt.show()
 
 histogram2 = []
@@ -88,4 +82,22 @@ for i in histogram:
 
 n, bins, patches = plt.hist(histogram2, 250, facecolor='blue', alpha=0.5)
 plt.show()
+
+
+
+
+
+count = 0
+
+while (count < len(buildings)):
+    plt.imshow((ma.masked_not_equal(labels, buildings[count]) / buildings[count]) * bray)
+    print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
+    plt.show()
+    count +=1
+count = 0
+while (count < len(vegetation)):
+    plt.imshow((ma.masked_not_equal(labels, vegetation[count]) / vegetation[count]) * bray)
+    print("Real index of: ", vegetation[count], " and relative index of: ", invegetation[count], " with variance of: ", variance[invegetation[count]], " (V)")
+    plt.show()
+    count +=1
 
