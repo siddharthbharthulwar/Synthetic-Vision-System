@@ -1,34 +1,26 @@
 from aggregation import TerrainGrid
+import matplotlib.pyplot as plt 
 import numpy as np 
-import cv2 as cv 
-import matplotlib.pyplot as plt
-import numpy.ma as ma
-import random as rng
-import time as time
+import cv2 as cv
 
-rd0 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37ez2.tif"
-rd1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
-rasdf = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37hn2.tif"
-ehamr = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_25dn2.tif"
-r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
+DSM9 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FZ2\\r5_37fz2.tif"
+DSM6 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN2\\r5_37fn2.tif"
+DSM8 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FZ1\\r5_37fz1.tif"
+DSM7 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37EZ2\\r5_37ez2.tif"
+DSM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37EN2\\r5_37en2.tif"
+DSM5 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\AHN\\R5_37FN1\\r5_37fn1.tif"
 
 
-a = TerrainGrid((ehamr), (1,1) ,1)
-a.arrayValues = a.arrayValues[0:3000, 7000:10000]
-#a.classification(2.7, 1, 4, 300, 2, True, 40, 150)
 
-c = cv.threshold(a.arrayValues, 2.4, 200, cv.THRESH_BINARY)[1].astype('uint8')
+r0 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37ez2.tif"
+r1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
 
+a = TerrainGrid((r1), (1,1), 1)
+a.arrayValues = a.arrayValues[9000:10000, 3000:4000]
 
-plt.imshow(a.arrayValues, vmin = -5, vmax = 60)
-plt.imshow(ma.masked_values(c, 0), cmap = 'gist_gray_r')
+#plt.imshow(a.totalExtract('h', 3), vmin = 3, vmax = 5, cmap = 'gist_gray_r')
+#plt.imshow(a.arrayThreshold(3, 255, cv.THRESH_BINARY), cmap = 'gist_gray')
+#plt.imshow(a.totalSlope('h'), vmin = -2, vmax = 5)
+plt.imshow(a.arrayValues, vmin= -5, vmax = 40)
 plt.show()
-'''
-c = cv.erode(c, np.ones((5,5), np.uint8), iterations = 1)
-c = cv.dilate(c, np.ones((5,5), np.uint8), iterations = 1)
-'''
-n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(c, connectivity=4)
-print(n_labels)
-
-
 
