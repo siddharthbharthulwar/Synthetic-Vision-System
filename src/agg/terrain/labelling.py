@@ -40,7 +40,7 @@ unique = np.delete(np.unique(labels), 0)
 
 
 incount = 0
-bray = np.gradient(a.arrayValues)[0]
+bray = np.gradient(a.arrayValues)[0] + np.gradient(a.arrayValues)[1]
 plt.imshow(bray, vmin = -2, vmax = 2)
 plt.show()
 

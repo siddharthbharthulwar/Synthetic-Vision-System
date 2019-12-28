@@ -294,6 +294,61 @@ class TerrainGrid:
         n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
         self.dupValues = labels
         return labels
+    def classification(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, evaluation, nbins, outlier):
+        derivative = np.gradient(self.arrayValues)[1] + np.gradient(self.arrayValues)[0]
+        thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
+        self.n_labels, self.labels, self.stats, self.centroids = cv.connectedComponents(thresh, connectivity = connectivity)
+        variance = []
+        buildings = []
+        vegetation = []
+        inbuildings = []
+        invegetation = []
+        histogram = []
+        unique = np.delete(np.unique(self.labels), 0)
+        incount = 0
+        self.labeled_buildings = np.zeros(self.labels.shape, np.uint8)
+        self.labeled_vegetation = np.zeros(self.labels.shape, np.uint8)
+
+        start = time.time()
+        for i in unique:
+            print(i)
+            if (self.stats[i, 4] > minarea):
+                org = ma.masked_not_equal(self.labels, i) / i
+                var = np.std(org * derivative)
+                variance.append(var)
+                histogram.append(var)
+
+                if (var > cutoff):
+
+                    vegetation.append(i)
+                    invegetation.append(incount)
+                    incount +=1
+                    self.labeled_vegetation = np.add(self.labeled_vegetation, org.filled(0))
+                
+                else:
+
+                    buildings.append(i)
+                    invegetation.append(incount)
+                    incount +=1
+                    self.labeled_buildings = np.add(self.labeled_buildings, org.filled(0))
+
+        print(len(buildings), " buildings and ", len(vegetation), " instances of vegetation. ")
+        end = time.time()
+        print(int(end - start), " seconds elapsed. ")
+
+        plt.imshow(self.arrayValues)
+        plt.imshow(ma.masked_values(self.labeled_buildings, 0), cmap = "gist_gray", vmin = 0, vmax = 1)
+        plt.imshoW(ma.masked_values(self.labeled_vegetation, 0), cmap = "winter", vmin = 0, vmax = 1)
+        plt.show()
+
+        finalhistogram = []
+        for i in histogram:
+            if (i < outlier):
+                finalhistogram.append(i)
+
+        n, bins, patches = plt.hist(finalhistogram, nbins, facecolor = "blue", alpha = 0.6)
+        plt.show()
+
 
 
         
