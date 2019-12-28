@@ -21,6 +21,7 @@ a.arrayValues = a.arrayValues[9000:10000, 3000:4000]
 #plt.imshow(a.totalExtract('h', 3), vmin = 3, vmax = 5, cmap = 'gist_gray_r')
 #plt.imshow(a.arrayThreshold(3, 255, cv.THRESH_BINARY), cmap = 'gist_gray')
 #plt.imshow(a.totalSlope('h'), vmin = -2, vmax = 5)
-plt.imshow(a.arrayValues, vmin= -5, vmax = 40)
-plt.show()
+
+
+a.classification(3, 2, 1, 4, 600, 1.5, True, 150, 35)
 

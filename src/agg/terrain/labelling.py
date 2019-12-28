@@ -12,16 +12,16 @@ rasdf = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37hn2.tif"
 ehamr = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_25dn2.tif"
 r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
 
-a = TerrainGrid((rd0), (1,1), 1)
-a.arrayValues = a.arrayValues[8000:10000, 5000:7000]
+a = TerrainGrid((rd1), (1,1), 1)
+a.arrayValues = a.arrayValues[9000:10000, 3000:4000]
 
 a.show(-5, 50)
 
 c = cv.threshold(a.arrayValues, 2.4, 200, cv.THRESH_BINARY)[1].astype('uint8')
-'''
-c = cv.erode(c, np.ones((5,5), np.uint8), iterations = 1)
-c = cv.dilate(c, np.ones((5,5), np.uint8), iterations = 1)
-'''
+
+c = cv.erode(c, np.ones((2,2), np.uint8), iterations = 1)
+
+
 n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(c, connectivity=4)
 print(n_labels)
 
@@ -40,7 +40,7 @@ unique = np.delete(np.unique(labels), 0)
 
 
 incount = 0
-bray = np.gradient(a.arrayValues)[0] + np.gradient(a.arrayValues)[1]
+bray = np.gradient(a.arrayValues)[0]
 plt.imshow(bray, vmin = -2, vmax = 2)
 plt.show()
 

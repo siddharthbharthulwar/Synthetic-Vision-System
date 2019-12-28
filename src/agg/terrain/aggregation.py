@@ -297,7 +297,8 @@ class TerrainGrid:
     def classification(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, evaluation, nbins, outlier):
         derivative = np.gradient(self.arrayValues)[1] + np.gradient(self.arrayValues)[0]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
-        self.n_labels, self.labels, self.stats, self.centroids = cv.connectedComponents(thresh, connectivity = connectivity)
+        thresh = cv.erode(thresh, np.ones((kernelsize, kernelsize), np.uint8), iterations = iterations)
+        self.n_labels, self.labels, self.stats, self.centroids = cv.connectedComponentsWithStats(thresh, connectivity = connectivity)
         variance = []
         buildings = []
         vegetation = []
@@ -338,7 +339,7 @@ class TerrainGrid:
 
         plt.imshow(self.arrayValues)
         plt.imshow(ma.masked_values(self.labeled_buildings, 0), cmap = "gist_gray", vmin = 0, vmax = 1)
-        plt.imshoW(ma.masked_values(self.labeled_vegetation, 0), cmap = "winter", vmin = 0, vmax = 1)
+        plt.imshow(ma.masked_values(self.labeled_vegetation, 0), cmap = "winter", vmin = 0, vmax = 1)
         plt.show()
 
         finalhistogram = []
@@ -354,10 +355,4 @@ class TerrainGrid:
         
     
 
-
-#TODO: reproject the AHN data to align with the SRTM data properly
-#TODO: interpolate SRTM arrays with rectangular bivariate spline from scipy package
-#TODO: use watershed filtering to extract building footprints
-#TODO: refine if statement for better filter
-
-
+#TODO: contour fitting and approximation of classified objects
