@@ -40,6 +40,8 @@ for i in unique:
 n, bins, patches = plt.hist(variance, 50, facecolor = "blue", alpha = 0.5)
 plt.show()
 
+
+
 print(np.mean(variance))
 
 

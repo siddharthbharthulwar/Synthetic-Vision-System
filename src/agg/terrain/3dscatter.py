@@ -4,26 +4,53 @@ import matplotlib.pyplot as plt
 from matplotlib import colors 
 from aggregation import TerrainGrid
 import numpy as np 
+from scipy.ndimage.filters import gaussian_filter
+
 
 rasdf = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37hn2.tif"
 rd1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
 
-a = TerrainGrid((rd1), (1,1), 1)
+
+SRTM1 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n52_e004_1arc_v3.tif"
+SRTM2 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n52_e005_1arc_v3.tif"
+SRTM3 = "D:\\Documents\\School\\2019-20\\ISEF 2020\SRTM\\n51_e004_1arc_v3.tif"
+SRTM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n51_e005_1arc_v3.tif"
+
+a = TerrainGrid((SRTM3), (1,1), 0)
 
 
-a.arrayValues =  15 * a.arrayValues[10500:12500, 3000:5000]
+a.arrayValues = a.arrayValues[1750:2000, 1550:1800] * 0.5
+plt.imshow(a.arrayValues)
+plt.show()
 
-
-nx, ny = 256, 1024
-
+nx, ny = 250, 250
 x = range(nx)
 y = range(ny)
 
-data = np.random.random((nx,ny))
-hf = plt.figure()
-ha = hf.add_subplot(111, projection = '3d')
+data = a.arrayValues
 
-X, Y = np.meshgrid(x, y)
-ha.plot_surface(X, Y, data)
+hf = plt.figure()
+ha = hf.add_subplot(111, projection='3d')
+
+X, Y = np.meshgrid(x, y)  # `plot_surface` expects `x` and `y` data to be 2D
+ha.plot_surface(X, Y, data, cmap = 'viridis', vmin = -5, vmax = 50)
+
+
+plt.show()
+
+a.arrayValues = gaussian_filter(a.arrayValues, sigma = 3.8) * 0.5
+
+nx, ny = 250, 250
+x = range(nx)
+y = range(ny)
+
+data = a.arrayValues
+
+hf = plt.figure()
+ha = hf.add_subplot(111, projection='3d')
+
+X, Y = np.meshgrid(x, y)  # `plot_surface` expects `x` and `y` data to be 2D
+ha.plot_surface(X, Y, data, cmap = 'viridis', vmin = -5, vmax = 50)
+
 
 plt.show()
