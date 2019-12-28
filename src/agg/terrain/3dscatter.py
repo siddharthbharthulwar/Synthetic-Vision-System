@@ -19,7 +19,7 @@ SRTM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n51_e005_1arc_v3.tif"
 a = TerrainGrid((SRTM3), (1,1), 0)
 
 
-a.arrayValues = a.arrayValues[1750:2000, 1550:1800] * 0.5
+a.arrayValues = a.arrayValues[1000:1250, 1550:1800] * 0.5
 plt.imshow(a.arrayValues)
 plt.show()
 
@@ -38,13 +38,13 @@ ha.plot_surface(X, Y, data, cmap = 'viridis', vmin = -5, vmax = 50)
 
 plt.show()
 
-a.arrayValues = gaussian_filter(a.arrayValues, sigma = 3.8) * 0.5
+a.arrayValues = gaussian_filter(a.arrayValues, sigma = 3.8)
 
 nx, ny = 250, 250
 x = range(nx)
 y = range(ny)
 
-data = a.arrayValues
+data = a.arrayValues * 0.5
 
 hf = plt.figure()
 ha = hf.add_subplot(111, projection='3d')

@@ -350,7 +350,19 @@ class TerrainGrid:
         n, bins, patches = plt.hist(finalhistogram, nbins, facecolor = "blue", alpha = 0.6)
         plt.show()
 
-
+        if (evaluation):
+            count = 0
+            while (count < len(buildings)):
+                plt.imshow(ma.masked_not_equal(self.labels, buildings[count] / buildings[count] * self.arrayValues))
+                print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
+                plt.show()
+                count +=1
+            count = 0
+            while (count < len(vegetation)):
+                plt.imshow(ma.masked_not_equal(self.labels, vegetation[count]) / vegetation[count])
+                print("Real index of: ", vegetation[count], " and relative index of: ", invegetation[count], " with variance of: ", variance[invegetation[count]], " (V)")
+                plt.show()
+                count +=1
 
         
     
