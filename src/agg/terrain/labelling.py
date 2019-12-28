@@ -12,8 +12,8 @@ rasdf = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37hn2.tif"
 ehamr = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_25dn2.tif"
 r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
 
-a = TerrainGrid((ehamr), (1,1), 1)
-a.arrayValues = a.arrayValues[0:3000, 2000:5000]
+a = TerrainGrid((rd0), (1,1), 1)
+a.arrayValues = a.arrayValues[8000:10000, 5000:7000]
 
 a.show(-5, 50)
 
@@ -35,11 +35,12 @@ vegetation = []
 inbuildings = []
 invegetation = []
 histogram = []
+above = []
 unique = np.delete(np.unique(labels), 0)
 
 
 incount = 0
-bray = a.totalSlope('h')
+bray = np.gradient(a.arrayValues)[0]
 plt.imshow(bray, vmin = -2, vmax = 2)
 plt.show()
 
@@ -48,22 +49,24 @@ vega = np.zeros(labels.shape, np.uint8)
 start = time.time()
 for i in unique:
     print(i)
-    if (stats[i, 4] > 200):
+    if (stats[i, 4] > 600):
 
         org = ma.masked_not_equal(labels, i) / i
         var = np.std(org * bray)
         variance.append(var)
-        histogram.append(var * stats[i, 4] / 500)
-        if (var > 2.5):
+        histogram.append(var)
+        if (var > 1.5):
             vegetation.append(i)
             invegetation.append(incount)
             incount +=1 
-            blda = np.add(blda, org.filled(0))
+            vega = np.add(vega, org.filled(0))
         else:
+            if (var > 1):
+                above.append((var, i, incount))
             buildings.append(i)
             inbuildings.append(incount)
             incount +=1
-            vega = np.add(vega,org.filled(0))
+            blda = np.add(blda,org.filled(0))
 
 print(len(buildings), len(vegetation), len(variance))
 end = time.time()
