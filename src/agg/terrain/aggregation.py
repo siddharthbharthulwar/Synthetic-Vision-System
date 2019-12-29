@@ -295,7 +295,7 @@ class TerrainGrid:
         self.dupValues = labels
         return labels
     def classification(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, evaluation, nbins, outlier):
-        derivative = np.gradient(self.arrayValues)[1] + np.gradient(self.arrayValues)[0]
+        derivative = self.totalSlope('h')
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
         thresh = cv.erode(thresh, np.ones((kernelsize, kernelsize), np.uint8), iterations = iterations)
         self.n_labels, self.labels, self.stats, self.centroids = cv.connectedComponentsWithStats(thresh, connectivity = connectivity)

@@ -12,15 +12,13 @@ rasdf = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37hn2.tif"
 ehamr = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_25dn2.tif"
 r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
 
-a = TerrainGrid((rd1), (1,1), 1)
-a.arrayValues = a.arrayValues[9000:10000, 3000:4000]
+a = TerrainGrid((rd0), (1,1), 1)
+a.arrayValues = a.arrayValues[9000:10000, 2000:3000]
 
 a.show(-5, 50)
 
 c = cv.threshold(a.arrayValues, 2.4, 200, cv.THRESH_BINARY)[1].astype('uint8')
-
 c = cv.erode(c, np.ones((2,2), np.uint8), iterations = 1)
-
 
 n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(c, connectivity=4)
 print(n_labels)
@@ -93,13 +91,13 @@ plt.show()
 count = 0
 
 while (count < len(buildings)):
-    plt.imshow((ma.masked_not_equal(labels, buildings[count]) / buildings[count]) * bray)
+    plt.imshow((ma.masked_not_equal(labels, buildings[count]) / buildings[count]) * a.arrayValues)
     print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
     plt.show()
     count +=1
 count = 0
 while (count < len(vegetation)):
-    plt.imshow((ma.masked_not_equal(labels, vegetation[count]) / vegetation[count]) * bray)
+    plt.imshow((ma.masked_not_equal(labels, vegetation[count]) / vegetation[count]) * a.arrayValues)
     print("Real index of: ", vegetation[count], " and relative index of: ", invegetation[count], " with variance of: ", variance[invegetation[count]], " (V)")
     plt.show()
     count +=1
