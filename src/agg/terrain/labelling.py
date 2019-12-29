@@ -101,4 +101,3 @@ while (count < len(vegetation)):
     print("Real index of: ", vegetation[count], " and relative index of: ", invegetation[count], " with variance of: ", variance[invegetation[count]], " (V)")
     plt.show()
     count +=1
-
