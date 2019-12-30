@@ -21,13 +21,14 @@ plt.imshow(thresh)
 plt.show()
 
 n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(thresh.astype('uint8'), connectivity=4)
-
+print(n_labels)
 waterarray = np.zeros(a.arrayValues.shape)
 waterlist = []
 unique = np.delete(np.unique(labels), 0)
 
 for i in unique:
-    if (stats[i, 4]) > 750:
+    if (stats[i, 4]) > 75:
+        print(i)
         waterlist.append(i)
         org = ma.masked_not_equal(labels, i) / i
         waterarray = np.add(waterarray, org.filled(0))

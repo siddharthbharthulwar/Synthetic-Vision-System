@@ -9,8 +9,9 @@ import math
 import cv2 as cv 
 import rasterio.warp
 import rasterio.features
-from scipy import interpolate
 from mayavi import mlab
+from scipy.ndimage.filters import gaussian_filter
+
 import time as time
 
 
@@ -129,7 +130,7 @@ def tileDimensions(param):
         count = count + 1
     return returnList
 
-class BaseTerrain:
+class BaseGrid:
     #class for a grid of rastered array tiff files
     def __init__(self, path, dimensions, fill):
 
@@ -164,21 +165,6 @@ class BaseTerrain:
     def gridslice_2d(self, xinit, xfinal, yinit, yfinal):
         return(self.arrayValues[yinit:yfinal, xinit:xfinal])
 
-    def scipolate(self, scalefactor):
-        min = 0
-        xMax = self.shape[1] - 1
-        yMax = self.shape[0] - 1
-        X = np.linspace(min, xMax, self.shape[1])
-        Y = np.linspace(min, yMax, self.shape[0])
-
-        x, y = np.meshgrid(X, Y)
-
-        f = interpolate.interp2d(x, y, self.arrayValues)
-        Xnew = np.linspace(min, xMax, self.shape[1] * scalefactor)
-        Ynew = np.linspace(min, yMax, self.shape[0] * scalefactor)
-
-        return f(Xnew, Ynew)
-
     def viewer_3d(self, color, min, max):
         mlab.figure(size=(1920, 1080), bgcolor=(0.16, 0.28, 0.46))
         mlab.surf(self.arrayValues, colormap= color, warp_scale=0.2,
@@ -186,3 +172,21 @@ class BaseTerrain:
 
         mlab.view(-5.9, 900, 570, [5.3, 20, 238])
         mlab.show()     
+
+    def interpolate(self, sigma):
+        return gaussian_filter(self.arrayValues, sigma = sigma)
+
+    def partition(self, watersizethreshold):
+        water = ma.masked_not_equal(self.arrayValues, 1).astype('uint8') + np.ones(self.arrayValues.shape)
+        ret, thresh = cv.threshold(water, 0, 1, cv.THRESH_BINARY_INV)
+        n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(thresh.astype('uint8'), connectivity=4)
+        waterarray = np.zeros(self.arrayValues.shape)
+        waterlist = []
+        unique = np.delete(np.unique(labels), 0)
+
+        for i in unique:
+            if (stats[i, 4]) > 75:
+                print(i)
+                waterlist.append(i)
+                org = ma.masked_not_equal(labels, i) / i
+                waterarray = np.add(waterarray, org.filled(0))
