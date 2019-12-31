@@ -1,4 +1,4 @@
-package renderEngine;
+package models;
 
 /**
  * Represents a loaded model. It contains the ID of the VAO that contains the
