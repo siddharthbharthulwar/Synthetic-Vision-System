@@ -1,4 +1,4 @@
-from aggregation import TerrainGrid
+from terraingrid import TerrainGrid
 from scipy.ndimage.filters import gaussian_filter
 import numpy as np 
 import cv2 as cv 

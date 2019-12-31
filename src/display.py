@@ -1,4 +1,4 @@
-from aggregation import TerrainGrid
+from terraingrid import TerrainGrid
 import matplotlib.pyplot as plt 
 import numpy as np 
 import cv2 as cv

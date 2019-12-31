@@ -2,7 +2,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm 
 import matplotlib.pyplot as plt
 from matplotlib import colors 
-from aggregation import TerrainGrid
+from terraingrid import TerrainGrid
 import numpy as np 
 from scipy.ndimage.filters import gaussian_filter
 
