@@ -190,3 +190,5 @@ class BaseGrid:
                 waterlist.append(i)
                 org = ma.masked_not_equal(labels, i) / i
                 waterarray = np.add(waterarray, org.filled(0))
+
+        return waterarray

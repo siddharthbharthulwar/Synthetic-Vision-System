@@ -27,6 +27,8 @@ waterlist = []
 unique = np.delete(np.unique(labels), 0)
 
 for i in unique:
+
+
     if (stats[i, 4]) > 75:
         print(i)
         waterlist.append(i)
