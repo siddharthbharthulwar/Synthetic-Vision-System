@@ -11,9 +11,8 @@ rd1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
 rasdf = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37hn2.tif"
 ehamr = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_25dn2.tif"
 r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
-
-a = TerrainGrid((rd0), (1,1), 1)
-a.arrayValues = a.arrayValues[9000:10000, 2000:3000]
+a = TerrainGrid((rd1), (1,1), 1)
+a.arrayValues = a.arrayValues[9000:10000, 1000:2000]
 
 a.show(-5, 50)
 
@@ -53,7 +52,7 @@ for i in unique:
         var = np.std(org * bray)
         variance.append(var)
         histogram.append(var)
-        if (var > 1.5):
+        if (var > 1.35):
             vegetation.append(i)
             invegetation.append(incount)
             incount +=1 
