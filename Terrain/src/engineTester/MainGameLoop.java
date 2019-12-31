@@ -6,11 +6,11 @@ import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.RawModel;
 import renderEngine.Renderer;
+import shaders.StaticShader;
 
 /**
  * This class contains the main method and is used to test the engine.
  * 
- * @author Karl
  *
  */
 public class MainGameLoop {
@@ -27,6 +27,8 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		Renderer renderer = new Renderer();
+		StaticShader shader = new StaticShader();
+		
 		
 		float[] vertices = {
 				// Left bottom triangle
@@ -44,10 +46,13 @@ public class MainGameLoop {
 		while (!Display.isCloseRequested()) {
 			// game logic
 			renderer.prepare();
+			shader.start();
 			renderer.render(model);
+			shader.stop();
 			DisplayManager.updateDisplay();
 		}
 
+		shader.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
 	}

@@ -15,7 +15,6 @@ import org.lwjgl.opengl.GL30;
  * the created VAOs and VBOs so that they can all be deleted when the game
  * closes.
  * 
- * @author Karl
  *
  */
 public class Loader {
