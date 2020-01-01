@@ -22,6 +22,6 @@ a.arrayValues = a.arrayValues[9000:10000, 1000:2000]
 #plt.imshow(a.arrayThreshold(3, 255, cv.THRESH_BINARY), cmap = 'gist_gray')
 #plt.imshow(a.totalSlope('h'), vmin = -2, vmax = 5)
 
-a.heightmap(2.78, 2, 1, 4, 600, 1.6, 100, 20)
+a.heightmap(2.78, 2, 1, 4, 600, 1.4, 100, 20)
 print(a.avgbldheight)
 

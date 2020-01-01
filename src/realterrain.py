@@ -53,7 +53,7 @@ class Terrain(object):
         self.nfaces = len(self.ypoints)
 
 
-        self.act = gaussian_filter(TerrainGrid((SRTM1, SRTM2, SRTM3, SRTM4), (2,2), 0).arrayValues, sigma = 2.7)
+        self.act = gaussian_filter(TerrainGrid((SRTM1, SRTM2, SRTM3, SRTM4), (2,2), 0).arrayValues, sigma = 1.7)
 
         print(self.act.shape)
         self.tmp = self.act[4500:5500, 500:1500]

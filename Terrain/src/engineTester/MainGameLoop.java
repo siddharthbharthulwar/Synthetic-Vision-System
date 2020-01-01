@@ -72,6 +72,7 @@ public class MainGameLoop {
 			shader.stop();
 			DisplayManager.updateDisplay();
 		}
+		
 
 		shader.cleanUp();
 		loader.cleanUp();

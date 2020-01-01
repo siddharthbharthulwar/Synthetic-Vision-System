@@ -364,7 +364,7 @@ class TerrainGrid:
                 plt.show()
                 count +=1
     def heightmap(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, nbins, outlier):
-        derivative = self.totalSlope('h')
+        derivative = np.gradient(self.arrayValues)[0]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
         thresh = cv.erode(thresh, np.ones((kernelsize, kernelsize), np.uint8), iterations = iterations)
         plt.imshow(self.arrayValues)
