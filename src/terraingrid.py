@@ -294,10 +294,13 @@ class TerrainGrid:
         n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
         self.dupValues = labels
         return labels
-    def classification(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, evaluation, nbins, outlier):
-        derivative = self.totalSlope('h')
+    def classification(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff):
+        derivative = np.gradient(self.arrayValues)[0]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
         thresh = cv.erode(thresh, np.ones((kernelsize, kernelsize), np.uint8), iterations = iterations)
+        plt.imshow(self.arrayValues)
+        plt.imshow(thresh)
+        plt.show()
         self.n_labels, self.labels, self.stats, self.centroids = cv.connectedComponentsWithStats(thresh, connectivity = connectivity)
         variance = []
         buildings = []
@@ -305,6 +308,8 @@ class TerrainGrid:
         inbuildings = []
         invegetation = []
         histogram = []
+        self.avgbldheight = []
+        self.avgvegheight = []
         unique = np.delete(np.unique(self.labels), 0)
         incount = 0
         self.labeled_buildings = np.zeros(self.labels.shape, np.uint8)
@@ -337,32 +342,6 @@ class TerrainGrid:
         end = time.time()
         print(int(end - start), " seconds elapsed. ")
 
-        plt.imshow(self.arrayValues)
-        plt.imshow(ma.masked_values(self.labeled_buildings, 0), cmap = "gist_gray", vmin = 0, vmax = 1)
-        plt.imshow(ma.masked_values(self.labeled_vegetation, 0), cmap = "winter", vmin = 0, vmax = 1)
-        plt.show()
-
-        finalhistogram = []
-        for i in histogram:
-            if (i < outlier):
-                finalhistogram.append(i)
-
-        n, bins, patches = plt.hist(finalhistogram, nbins, facecolor = "blue", alpha = 0.6)
-        plt.show()
-
-        if (evaluation):
-            count = 0
-            while (count < len(buildings)):
-                plt.imshow(ma.masked_not_equal(self.labels, buildings[count] / buildings[count] * self.arrayValues))
-                print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
-                plt.show()
-                count +=1
-            count = 0
-            while (count < len(vegetation)):
-                plt.imshow(ma.masked_not_equal(self.labels, vegetation[count]) / vegetation[count])
-                print("Real index of: ", vegetation[count], " and relative index of: ", invegetation[count], " with variance of: ", variance[invegetation[count]], " (V)")
-                plt.show()
-                count +=1
     def heightmap(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, nbins, outlier):
         derivative = np.gradient(self.arrayValues)[0]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')

@@ -34,9 +34,9 @@ public class MainGameLoop {
         texture.setReflectivity(1);
          
         Entity entity = new Entity(staticModel, new Vector3f(0,0,-10),0,0,0,1);
-        Light light = new Light(new Vector3f(50,50,5800), new Vector3f(1,1,1));
+        Light light = new Light(new Vector3f(50,50,50), new Vector3f(1,1,1));
         
-        Terrain terrain = new Terrain(0,0, loader, new ModelTexture(loader.loadTexture("white")));
+        Terrain terrain = new Terrain(0,0, loader, new ModelTexture(loader.loadTexture("grass")));
         Terrain terrain2 = new Terrain(1,0, loader, new ModelTexture(loader.loadTexture("white")));
 
          

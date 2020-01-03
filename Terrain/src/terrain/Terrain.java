@@ -6,7 +6,7 @@ import textures.ModelTexture;
 
 public class Terrain {
 	
-	public static final float SIZE = 800;
+	public static final float SIZE = 100;
 	public static final int VERTEX_COUNT = 128;
 	
 	private float x;
