@@ -16,7 +16,7 @@ r0 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37ez2.tif"
 r1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
 
 a = TerrainGrid((r1), (1,1), 1)
-a.arrayValues = a.arrayValues[6000:10000, 4000:8000]
+a.arrayValues = a.arrayValues[9000:10000, 7000:8000]
 
 #plt.imshow(a.totalExtract('h', 3), vmin = 3, vmax = 5, cmap = 'gist_gray_r')
 #plt.imshow(a.arrayThreshold(3, 255, cv.THRESH_BINARY), cmap = 'gist_gray')

@@ -411,7 +411,7 @@ class TerrainGrid:
         end = time.time()
         print(int(end - start), " seconds elapsed. ")
 
-        plt.imshow(self.arrayValues)
+        plt.imshow(np.zeros(self.labels.shape, np.uint8), cmap = 'gist_gray', vmin = 0, vmax = 1)
         plt.imshow(ma.masked_values(self.labeled_buildings, 0), cmap = "gist_gray", vmin = 0, vmax = 1)
         plt.imshow(ma.masked_values(self.labeled_vegetation, 0), cmap = "winter", vmin = 0, vmax = 1)
         plt.show()
