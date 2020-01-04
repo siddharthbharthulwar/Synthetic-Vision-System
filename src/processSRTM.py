@@ -29,13 +29,14 @@ unique = np.delete(np.unique(labels), 0)
 for i in unique:
 
 
-    if (stats[i, 4]) > 75:
+    if (stats[i, 4]) > 190:
         print(i)
         waterlist.append(i)
         org = ma.masked_not_equal(labels, i) / i
         waterarray = np.add(waterarray, org.filled(0))
 
 plt.imshow(waterarray)
+plt.imsave('blendmap.png', waterarray)
 plt.show()
 
 a.arrayValues = gaussian_filter(a.arrayValues, sigma = 3.8) * 0.5
