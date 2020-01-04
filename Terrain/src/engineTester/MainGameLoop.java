@@ -28,7 +28,7 @@ public class MainGameLoop {
         
          
         RawModel model = OBJLoader.loadObjModel("dragon", loader);
-        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("grass")));
+        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("white")));
         ModelTexture texture = staticModel.getTexture();
         texture.setShineDamper(100);
         texture.setReflectivity(1);
@@ -40,7 +40,7 @@ public class MainGameLoop {
         Terrain terrain2 = new Terrain(1,0, loader, new ModelTexture(loader.loadTexture("white")));
 
          
-        Camera camera = new Camera(100);
+        Camera camera = new Camera(50);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){

@@ -36,6 +36,7 @@ public class Camera {
         }
 
     }
+
  
     public Vector3f getPosition() {
         return position;

@@ -294,7 +294,7 @@ class TerrainGrid:
         n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
         self.dupValues = labels
         return labels
-    def classification(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff):
+    def classification(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, bldval, vegval):
         derivative = np.gradient(self.arrayValues)[0]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
         thresh = cv.erode(thresh, np.ones((kernelsize, kernelsize), np.uint8), iterations = iterations)
@@ -341,6 +341,14 @@ class TerrainGrid:
         print(len(buildings), " buildings and ", len(vegetation), " instances of vegetation. ")
         end = time.time()
         print(int(end - start), " seconds elapsed. ")
+
+        plt.imshow(np.zeros(self.labels.shape, np.uint8), cmap = 'gist_gray', vmin = 0, vmax = 1)
+        plt.imshow(ma.masked_values(self.labeled_buildings, 0), cmap = "gist_gray", vmin = 0, vmax = 1)
+        plt.imshow(ma.masked_values(self.labeled_vegetation, 0), cmap = "winter", vmin = 0, vmax = 1)
+        plt.show()
+
+        self.labeled_buildings = self.labeled_buildings * bldval
+        self.labeled_vegetation = self.labeled_vegetation * vegval
 
     def heightmap(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, nbins, outlier):
         derivative = np.gradient(self.arrayValues)[0]
