@@ -196,11 +196,12 @@ vegetation = r"D:\Documents\School\2019-20\ISEF 2020\TRUTHS\trees.png"
 
 
 a = TerrainGrid((r0), (1,1), 1)
+a.arrayValues = a.arrayValues[9000:10000, 6000:7000]
+
 a.show(-5, 50)
 
-
-buildings_true = cv.imread(buildings, cv.IMREAD_GRAYSCALE).astype('uint8')
-vegetation_true = cv.imread(vegetation, cv.IMREAD_GRAYSCALE).astype('uint8')
+buildings_true = cv.imread(buildings, cv.IMREAD_GRAYSCALE).astype('uint8')[9000:10000, 6000:7000]
+vegetation_true = cv.imread(vegetation, cv.IMREAD_GRAYSCALE).astype('uint8')[9000:10000, 6000:7000]
 #bldval = 144, vegval = 116
 
 
