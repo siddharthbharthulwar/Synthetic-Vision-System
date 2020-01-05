@@ -35,6 +35,13 @@ public class Loader {
         unbindVAO();
         return new RawModel(vaoID,indices.length);
     }
+    
+    public RawModel loadtoVAO(float[] positions) {
+    	int vaoID = createVAO();
+    	this.storeDataInAttributeList(0, 2, positions);
+    	unbindVAO();
+    	return new RawModel(vaoID, positions.length / 2);
+    }
      
     public int loadTexture(String fileName) {
         Texture texture = null;

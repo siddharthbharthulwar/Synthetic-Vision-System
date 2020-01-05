@@ -2,8 +2,12 @@ package engineTester;
  
 import models.RawModel;
 import models.TexturedModel;
- 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
  
 import renderEngine.DisplayManager;
@@ -19,6 +23,8 @@ import textures.TerrainTexturePack;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
+import guis.GuiRenderer;
+import guis.GuiTexture;
  
 public class MainGameLoop {
  
@@ -56,6 +62,13 @@ public class MainGameLoop {
         //*********************************END TERRAIN TEXTURE
         
         
+        List<GuiTexture> guis = new ArrayList<GuiTexture>();
+        GuiTexture gui = new GuiTexture(loader.loadTexture("isef"), new Vector2f(0.75f, 0.75f), new Vector2f(0.15f, 0.25f));
+        guis.add(gui);
+        
+        GuiRenderer guiRenderer = new GuiRenderer(loader);
+        
+        
         
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
@@ -72,9 +85,10 @@ public class MainGameLoop {
           
             renderer.processEntity(entity);
             renderer.render(light, camera);
-
+            guiRenderer.render(guis);
             DisplayManager.updateDisplay();
         }
+        guiRenderer.cleanUp();
         renderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
