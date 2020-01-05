@@ -36,7 +36,7 @@ public class MainGameLoop {
         texture.setReflectivity(1);
          
         Entity entity = new Entity(staticModel, new Vector3f(100,0,-10),0,0,0,1);
-        Light light = new Light(new Vector3f(500,500,500), new Vector3f(1,1,1));
+        Light light = new Light(new Vector3f(2000,2500,2323), new Vector3f(1,1,1));
         
         
         //******************************TERRAIN TEXTURE******************
@@ -60,7 +60,7 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(1000);
+        Camera camera = new Camera(800);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
