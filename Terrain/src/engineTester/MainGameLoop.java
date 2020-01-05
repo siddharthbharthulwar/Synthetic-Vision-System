@@ -35,7 +35,7 @@ public class MainGameLoop {
         texture.setShineDamper(100);
         texture.setReflectivity(1);
          
-        Entity entity = new Entity(staticModel, new Vector3f(0,0,-10),0,0,0,1);
+        Entity entity = new Entity(staticModel, new Vector3f(100,0,-10),0,0,0,1);
         Light light = new Light(new Vector3f(500,500,500), new Vector3f(1,1,1));
         
         
@@ -43,7 +43,7 @@ public class MainGameLoop {
         
         
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("green"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("water"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("green"));
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grass"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("white"));
         
@@ -57,10 +57,10 @@ public class MainGameLoop {
         
         
         
-        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(1020);
+        Camera camera = new Camera(1000);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){

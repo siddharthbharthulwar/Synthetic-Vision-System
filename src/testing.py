@@ -196,23 +196,33 @@ vegetation = r"D:\Documents\School\2019-20\ISEF 2020\TRUTHS\trees.png"
 
 
 a = TerrainGrid((r0), (1,1), 1)
-a.arrayValues = a.arrayValues[9000:10000, 6000:7000]
+a.arrayValues = a.arrayValues[8600:10200, 7600:9200]
 
-a.show(-5, 50)
 
-buildings_true = cv.imread(buildings, cv.IMREAD_GRAYSCALE).astype('uint8')[9000:10000, 6000:7000]
-vegetation_true = cv.imread(vegetation, cv.IMREAD_GRAYSCALE).astype('uint8')[9000:10000, 6000:7000]
+
+buildings_true = cv.imread(buildings, cv.IMREAD_GRAYSCALE).astype('uint8')[8600:10200, 7600:9200]
+vegetation_true = cv.imread(vegetation, cv.IMREAD_GRAYSCALE).astype('uint8')[8600:10200, 7600:9200]
 #bldval = 144, vegval = 116
 
 
 true_output = (buildings_true).astype('uint8')
-a.classification(3, 2, 1, 4, 600, 1.5, 144, 116)
-predicted_output = (a.labeled_buildings).astype('uint8')
 
-plt.imshow(true_output)
+x = []
+y = []
+start = 0
+while (start < 6):
+
+    a.classification(3, 2, 1, 4, 600, start, 144, 116, False)
+    x.append(start)
+    predicted_output = (a.labeled_buildings).astype('uint8')
+    y.append((pixel_accuracy(predicted_output, true_output)) * 100)
+    start += 0.01
+
+fig, ax = plt.subplots()
+ax.plot(x, y)
+
+ax.set(xlabel='standard deviation threshold(σ)', ylabel='accuracy (%)',
+       title='Accuracy of Labelling (%) vs Standard Deviation Threshold')
+ax.grid()
+
 plt.show()
-
-plt.imshow(predicted_output)
-plt.show()
-
-print(pixel_accuracy(predicted_output, true_output))

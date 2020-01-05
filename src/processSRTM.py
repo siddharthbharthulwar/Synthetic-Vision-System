@@ -14,7 +14,8 @@ SRTM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n51_e005_1arc_v3.tif"
 
 
 a = TerrainGrid((SRTM3), (1,1), 0)
-
+a.show(-5, 50)
+a.arrayValues = a.arrayValues[0:256, 644:900]
 water = ma.masked_not_equal(a.arrayValues, 1).astype('uint8') + np.ones(a.arrayValues.shape)
 ret, thresh = cv.threshold(water, 0, 1, cv.THRESH_BINARY_INV)
 plt.imshow(thresh)
@@ -40,8 +41,12 @@ dim = np.zeros(waterarray.shape)
 R = np.stack((waterarray, dim, dim), axis = 2)[0:1024, 0:1024]
 
 plt.imshow(R)
-plt.imsave('blendmap.png', R)
+plt.imsave('blendmap.png', R, cmap = 'gist_gray')
 plt.show()
+plt.imshow(a.arrayValues, cmap = 'gist_gray')
+plt.show()
+
+plt.imsave('heightmap.png', a.arrayValues, cmap = 'gist_gray')
 
 '''
 a.arrayValues = gaussian_filter(a.arrayValues, sigma = 3.8) * 0.5
