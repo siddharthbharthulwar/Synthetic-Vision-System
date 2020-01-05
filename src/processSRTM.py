@@ -35,13 +35,19 @@ for i in unique:
         org = ma.masked_not_equal(labels, i) / i
         waterarray = np.add(waterarray, org.filled(0))
 
-plt.imshow(waterarray)
-plt.imsave('blendmap.png', waterarray)
+dim = np.zeros(waterarray.shape)
+
+R = np.stack((waterarray, dim, dim), axis = 2)[0:1024, 0:1024]
+
+plt.imshow(R)
+plt.imsave('blendmap.png', R)
 plt.show()
 
+'''
 a.arrayValues = gaussian_filter(a.arrayValues, sigma = 3.8) * 0.5
 a.arrayValues = a.arrayValues[0:1024, 0:1024]
 #a.viewer_3d('viridis', -5, 30)
 
 plt.imshow(a.arrayValues, cmap = 'gist_gray')
 plt.show()
+'''

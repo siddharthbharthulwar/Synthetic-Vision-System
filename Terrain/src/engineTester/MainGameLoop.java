@@ -14,6 +14,8 @@ import renderEngine.EntityRenderer;
 import shaders.StaticShader;
 import terrain.Terrain;
 import textures.ModelTexture;
+import textures.TerrainTexture;
+import textures.TerrainTexturePack;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
@@ -22,7 +24,7 @@ public class MainGameLoop {
  
     public static void main(String[] args) {
  
-        DisplayManager.createDisplay(1000, 1000);
+        DisplayManager.createDisplay(1200, 800);
         Loader loader = new Loader();
 
         
@@ -37,10 +39,28 @@ public class MainGameLoop {
         Light light = new Light(new Vector3f(500,500,500), new Vector3f(1,1,1));
         
         
-        Terrain terrain = new Terrain(0,0, loader, new ModelTexture(loader.loadTexture("green")));
+        //******************************TERRAIN TEXTURE******************
+        
+        
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("green"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("water"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grass"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("white"));
+        
+        TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendmap"));
+        
+        
+        
+        
+        //*********************************END TERRAIN TEXTURE
+        
+        
+        
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
 
          
-        Camera camera = new Camera(100);
+        Camera camera = new Camera(1020);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
