@@ -7,8 +7,9 @@ import random as rng
 import shapely
 
 path = r"C:\Users\siddh\Projects\Synthetic Vision System\raster.png"
+path2 = r"C:\Users\siddh\Desktop\raster3.png"
 
-img = cv.imread(path, cv.IMREAD_GRAYSCALE)
+img = cv.imread(path2, cv.IMREAD_GRAYSCALE)
 
 plt.imshow(img)
 plt.show()
