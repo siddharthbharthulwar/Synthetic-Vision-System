@@ -9,3 +9,5 @@
 *.db
 *.opendb
 /.metadata/
+.Terrain/.classpath
+.Terrain/.project
