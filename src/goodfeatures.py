@@ -14,10 +14,10 @@ plt.imshow(img)
 plt.show()
 
 
-corners = cv.goodFeaturesToTrack(img, 25, 0.01, 10)
+corners = cv.goodFeaturesToTrack(img, 15, 0.01, 10)
 
 for i in corners:
     x,y = i.ravel()
-    cv.circle(img,(x,y),3,123213,-1)
+    cv.circle(img,(x,y),3,0,-1)
 plt.imshow(img)
 plt.show()
