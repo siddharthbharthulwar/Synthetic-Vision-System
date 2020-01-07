@@ -14,7 +14,7 @@ plt.imshow(img)
 plt.show()
 
 
-corners = cv.goodFeaturesToTrack(img, 16, 0.01, 100)
+corners = cv.goodFeaturesToTrack(img, 16, 0.5, 100)
 im2, contours, hierarchy = cv.findContours(img, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 final = cv.drawContours(img,contours, contourIdx= -1, color = 255, thickness= 1)
 
