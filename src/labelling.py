@@ -100,12 +100,12 @@ while (count < len(buildings)):
     temp = temp.filled()
 
     temp = erodilate(temp, 2, 5)
-    '''
-    corners = cv.cornerHarris
+    
+    corners = cv.goodFeaturesToTrack(temp, 7, 0.01, 10)
     for i in corners:
         x,y = i.ravel()
         cv.circle(temp,(x,y),2,140,-1)
-    '''
+    
     plt.imshow(temp)
     print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
     plt.show()
