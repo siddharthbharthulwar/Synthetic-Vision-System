@@ -16,4 +16,22 @@ public class Runway {
 		this.anchor = anchor;
 	}
 	
+	
+	public int getWidth() {
+		return this.width;
+	}
+	
+	public int getLength() {
+		return this.length;
+	}
+	
+	public int getN1() {
+		return this.n1;
+		
+	}
+	
+	public int getN2() {
+		return this.n2;
+	}
+	
 }
