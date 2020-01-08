@@ -160,6 +160,11 @@ def slopeExtract(terrainGrid, orientation, index):
         susArray[count] = profile[count + 1] - profile[count]
         count += 1
     return susArray
+
+def erodilate(val, kernel, iterate):
+    img_erosion = cv.erode(val, np.ones((kernel, kernel), np.uint8), iterations = iterate)
+    img_errdil = cv.dilate(np.array(img_erosion), np.ones((kernel, kernel), np.uint8), iterations = iterate)
+    return img_errdil
 class TerrainGrid:
     #class for a grid of rastered array tiff files
     def __init__(self, path, dimensions, fill):
@@ -286,7 +291,7 @@ class TerrainGrid:
         n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
         self.dupValues = labels
         return labels
-    def classification(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, bldval, vegval, yes):
+    def classification(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, bldval, vegval, yes, maxCorners):
         derivative = np.gradient(self.arrayValues)[0]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
         thresh = cv.erode(thresh, np.ones((kernelsize, kernelsize), np.uint8), iterations = iterations)
@@ -342,6 +347,16 @@ class TerrainGrid:
 
         self.labeled_buildings = self.labeled_buildings * bldval
         self.labeled_vegetation = self.labeled_vegetation * vegval
+
+        count = 0
+        self.corners = []
+        while (count < len(buildings)):
+            temp = (ma.masked_values(self.labels, buildings[count]) / buildings[count]).astype('uint8')
+            temp = temp.filled()
+            temp = erodilate(temp, 2, 10)
+            self.corners.append(cv.goodFeaturesToTrack(temp, maxCorners, 0.01, 10))
+            count +=1
+
 
     def heightmap(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, nbins, outlier):
         derivative = np.gradient(self.arrayValues)[0]

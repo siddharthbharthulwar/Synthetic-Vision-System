@@ -20,7 +20,8 @@ r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
 path = r"C:\Users\siddh\Documents\DSMS\R_25GN1\r_25gn1.tif"
 
 a = TerrainGrid((path), (1,1), 1)
-a.arrayValues = a.arrayValues[9000:10000, 1000:2000]
+a.show(-5, 50)
+a.arrayValues = a.arrayValues[4000:5000, 2000:3000]
 
 a.show(-5, 50)
 
@@ -31,6 +32,7 @@ n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(c, connecti
 print(n_labels)
 
 variance = []
+
 
 
 
@@ -60,7 +62,7 @@ for i in unique:
         var = np.std(org * bray)
         variance.append(var)
         histogram.append(var)
-        if (var > 1.35):
+        if (var > 1.5):
             vegetation.append(i)
             invegetation.append(incount)
             incount +=1 
@@ -101,12 +103,15 @@ while (count < len(buildings)):
     temp = (ma.masked_not_equal(labels, buildings[count]) / buildings[count]).astype('uint8')
     temp = temp.filled()
 
-    temp = erodilate(temp, 2, 5)
-    
-    corners = cv.goodFeaturesToTrack(temp, 7, 0.01, 10)
+    temp = erodilate(temp, 5, 25)
+    temp[:, 0] = 0
+    temp[:, -1] = 0
+    temp[0, :] = 0
+    temp[-1, :] = 0
+    corners = cv.goodFeaturesToTrack(temp, 12, 0.01, 10)
     for i in corners:
         x,y = i.ravel()
-        cv.circle(temp,(x,y),2,140,-1)
+        cv.circle(temp,(x,y),3,140,-1)
     
     plt.imshow(temp)
     print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
