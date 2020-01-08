@@ -79,8 +79,7 @@ public class MainGameLoop {
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
-            entity.increaseRotation(0, 0, 0);
-            entity.increaseRotation(0,0,0);
+        	
             camera.move();
             
             renderer.processTerrain(terrain);
@@ -94,6 +93,7 @@ public class MainGameLoop {
         }
         //guiRenderer.cleanUp();
         renderer.cleanUp();
+        
         loader.cleanUp();
         DisplayManager.closeDisplay();
  

@@ -1,14 +1,10 @@
 from terraingrid import TerrainGrid
 import matplotlib.pyplot as plt
 import numpy as np
+import rasterio as rio
 
-path = r"C:\Users\siddh\Documents\DSMS\R5_37FZ1\r5_37fz1.tif"
+path = r"C:\Users\siddh\Documents\DSMS\R_25GN1\r_25gn1.tif"
 
-a = TerrainGrid(path, (1,1), 1)
-a.arrayValues = a.arrayValues[5000:6000, 7000:8000]
-a.show(-5, 50)
-a.classification(2.7, 2, 1, 4, 1000, 1.5, 1, 1, False)
-
-plt.imshow(a.labeled_buildings, cmap = 'gist_gray', vmin = 0, vmax = 1)
-plt.imshow(a.labeled_vegetation, cmap = 'winter', vmin = 0, vmax = 1)
-plt.show()
+a = TerrainGrid((path), (1,1), 1)
+a.arrayValues = a.arrayValues[0:1000, 0:1000]
+a.classification(3, 2, 1, 4, 1000, 1.7, 1, 1, True)

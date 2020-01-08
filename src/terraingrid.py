@@ -2,6 +2,7 @@
 
 
 import numpy as np
+import gdal
 import rasterio as rio
 import matplotlib.pyplot as plt
 import numpy.ma as ma
@@ -10,7 +11,6 @@ import cv2 as cv
 import rasterio.warp
 import rasterio.features
 from scipy import interpolate
-from mayavi import mlab
 import time as time
 
 
@@ -138,7 +138,7 @@ def extract(terrainGrid, orientation, index, max_allowable):
     susArray = np.zeros(profile.shape)
     count = 0
     while count < max - 2:
-        #decision algorithm below: needs modification!!!
+        #decision algorithm below: needs modificaption!!!
         if abs(profile[count + 1] - profile[count]) >= max_allowable:
             susArray[count] = profile[count]
             susArray[count + 1] = profile[count + 1]
@@ -167,9 +167,9 @@ class TerrainGrid:
         self.arrayValues = stack(path, dimensions, fill)
         self.dimensions = dimensions
         self.fill = fill
-        self.bounds = listBounds(path)
-        self.transformBounds = transformBounds(listBounds(path))
-        self.raw_dimensions = tileDimensions(transformBounds(listBounds(path)))
+        #self.bounds = listBounds(path)
+        #self.transformBounds = transformBounds(listBounds(path))
+        #self.raw_dimensions = tileDimensions(transformBounds(listBounds(path)))
         self.shape = self.arrayValues.shape
         self.dupValues = stack(path, dimensions, fill)
 
@@ -208,15 +208,7 @@ class TerrainGrid:
         Xnew = np.linspace(min, xMax, self.shape[1] * scalefactor)
         Ynew = np.linspace(min, yMax, self.shape[0] * scalefactor)
 
-        return f(Xnew, Ynew)
-
-    def viewer_3d(self, color, min, max):
-        mlab.figure(size=(1920, 1080), bgcolor=(0.16, 0.28, 0.46))
-        mlab.surf(self.arrayValues, colormap= color, warp_scale=0.2,
-            vmin= min, vmax=max)
-
-        mlab.view(-5.9, 900, 570, [5.3, 20, 238])
-        mlab.show()     
+        return f(Xnew, Ynew) 
 
 
     def showElevationProfile(self, orientation, index, starting, stopping):
@@ -421,5 +413,4 @@ class TerrainGrid:
 
         
     
-
-#TODO: contour fitting and approximation of classified objects
+#TODO: implement corner finding method in class structure

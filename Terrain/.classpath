@@ -1,25 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/AppleJavaExtensions.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/asm-debug-all.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/jinput.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/laf-plugin-7.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/laf-widget-7.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/log4j-api-2.0-beta9.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/lwjgl.jar">
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/natives-win"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Terrain/lib/natives-win"/>
+			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/lwjgl_test.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/lwjgl_util_applet.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/lwjgl-debug.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/lzma.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/slick-util.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/substance-7.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/siddh/Projects/Synthetic Vision System/Terrain/lib/jars/trident-7.2.1.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/AppleJavaExtensions.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/asm-debug-all.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/jinput.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/laf-plugin-7.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/laf-widget-7.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/log4j-api-2.0-beta9.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/lwjgl.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/lwjgl_test.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/lwjgl_util.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/lwjgl_util_applet.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/lwjgl-debug.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/lzma.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/slick-util.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/substance-7.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/siddh/Synthetic-Vision-System/Terrain/lib/jars/trident-7.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jars/AppleJavaExtensions.jar"/>
+	<classpathentry kind="lib" path="lib/jars/asm-debug-all.jar"/>
+	<classpathentry kind="lib" path="lib/jars/jinput.jar"/>
+	<classpathentry kind="lib" path="lib/jars/laf-plugin-7.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jars/laf-widget-7.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jars/log4j-api-2.0-beta9.jar"/>
+	<classpathentry kind="lib" path="lib/jars/lwjgl_test.jar"/>
+	<classpathentry kind="lib" path="lib/jars/lwjgl_util_applet.jar"/>
+	<classpathentry kind="lib" path="lib/jars/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="lib/jars/lwjgl-debug.jar"/>
+	<classpathentry kind="lib" path="lib/jars/lwjgl.jar"/>
+	<classpathentry kind="lib" path="lib/jars/lzma.jar"/>
+	<classpathentry kind="lib" path="lib/jars/slick-util.jar"/>
+	<classpathentry kind="lib" path="lib/jars/substance-7.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jars/trident-7.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
