@@ -1,10 +1,16 @@
-from aggregation import TerrainGrid
+from terraingrid import TerrainGrid
 import numpy as np 
 import cv2 as cv 
 import matplotlib.pyplot as plt
 import numpy.ma as ma
 import random as rng
 import time as time
+
+
+def erodilate(val, kernel, iterate):
+    img_erosion = cv.erode(val, np.ones((kernel, kernel), np.uint8), iterations = iterate)
+    img_errdil = cv.dilate(np.array(img_erosion), np.ones((kernel, kernel), np.uint8), iterations = iterate)
+    return img_errdil
 
 rd0 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37ez2.tif"
 rd1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
@@ -90,7 +96,17 @@ plt.show()
 count = 0
 
 while (count < len(buildings)):
-    plt.imshow((ma.masked_not_equal(labels, buildings[count]) / buildings[count]) * a.arrayValues)
+    temp = (ma.masked_not_equal(labels, buildings[count]) / buildings[count]).astype('uint8')
+    temp = temp.filled()
+
+    temp = erodilate(temp, 2, 5)
+    
+    corners = cv.goodFeaturesToTrack(temp, 7, 0.01, 10)
+    for i in corners:
+        x,y = i.ravel()
+        cv.circle(temp,(x,y),2,140,-1)
+    
+    plt.imshow(temp)
     print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
     plt.show()
     count +=1
