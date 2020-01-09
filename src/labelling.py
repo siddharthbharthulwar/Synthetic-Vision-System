@@ -62,7 +62,7 @@ for i in unique:
         var = np.std(org * bray)
         variance.append(var)
         histogram.append(var)
-        if (var > 1.5):
+        if (var > 1.75):
             vegetation.append(i)
             invegetation.append(incount)
             incount +=1 
@@ -104,11 +104,11 @@ while (count < len(buildings)):
     temp = temp.filled()
 
     temp = erodilate(temp, 5, 25)
-    temp[:, 0] = 0
-    temp[:, -1] = 0
-    temp[0, :] = 0
-    temp[-1, :] = 0
-    corners = cv.goodFeaturesToTrack(temp, 12, 0.01, 10)
+    temp[:, 0] = 64
+    temp[:, -1] = 64
+    temp[0, :] = 64
+    temp[-1, :] = 64
+    corners = cv.goodFeaturesToTrack(temp, 30, 0.01, 10)
     for i in corners:
         x,y = i.ravel()
         cv.circle(temp,(x,y),3,140,-1)
