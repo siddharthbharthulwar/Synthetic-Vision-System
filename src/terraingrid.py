@@ -12,6 +12,7 @@ import rasterio.warp
 import rasterio.features
 from scipy import interpolate
 import time as time
+import json
 
 
 
@@ -369,7 +370,7 @@ class TerrainGrid:
             count +=1
         print(self.final_buildings)
 
-    def full_classification(self, threshold, minarea, cutoff, displayBool, erosionIterations, maxCorners):
+    def full_classification(self, threshold, minarea, cutoff, displayBool, erosionIterations, maxCorners, saveBool):
         derivative = np.gradient(self.arrayValues)[1]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
         #these are hardcoded in because they are unlikely to change in real world scenarios
@@ -404,7 +405,9 @@ class TerrainGrid:
                     self.index_vegetation.append(i)
                     self.relative_index_vegetation.append(incount)
                     incount +=1
+                    height = int(np.mean(org * self.arrayValues))
                     self.labelled_vegetation = np.add(self.labelled_vegetation, org.filled(0))
+                    self.vegetation.append((height, self.centroids[i]))
                 else:
                     self.index_building.append(i)
                     self.relative_index_building.append(incount)
@@ -413,10 +416,10 @@ class TerrainGrid:
                     temp = org.filled()
                     temp = erodilate(temp, 2, erosionIterations)
                     corners = cv.goodFeaturesToTrack(temp, maxCorners, 0.01, 15)
-                    self.buildings.append((height, corners))
+                    self.buildings.append((height, corners.tolist()))
                     self.labelled_buildings = np.add(self.labelled_buildings, org.filled(0))
         end = time.time()
-        print(len(self.buildings), " buildings and ", 0, " instances of vegetation processed in ", int(end - start), " seconds.")
+        print(len(self.buildings), " buildings and ", len(self.vegetation), " instances of vegetation processed in ", int(end - start), " seconds.")
 
         if (displayBool):
             plt.imshow(np.zeros(self.labels.shape, np.uint8), cmap = 'gist_gray', vmin = 0, vmax = 1)
@@ -432,6 +435,20 @@ class TerrainGrid:
             n, bins, patches = plt.hist(self.histogram_final, 250, facecolor = "blue", alpha = 0.6)
             plt.show()
         
+
+
+        data = {}
+        data['buildings'] = []
+        count = 0
+        while (count < len(self.buildings)):
+            data['buildings'].append({
+                'height': self.buildings[count][0],
+                'corners': self.buildings[count][1]
+            })
+            count +=1
+        if (saveBool):
+            with open('data.json', 'w', encoding = 'utf-8') as f:
+                json.dump(data, f, indent = 4)
 
         
     
