@@ -36,7 +36,7 @@ public class MainGameLoop {
         
          
         RawModel model = OBJLoader.loadObjModel("cube", loader);
-        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("white")));
+        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("green")));
         ModelTexture texture = staticModel.getTexture();
         texture.setShineDamper(110);
         texture.setReflectivity(5);
