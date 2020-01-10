@@ -348,6 +348,11 @@ class TerrainGrid:
         self.labeled_buildings = self.labeled_buildings * bldval
         self.labeled_vegetation = self.labeled_vegetation * vegval
 
+        for i in buildings:
+            self.avgbldheight.append((i, np.mean((ma.masked_not_equal(self.labels, i) / i) * self.arrayValues)))
+        for i in vegetation:
+            self.avgvegheight.append((i, np.mean((ma.masked_not_equal(self.labels, i) / i) * self.arrayValues)))
+        print("Finished average height labelling")
         count = 0
         self.corners = []
         while (count < len(buildings)):
@@ -356,75 +361,77 @@ class TerrainGrid:
             temp = erodilate(temp, 2, 10)
             self.corners.append(cv.goodFeaturesToTrack(temp, maxCorners, 0.01, 10))
             count +=1
+        print("Finished corner labelling")
+        count = 0
+        self.final_buildings = []
+        while count < len(buildings):
+            self.final_buildings.append((self.avgbldheight[buildings[count]], self.corners[count]))
+            count +=1
+        print(self.final_buildings)
 
-
-    def heightmap(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, nbins, outlier):
-        derivative = np.gradient(self.arrayValues)[0]
+    def full_classification(self, threshold, minarea, cutoff, displayBool, erosionIterations, maxCorners):
+        derivative = np.gradient(self.arrayValues)[1]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
-        thresh = cv.erode(thresh, np.ones((kernelsize, kernelsize), np.uint8), iterations = iterations)
-        plt.imshow(self.arrayValues)
-        plt.imshow(thresh)
-        plt.show()
-        self.n_labels, self.labels, self.stats, self.centroids = cv.connectedComponentsWithStats(thresh, connectivity = connectivity)
+        #these are hardcoded in because they are unlikely to change in real world scenarios
+        thresh = cv.erode(thresh, np.ones((2, 2), np.uint8), iterations = 1)
+        if(displayBool):
+            plt.imshow(self.arrayValues)
+            plt.imshow(thresh)
+            plt.show()
+        self.n_labels, self.labels, self.stats, self.centroids = cv.connectedComponentsWithStats(thresh, connectivity = 4)
         variance = []
-        buildings = []
-        vegetation = []
-        inbuildings = []
-        invegetation = []
+        self.buildings = []
+        self.vegetation = []
+        self.index_building = []
+        self.index_vegetation = []
+        self.relative_index_building = []
+        self.relative_index_vegetation = []
         histogram = []
-        self.avgbldheight = []
-        self.avgvegheight = []
-        unique = np.delete(np.unique(self.labels), 0)
-        incount = 0
-        self.labeled_buildings = np.zeros(self.labels.shape, np.uint8)
-        self.labeled_vegetation = np.zeros(self.labels.shape, np.uint8)
-
+        self.labelled_buildings = np.zeros(self.labels.shape, np.uint8)
+        self.labelled_vegetation = np.zeros(self.labels.shape, np.uint8)
         start = time.time()
-        for i in unique:
-            print(i)
+        incount = 0
+        for i in np.delete(np.unique(self.labels), 0):
             if (self.stats[i, 4] > minarea):
-                org = ma.masked_not_equal(self.labels, i) / i
+                print(i)
+                org = (ma.masked_not_equal(self.labels, i) / i).astype('uint8')
+
                 var = np.std(org * derivative)
                 variance.append(var)
                 histogram.append(var)
 
                 if (var > cutoff):
-
-                    vegetation.append(i)
-                    invegetation.append(incount)
+                    self.index_vegetation.append(i)
+                    self.relative_index_vegetation.append(incount)
                     incount +=1
-                    self.labeled_vegetation = np.add(self.labeled_vegetation, org.filled(0))
-                
+                    self.labelled_vegetation = np.add(self.labelled_vegetation, org.filled(0))
                 else:
-
-                    buildings.append(i)
-                    invegetation.append(incount)
+                    self.index_building.append(i)
+                    self.relative_index_building.append(incount)
                     incount +=1
-                    self.labeled_buildings = np.add(self.labeled_buildings, org.filled(0))
-
-        print(len(buildings), " buildings and ", len(vegetation), " instances of vegetation. ")
+                    height = int(np.mean(org * self.arrayValues))
+                    temp = org.filled()
+                    temp = erodilate(temp, 2, erosionIterations)
+                    corners = cv.goodFeaturesToTrack(temp, maxCorners, 0.01, 15)
+                    self.buildings.append((height, corners))
+                    self.labelled_buildings = np.add(self.labelled_buildings, org.filled(0))
         end = time.time()
-        print(int(end - start), " seconds elapsed. ")
+        print(len(self.buildings), " buildings and ", 0, " instances of vegetation processed in ", int(end - start), " seconds.")
 
-        plt.imshow(np.zeros(self.labels.shape, np.uint8), cmap = 'gist_gray', vmin = 0, vmax = 1)
-        plt.imshow(ma.masked_values(self.labeled_buildings, 0), cmap = "gist_gray", vmin = 0, vmax = 1)
-        plt.imshow(ma.masked_values(self.labeled_vegetation, 0), cmap = "winter", vmin = 0, vmax = 1)
-        plt.show()
+        if (displayBool):
+            plt.imshow(np.zeros(self.labels.shape, np.uint8), cmap = 'gist_gray', vmin = 0, vmax = 1)
+            plt.imshow(ma.masked_values(self.labelled_buildings, 0), cmap = 'gist_gray', vmin = 0, vmax = 1)
+            plt.imshow(ma.masked_values(self.labelled_vegetation, 0), cmap = 'winter', vmin = 0, vmax = 1)
+            plt.show()
 
-        finalhistogram = []
-        for i in histogram:
-            if (i < outlier):
-                finalhistogram.append(i)
-
-        for i in buildings:
-            self.avgbldheight.append((i, np.mean((ma.masked_not_equal(self.labels, i) / i) * self.arrayValues)))
-        for i in vegetation:
-            self.avgvegheight.append((i, np.mean((ma.masked_not_equal(self.labels, i) / i) * self.arrayValues)))
-
-
-
-        n, bins, patches = plt.hist(finalhistogram, nbins, facecolor = "blue", alpha = 0.6)
-        plt.show()
+        self.histogram_final = []
+        if (displayBool):
+            for i in histogram:
+                if (i < 50):
+                    self.histogram_final.append(i)
+            n, bins, patches = plt.hist(self.histogram_final, 250, facecolor = "blue", alpha = 0.6)
+            plt.show()
+        
 
         
     
