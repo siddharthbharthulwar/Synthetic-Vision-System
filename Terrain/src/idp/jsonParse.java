@@ -1,67 +1,36 @@
 package idp;
 
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
+import org.json.simple.*;
+import org.json.simple.parser.JSONParser;
 
-import java.io.FileNotFoundException;
+import com.google.gson.Gson;
+
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.BufferedReader;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class jsonParse {
 	
-	public static void readApp(JsonReader jsonReader) throws IOException{
-	    jsonReader.beginObject();
-	     while (jsonReader.hasNext()) {
-	         String name = jsonReader.nextName();
-	         System.out.println(name);
-	         if (name.contains("app")){
-	             jsonReader.beginObject();
-	             while (jsonReader.hasNext()) {
-	                 String n = jsonReader.nextName();
-	                 if (n.equals("name")){
-	                     System.out.println(jsonReader.nextString());
-	                 }
-	                 if (n.equals("age")){
-	                     System.out.println(jsonReader.nextInt());
-	                 }
-	                 if (n.equals("messages")){
-	                     jsonReader.beginArray();
-	                     while  (jsonReader.hasNext()) {
-	                          System.out.println(jsonReader.nextString());
-	                     }
-	                     jsonReader.endArray();
-	                 }
-	             }
-	             jsonReader.endObject();
-	         }
 
-	     }
-	     jsonReader.endObject();
+	public static void main(String[] args) throws Exception {
+
+		JSONParser parser = new JSONParser();
+
+		Object obj = parser.parse(new FileReader("res/data.json"));
+
+		JSONObject jsonObject = (JSONObject) obj;
+
+		for(Iterator iterator = jsonObject.keySet().iterator(); iterator.hasNext();) {
+		    String key = (String) iterator.next();
+		    System.out.println(jsonObject.get(key));
+		    JSONArray k = (JSONArray) jsonObject.get(key);
+		    JSONObject p = (JSONObject) k.get(1);
+		    JSONArray b = (JSONArray) p.get("corners");
+		    System.out.println(b);
+		    JSONArray z = (JSONArray) p.get(1);
+		    System.out.println(z);
+		}
 	}
-	
-	
-
-	public static void main(String[] args) throws IOException {
-
-	    JsonReader jsonReader = new JsonReader(new FileReader("res/data.json"));
-
-	    jsonReader.beginObject();
-
-	    while (jsonReader.hasNext()) {
-
-	    String name = jsonReader.nextName();
-	        if (name.equals("descriptor")) {
-	             readApp(jsonReader);
-
-	        }
-	    }
-
-	   jsonReader.endObject();
-	   jsonReader.close();
-
-	}
-	
 }
