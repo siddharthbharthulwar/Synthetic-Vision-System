@@ -33,16 +33,81 @@ public class MainGameLoop {
         DisplayManager.createDisplay(1200, 800);
         Loader loader = new Loader();
 
+        float[] vertices = {           
+                -0.5f,0.5f,0,  
+                -0.5f,-0.5f,0, 
+                0.5f,-0.5f,0,  
+                0.5f,0.5f,0,       
+                 
+                -0.5f,0.5f,1,  
+                -0.5f,-0.5f,1, 
+                0.5f,-0.5f,1,  
+                0.5f,0.5f,1,
+                 
+                0.5f,0.5f,0,   
+                0.5f,-0.5f,0,  
+                0.5f,-0.5f,1,  
+                0.5f,0.5f,1,
+                 
+                -0.5f,0.5f,0,  
+                -0.5f,-0.5f,0, 
+                -0.5f,-0.5f,1, 
+                -0.5f,0.5f,1,
+                 
+                -0.5f,0.5f,1,
+                -0.5f,0.5f,0,
+                0.5f,0.5f,0,
+                0.5f,0.5f,1,
+                 
+                -0.5f,-0.5f,1,
+                -0.5f,-0.5f,0,
+                0.5f,-0.5f,0,
+                0.5f,-0.5f,1
+                 
+        };
+         
+        float[] textureCoords = {
+                 
+                0,0,
+                0,1,
+                1,1,
+                1,0,           
+
+    
+        };
         
+        float[] normals = {
+                
+                0,0,
+                0,0,
+                0,0,
+                0,0,   
+        };
+        int[] indices = {
+                0,1,3, 
+                3,1,2, 
+                4,5,7,
+                7,5,6,
+                8,9,11,
+                11,9,10,
+                12,13,15,
+                15,13,14,  
+                16,17,19,
+                19,17,18,
+                20,21,23,
+                23,21,22
+ 
+        };
          
         RawModel model = OBJLoader.loadObjModel("cube", loader);
-        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("green")));
+        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("white")));
         ModelTexture texture = staticModel.getTexture();
-        texture.setShineDamper(110);
-        texture.setReflectivity(5);
+        texture.setShineDamper(100);
+        texture.setReflectivity(1);
          
-        Entity entity = new Entity(staticModel, new Vector3f(100,-6,-50),0,0,0,1);
-        Entity entity2 = new Entity(staticModel, new Vector3f(100,-6,-100),0,0,0,1);
+        Entity entity = new Entity(staticModel, new Vector3f(100,0,-10),0,0,0,1);
+        
+        
 
         Light light = new Light(new Vector3f(2000,5000,2323), new Vector3f(1,1,1));
         
@@ -75,7 +140,7 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(280);
+        Camera camera = new Camera(1128);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
@@ -86,7 +151,6 @@ public class MainGameLoop {
             
           
             renderer.processEntity(entity);
-            renderer.processEntity(entity2);
             renderer.render(light, camera);
             //guiRenderer.render(guis);
             DisplayManager.updateDisplay();

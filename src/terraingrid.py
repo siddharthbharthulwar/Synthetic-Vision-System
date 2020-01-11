@@ -440,7 +440,10 @@ class TerrainGrid:
         data = {}
         data['buildings'] = []
         count = 0
+        incount = 0
         while (count < len(self.buildings)):
+
+            
             data['buildings'].append({
                 'height': self.buildings[count][0],
                 'corners': self.buildings[count][1]
@@ -449,7 +452,6 @@ class TerrainGrid:
         if (saveBool):
             with open('data.json', 'w', encoding = 'utf-8') as f:
                 json.dump(data, f, indent = 4)
-
         
     
-#TODO: implement corner finding method in class structure
+#TODO: vegetation exporting and labelling dict with x and y
