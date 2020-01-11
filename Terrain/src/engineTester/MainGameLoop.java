@@ -32,80 +32,122 @@ public class MainGameLoop {
  
         DisplayManager.createDisplay(1200, 800);
         Loader loader = new Loader();
+        
+     // cube ///////////////////////////////////////////////////////////////////////
+//      v6----- v5
+  //   /|      /|
+  //  v1------v0|
+  //  | |     | |
+  //  | |v7---|-|v4
+  //  |/      |/
+  //  v2------v3
 
-        float[] vertices = {           
-                -0.5f,0.5f,0,  
-                -0.5f,-0.5f,0, 
-                0.5f,-0.5f,0,  
-                0.5f,0.5f,0,       
-                 
-                -0.5f,0.5f,1,  
-                -0.5f,-0.5f,1, 
-                0.5f,-0.5f,1,  
-                0.5f,0.5f,1,
-                 
-                0.5f,0.5f,0,   
-                0.5f,-0.5f,0,  
-                0.5f,-0.5f,1,  
-                0.5f,0.5f,1,
-                 
-                -0.5f,0.5f,0,  
-                -0.5f,-0.5f,0, 
-                -0.5f,-0.5f,1, 
-                -0.5f,0.5f,1,
-                 
-                -0.5f,0.5f,1,
-                -0.5f,0.5f,0,
-                0.5f,0.5f,0,
-                0.5f,0.5f,1,
-                 
-                -0.5f,-0.5f,1,
-                -0.5f,-0.5f,0,
-                0.5f,-0.5f,0,
-                0.5f,-0.5f,1
-                 
+  // vertex coords array for glDrawArrays() =====================================
+  // A cube has 6 sides and each side has 2 triangles, therefore, a cube consists
+  // of 36 vertices (6 sides * 2 tris * 3 vertices = 36 vertices). And, each
+  // vertex is 3 components (x,y,z) of floats, therefore, the size of vertex
+  // array is 108 floats (36 * 3 = 108).
+
+        
+        /*
+        float[] vertices = {			
+				0.5f, -0.5f, 0.5f,
+				-0.5f, -0.5f, 0.5f,
+				-0.5f, -0.5f, -0.5f,
+				0.5f, -0.5f, -0.5f,
+				0.5f, 0.5f, 0.5f,
+				-0.5f, 0.5f, 0.5f,
+				-0.5f, 0.5f, -0.5f,
+				0.5f, 0.5f, -0.5f
+				
+		};
+        
+        int[] indices = {
+                0, 1, 2,
+                0, 2, 3,
+                4, 0, 3,
+                4, 3, 7,
+                5, 4, 7,
+                5, 7, 6,
+                1, 5, 6,
+                1, 6, 2,
+                0, 4, 5,
+                0, 5, 1,
+                3, 7, 6,
+                3, 6, 2
+ 
+        };
+        
+		*/
+        
+        float[] vertices = {
+        	
+        	0.5f, 0, 0,
+        	1.0f, 1.0f, 0,
+        	0.5f, 1.5f, 0,
+        	0, 1.0f, 0
+        	
+        	
+        };
+        
+        int[] indices = {
+        		
+        		0, 1, 2, 3
         };
          
         float[] textureCoords = {
-                 
-                0,0,
-                0,1,
-                1,1,
-                1,0,           
+				
+				0,0,
+				0,1,
+				1,1,
+				1,0,			
+				0,0,
+				0,1,
+				1,1,
+				1,0,			
+				0,0,
+				0,1,
+				1,1,
+				1,0,
+				0,0,
+				0,1,
+				1,1,
+				1,0,
+				0,0,
+				0,1,
+				1,1,
+				1,0,
+				0,0,
+				0,1,
+				1,1,
+				1,0
 
-    
-        };
+				
+		};
         
         float[] normals = {
                 
-                0,0,
-                0,0,
-                0,0,
-                0,0,   
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1, 
+                1, 1, 1
+           
         };
-        int[] indices = {
-                0,1,3, 
-                3,1,2, 
-                4,5,7,
-                7,5,6,
-                8,9,11,
-                11,9,10,
-                12,13,15,
-                15,13,14,  
-                16,17,19,
-                19,17,18,
-                20,21,23,
-                23,21,22
- 
-        };
-         
-        RawModel model = OBJLoader.loadObjModel("cube", loader);
+       
+        //RawModel model = OBJLoader.loadObjModel("cube", loader);
+        RawModel model = loader.loadToVAO(vertices, textureCoords, normals, indices);
         TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("white")));
+        /*
         ModelTexture texture = staticModel.getTexture();
         texture.setShineDamper(100);
         texture.setReflectivity(1);
-         
-        Entity entity = new Entity(staticModel, new Vector3f(100,0,-10),0,0,0,1);
+         */
+        Entity entity = new Entity(staticModel, new Vector3f(25,0,0),90,0,0,1);
         
         
 
@@ -140,7 +182,7 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(1128);
+        Camera camera = new Camera(10);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){

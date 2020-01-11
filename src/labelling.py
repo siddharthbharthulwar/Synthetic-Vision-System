@@ -21,7 +21,7 @@ path = r"C:\Users\siddh\Documents\DSMS\R_25GN1\r_25gn1.tif"
 
 a = TerrainGrid((rd1), (1,1), 1)
 a.show(-5, 50)
-a.arrayValues = a.arrayValues[4000:5000, 2000:3000]
+a.arrayValues = a.arrayValues[8000:9000, 4000:5000]
 
 a.show(-5, 50)
 

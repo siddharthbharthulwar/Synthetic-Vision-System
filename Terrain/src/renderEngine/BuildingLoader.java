@@ -53,6 +53,7 @@ public class BuildingLoader {
 		Building b = new Building(6, corners);
 		System.out.println(loadBuildingToModel(b));
 
+		
 	}
 	
 }
