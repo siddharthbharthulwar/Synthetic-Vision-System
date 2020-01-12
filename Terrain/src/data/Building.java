@@ -76,11 +76,25 @@ public class Building {
 			
 		}
 		
+		int finalInd = this.corners.size() - 1;
+		
+		continuousIndices.add((2 * finalInd) + 1);
+		continuousIndices.add(2 * finalInd);
+		continuousIndices.add(1);
+		System.out.println(1 + (2 * finalInd) + " and " + 2 * finalInd);
+		
+		continuousIndices.add(2 * finalInd);
+		continuousIndices.add(0);
+		continuousIndices.add(1);
+		
+		
 		int[] finalIndices = new int[continuousIndices.size()];
 		
 		for (int j = 0; j < continuousIndices.size(); j++) {
 			finalIndices[j] = continuousIndices.get(j);
 		}
+		
+		
 		System.out.println(continuousIndices);
 		return finalIndices;
 		

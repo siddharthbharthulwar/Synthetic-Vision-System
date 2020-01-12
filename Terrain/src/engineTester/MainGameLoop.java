@@ -37,15 +37,15 @@ public class MainGameLoop {
 
         
         List<Point> pointList = new ArrayList<Point>();
-        pointList.add(new Point(0, -1));
         pointList.add(new Point(0, 0));
-        pointList.add(new Point(1, 0));
-        pointList.add(new Point(1,-1));
-        pointList.add(new Point(0.5f,-2));
-
+        pointList.add(new Point(15, 0));
+        pointList.add(new Point(20, 5));
+        pointList.add(new Point(15,11));
+        pointList.add(new Point(9,22));
+        pointList.add(new Point(0, 10));
         
         
-        Building b = new Building(4, pointList);
+        Building b = new Building(-14, pointList);
         float[] vertices = b.floatVertProcess();
         
         /*
@@ -64,6 +64,18 @@ public class MainGameLoop {
 		*/
         
         int[] indices = b.generateIndices();
+        
+        float[] vertices2 = {			
+				0.5f, -0.5f, 0.5f,
+				-0.5f, -0.5f, 0.5f,
+				-0.5f, -0.5f, -0.5f,
+				0.5f, -0.5f, -0.5f,
+				0.5f, 0.5f, 0.5f,
+				-0.5f, 0.5f, 0.5f,
+				-0.5f, 0.5f, -0.5f,
+				0.5f, 0.5f, -0.5f
+				
+		};
         float[] textureCoords = {
 				
 				0,0,
@@ -90,7 +102,7 @@ public class MainGameLoop {
         texture.setShineDamper(100);
         texture.setReflectivity(1);
         
-        Entity entity = new Entity(staticModel, new Vector3f(25,-2,0),90,0,0,1);
+        Entity entity = new Entity(staticModel, new Vector3f(125,-10,-100),90,0,0,1);
         
         
 
@@ -125,7 +137,7 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(14);
+        Camera camera = new Camera(114);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
