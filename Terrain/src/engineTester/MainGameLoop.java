@@ -45,7 +45,7 @@ public class MainGameLoop {
         pointList.add(new Point(0, 10));
         
         
-        Building b = new Building(-14, pointList);
+        Building b = new Building(-5, pointList);
         float[] vertices = b.floatVertProcess();
         
         /*
@@ -89,8 +89,8 @@ public class MainGameLoop {
         
         float[] normals = {
                 
-                0.2f, 0.2f, 0.2f,
-                0.5f, 0.5f, 0.5f
+                0.2f, 0.3f, 0.4f,
+                0.5f, 0.6f, 0.8f
            
         };
        
@@ -102,11 +102,11 @@ public class MainGameLoop {
         texture.setShineDamper(100);
         texture.setReflectivity(1);
         
-        Entity entity = new Entity(staticModel, new Vector3f(125,-10,-100),90,0,0,1);
+        Entity entity = new Entity(staticModel, new Vector3f(1525,-10,-1000),90,0,0,7);
         
         
 
-        Light light = new Light(new Vector3f(500,500,-1), new Vector3f(1,1,1));
+        Light light = new Light(new Vector3f(500,500,-500), new Vector3f(1,1,1));
         
         
         //******************************TERRAIN TEXTURE******************
@@ -137,7 +137,7 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(114);
+        Camera camera = new Camera(625);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
