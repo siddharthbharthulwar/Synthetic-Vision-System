@@ -34,34 +34,21 @@ public class MainGameLoop {
  
         DisplayManager.createDisplay(1200, 800);
         Loader loader = new Loader();
-        
-     // cube ///////////////////////////////////////////////////////////////////////
-//      v6----- v5
-  //   /|      /|
-  //  v1------v0|
-  //  | |     | |
-  //  | |v7---|-|v4
-  //  |/      |/
-  //  v2------v3
-
-  // vertex coords array for glDrawArrays() =====================================
-  // A cube has 6 sides and each side has 2 triangles, therefore, a cube consists
-  // of 36 vertices (6 sides * 2 tris * 3 vertices = 36 vertices). And, each
-  // vertex is 3 components (x,y,z) of floats, therefore, the size of vertex
-  // array is 108 floats (36 * 3 = 108).
 
         
         List<Point> pointList = new ArrayList<Point>();
-        pointList.add(new Point(0, 1));
+        pointList.add(new Point(0, -1));
         pointList.add(new Point(0, 0));
         pointList.add(new Point(1, 0));
-        pointList.add(new Point(1,1));
-        
+        pointList.add(new Point(1,-1));
+        pointList.add(new Point(0.5f,-2));
+
         
         
         Building b = new Building(4, pointList);
         float[] vertices = b.floatVertProcess();
         
+        /*
         int[] indices = {
         		
         		1, 0, 3,
@@ -74,7 +61,9 @@ public class MainGameLoop {
         		6, 8, 9
         		
         };
-
+		*/
+        
+        int[] indices = b.generateIndices();
         float[] textureCoords = {
 				
 				0,0,
@@ -95,13 +84,13 @@ public class MainGameLoop {
        
         //RawModel model = OBJLoader.loadObjModel("cube", loader);
         RawModel model = loader.loadToVAO(vertices, textureCoords, normals, indices);
-        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("grass")));
+        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("white")));
         
         ModelTexture texture = staticModel.getTexture();
         texture.setShineDamper(100);
         texture.setReflectivity(1);
         
-        Entity entity = new Entity(staticModel, new Vector3f(25,-2,-20),90,0,0,1);
+        Entity entity = new Entity(staticModel, new Vector3f(25,-2,0),90,0,0,1);
         
         
 
@@ -136,7 +125,7 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(5);
+        Camera camera = new Camera(14);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){

@@ -51,4 +51,38 @@ public class Building {
 		System.out.println(bef);
 		return fin;
 	}
+	
+	public int[] generateIndices() {
+		
+		List<Integer> continuousIndices = new ArrayList<Integer>();
+		for (int i = 0; i < this.corners.size(); i++) {
+			
+			
+			int indX1 = (2 * i) + 1;
+			int indY1  = 2 * i;
+			int indZ1  = (2 * i) + 3;
+			
+			int indX2 = 2 * i;
+			int indY2 = (2 * i) + 2;
+			int indZ2 = (2 * i) + 3;
+			
+			continuousIndices.add(indX1);
+			continuousIndices.add(indY1);
+			continuousIndices.add(indZ1);
+			
+			continuousIndices.add(indX2);
+			continuousIndices.add(indY2);
+			continuousIndices.add(indZ2);
+			
+		}
+		
+		int[] finalIndices = new int[continuousIndices.size()];
+		
+		for (int j = 0; j < continuousIndices.size(); j++) {
+			finalIndices[j] = continuousIndices.get(j);
+		}
+		System.out.println(continuousIndices);
+		return finalIndices;
+		
+	}
 }
