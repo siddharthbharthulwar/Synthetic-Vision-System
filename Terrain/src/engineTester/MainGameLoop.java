@@ -142,7 +142,7 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(1125);
+        Camera camera = new Camera(2225);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){

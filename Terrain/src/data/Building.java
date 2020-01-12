@@ -87,8 +87,11 @@ public class Building {
 		continuousIndices.add(0);
 		continuousIndices.add(1);
 		
-		for (int j = 0; j < 2 * this.corners.size(); j++) {
+		for (int j = 4; j < 2 * this.corners.size(); j++) {
+			
 			if (j % 2 == 1) {
+				continuousIndices.add(1);
+				continuousIndices.add(j - 2);
 				continuousIndices.add(j);
 			}
 		}
