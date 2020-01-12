@@ -49,7 +49,7 @@ public class MainGameLoop {
   // array is 108 floats (36 * 3 = 108).
 
         
-        /*
+        
         float[] vertices = {			
 				0.5f, -0.5f, 0.5f,
 				-0.5f, -0.5f, 0.5f,
@@ -69,17 +69,17 @@ public class MainGameLoop {
                 4, 3, 7,
                 5, 4, 7,
                 5, 7, 6,
-                1, 5, 6,
                 1, 6, 2,
                 0, 4, 5,
                 0, 5, 1,
                 3, 7, 6,
+                1, 5, 6,
                 3, 6, 2
  
         };
         
-		*/
-        
+		
+        /*
         float[] vertices = {
         	
         	0.5f, 0, 0,
@@ -95,6 +95,32 @@ public class MainGameLoop {
         		0, 1, 2, 3
         };
          
+         
+         
+        */
+        
+        float[] verticesTest = {
+        		
+        		213, 1, 0,
+        		123, 7, 0,
+        		145, 16, 0,
+        		132, 16, 0,
+        		186, 7, 0,
+        		156, 14, 0,
+        		170, 11, 0,
+        		198, 5, 0,
+        		
+        		213, 1, 15,
+        		123, 7, 15,
+        		145, 16, 15,
+        		132, 16, 15,
+        		186, 7, 15,
+        		156, 14, 15,
+        		170, 11, 15,
+        		198, 5, 15
+        };
+        
+        
         float[] textureCoords = {
 				
 				0,0,
@@ -127,20 +153,13 @@ public class MainGameLoop {
         
         float[] normals = {
                 
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1, 
-                1, 1, 1
+                0.2f, 0.2f, 0.2f,
+                0.5f, 0.5f, 0.5f
            
         };
        
         //RawModel model = OBJLoader.loadObjModel("cube", loader);
-        RawModel model = loader.loadToVAO(vertices, textureCoords, normals, indices);
+        RawModel model = loader.loadToVAO(verticesTest, textureCoords, normals, indices);
         TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("white")));
         /*
         ModelTexture texture = staticModel.getTexture();
@@ -151,7 +170,7 @@ public class MainGameLoop {
         
         
 
-        Light light = new Light(new Vector3f(2000,5000,2323), new Vector3f(1,1,1));
+        Light light = new Light(new Vector3f(500,500,-20), new Vector3f(0,1,0));
         
         
         //******************************TERRAIN TEXTURE******************
@@ -182,7 +201,7 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(10);
+        Camera camera = new Camera(110);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){

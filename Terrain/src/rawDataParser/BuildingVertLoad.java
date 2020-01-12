@@ -1,4 +1,4 @@
-package renderEngine;
+package rawDataParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import data.Point;
 import data.Point3D;
 import models.RawModel;
 
-public class BuildingLoader {
+public class BuildingVertLoad {
 
 	
 	public static List<Point3D> loadBuildingToModel(Building building) {

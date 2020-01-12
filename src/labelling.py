@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy.ma as ma
 import random as rng
 import time as time
+import tsp
 
 
 def erodilate(val, kernel, iterate):
@@ -101,19 +102,28 @@ count = 0
 
 while (count < len(buildings)):
     temp = (ma.masked_not_equal(labels, buildings[count]) / buildings[count]).astype('uint8')
-    temp = temp.filled()
 
-    temp = erodilate(temp, 5, 25)
-    temp[:, 0] = 64
-    temp[:, -1] = 64
-    temp[0, :] = 64
-    temp[-1, :] = 64
-    corners = cv.goodFeaturesToTrack(temp, 30, 0.01, 10)
-    for i in corners:
+    temp = temp.filled()
+    temp = erodilate(temp, 5, 15)
+    temp[:, 0] = 63
+    temp[:, -1] = 63
+    temp[0, :] = 63
+    temp[-1, :] = 63
+    
+
+    corners = cv.goodFeaturesToTrack(temp, 11, 0.1, 10)
+    print(corners)
+    trueindices = tsp.tsp(corners)[1]
+    truecorners = []
+    for i in trueindices:
+        truecorners.append(corners[i])
+
+    for i in truecorners:
         x,y = i.ravel()
         cv.circle(temp,(x,y),3,140,-1)
     
-    plt.imshow(temp)
+    plt.imshow(a.arrayValues)
+    plt.imshow(ma.masked_values(temp, 63), cmap = 'jet', alpha = 0.5)
     print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
     print(corners)
     plt.show()
