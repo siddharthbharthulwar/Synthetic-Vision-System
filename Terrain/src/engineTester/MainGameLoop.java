@@ -43,9 +43,11 @@ public class MainGameLoop {
         pointList.add(new Point(15,11));
         pointList.add(new Point(9,22));
         pointList.add(new Point(0, 10));
+        pointList.add(new Point(-1, 5));
+
         
         
-        Building b = new Building(-5, pointList);
+        Building b = new Building(-15, pointList);
         float[] vertices = b.floatVertProcess();
         
         /*
@@ -90,23 +92,26 @@ public class MainGameLoop {
         float[] normals = {
                 
                 0.2f, 0.3f, 0.4f,
-                0.5f, 0.6f, 0.8f
+                0.5f, 0.6f, 0.8f,
+                1, 1, 1,
+                1,1,1
+            
            
         };
        
-        //RawModel model = OBJLoader.loadObjModel("cube", loader);
         RawModel model = loader.loadToVAO(vertices, textureCoords, normals, indices);
+        //RawModel model = OBJLoader.loadObjModel("dragon", loader);
         TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("white")));
         
         ModelTexture texture = staticModel.getTexture();
-        texture.setShineDamper(100);
-        texture.setReflectivity(1);
+        texture.setShineDamper(1000);
+        texture.setReflectivity(0.5f);
         
         Entity entity = new Entity(staticModel, new Vector3f(1525,-10,-1000),90,0,0,7);
         
         
 
-        Light light = new Light(new Vector3f(500,500,-500), new Vector3f(1,1,1));
+        Light light = new Light(new Vector3f(11500,11500,-11500), new Vector3f(1,1,1));
         
         
         //******************************TERRAIN TEXTURE******************
@@ -137,7 +142,7 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(625);
+        Camera camera = new Camera(1125);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
