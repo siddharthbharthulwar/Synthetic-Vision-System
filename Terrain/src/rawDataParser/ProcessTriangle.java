@@ -1,27 +1,50 @@
 package rawDataParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import data.Building;
 import data.Point;
 import data.Point3D;
 
 public class ProcessTriangle {
 	
+	public static float[] floatVertProcess(Building building) {
+		
+		List<Point> points = building.getCorners();
+		float height = building.getHeight();
+		
+		float[] fin = new float[points.size() * 6];
+		ArrayList<Float> bef = new ArrayList<Float>();
+		for (Point p: points) {
+			bef.add(p.getX());
+			bef.add(p.getY());
+			bef.add((float) 0);
+			
+			bef.add(p.getX());
+			bef.add(p.getY());
+			bef.add(height);
+		}
+		
+		int count = 0;
+		while (count < bef.size()) {
+			fin[count] = bef.get(count);
+			count +=1;
+		}
+		System.out.println(bef);
+		return fin;
+	}
+	
 
 
-	public static float[] process(List<Point> points, float height) {
-		
-		Point3D one = new Point3D(points.get(0).getX(), points.get(0).getY(), 0);
-		Point3D two = new Point3D(points.get(1).getX(), points.get(1).getY(), 0);
-		
-		Point3D oneHeight = new Point3D(points.get(0).getX(), points.get(0).getY(), height);
-		Point3D twoHeight = new Point3D(points.get(1).getX(), points.get(1).getY(), height);
-		
-		float[] vertices = {one.getX(), one.getY(), one.getZ(), two.getX(), two.getY(), two.getZ(), 
-				twoHeight.getX(), twoHeight.getY(), twoHeight.getZ(), oneHeight.getX(), oneHeight.getY(), oneHeight.getZ()};
-		
-		return vertices;
-		
+	public static void main(String[] args) {
+		List<Point> points = new ArrayList<Point>();
+		points.add(new Point(200, 300));
+		points.add(new Point(250,500));
+		points.add(new Point(200, 500));
+		points.add(new Point(250, 300));
+		Building b = new Building(4, points); 
+		float[] f = floatVertProcess(b);
 		
 	}
 }

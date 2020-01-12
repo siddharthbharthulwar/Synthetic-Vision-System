@@ -9,7 +9,9 @@ import java.util.List;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
- 
+
+import data.Building;
+import data.Point;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
@@ -49,104 +51,37 @@ public class MainGameLoop {
   // array is 108 floats (36 * 3 = 108).
 
         
+        List<Point> pointList = new ArrayList<Point>();
+        pointList.add(new Point(0, 1));
+        pointList.add(new Point(0, 0));
+        pointList.add(new Point(1, 0));
+        pointList.add(new Point(1,1));
         
-        float[] vertices = {			
-				0.5f, -0.5f, 0.5f,
-				-0.5f, -0.5f, 0.5f,
-				-0.5f, -0.5f, -0.5f,
-				0.5f, -0.5f, -0.5f,
-				0.5f, 0.5f, 0.5f,
-				-0.5f, 0.5f, 0.5f,
-				-0.5f, 0.5f, -0.5f,
-				0.5f, 0.5f, -0.5f
-				
-		};
         
-        int[] indices = {
-                0, 1, 2,
-                0, 2, 3,
-                4, 0, 3,
-                4, 3, 7,
-                5, 4, 7,
-                5, 7, 6,
-                1, 6, 2,
-                0, 4, 5,
-                0, 5, 1,
-                3, 7, 6,
-                1, 5, 6,
-                3, 6, 2
- 
-        };
         
-		
-        /*
-        float[] vertices = {
-        	
-        	0.5f, 0, 0,
-        	1.0f, 1.0f, 0,
-        	0.5f, 1.5f, 0,
-        	0, 1.0f, 0
-        	
-        	
-        };
+        Building b = new Building(4, pointList);
+        float[] vertices = b.floatVertProcess();
         
         int[] indices = {
         		
-        		0, 1, 2, 3
-        };
-         
-         
-         
-        */
-        
-        float[] verticesTest = {
+        		1, 0, 3,
+        		0, 2, 3,
+        		3, 2, 5,
+        		2, 4, 5,
+        		5, 4, 7,
+        		3, 6, 7,
+        		7, 6, 9,
+        		6, 8, 9
         		
-        		213, 1, 0,
-        		123, 7, 0,
-        		145, 16, 0,
-        		132, 16, 0,
-        		186, 7, 0,
-        		156, 14, 0,
-        		170, 11, 0,
-        		198, 5, 0,
-        		
-        		213, 1, 15,
-        		123, 7, 15,
-        		145, 16, 15,
-        		132, 16, 15,
-        		186, 7, 15,
-        		156, 14, 15,
-        		170, 11, 15,
-        		198, 5, 15
         };
-        
-        
+
         float[] textureCoords = {
 				
 				0,0,
 				0,1,
 				1,1,
 				1,0,			
-				0,0,
-				0,1,
-				1,1,
-				1,0,			
-				0,0,
-				0,1,
-				1,1,
-				1,0,
-				0,0,
-				0,1,
-				1,1,
-				1,0,
-				0,0,
-				0,1,
-				1,1,
-				1,0,
-				0,0,
-				0,1,
-				1,1,
-				1,0
+				
 
 				
 		};
@@ -159,18 +94,18 @@ public class MainGameLoop {
         };
        
         //RawModel model = OBJLoader.loadObjModel("cube", loader);
-        RawModel model = loader.loadToVAO(verticesTest, textureCoords, normals, indices);
-        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("white")));
-        /*
+        RawModel model = loader.loadToVAO(vertices, textureCoords, normals, indices);
+        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("grass")));
+        
         ModelTexture texture = staticModel.getTexture();
         texture.setShineDamper(100);
         texture.setReflectivity(1);
-         */
-        Entity entity = new Entity(staticModel, new Vector3f(25,0,0),90,0,0,1);
+        
+        Entity entity = new Entity(staticModel, new Vector3f(25,-2,-20),90,0,0,1);
         
         
 
-        Light light = new Light(new Vector3f(500,500,-20), new Vector3f(0,1,0));
+        Light light = new Light(new Vector3f(500,500,-1), new Vector3f(1,1,1));
         
         
         //******************************TERRAIN TEXTURE******************
@@ -201,7 +136,7 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(110);
+        Camera camera = new Camera(5);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
