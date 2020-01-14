@@ -18,6 +18,7 @@ public class Camera {
     public void move(){
         if(Keyboard.isKeyDown(Keyboard.KEY_W)){
             position.z-=this.speed * 0.01f;
+            
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_D)){
             position.x+=this.speed * 0.01f;

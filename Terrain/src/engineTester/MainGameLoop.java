@@ -3,6 +3,7 @@ package engineTester;
 import models.RawModel;
 import models.TexturedModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,9 @@ import textures.TerrainTexturePack;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
+import fontMeshCreator.FontType;
+import fontMeshCreator.GUIText;
+import fontRendering.TextMaster;
 import guis.GuiRenderer;
 import guis.GuiTexture;
  
@@ -32,9 +36,13 @@ public class MainGameLoop {
  
     public static void main(String[] args) {
  
-        DisplayManager.createDisplay(800, 800);
+        DisplayManager.createDisplay(1800, 1000);
         Loader loader = new Loader();
+        TextMaster.init(loader);
 
+        FontType font = new FontType(loader.loadTexture("segoeUI"), new File("res/segoeUI.fnt"));
+        GUIText text = new GUIText("Synthetic Vision System", 1, font, new Vector2f(0, 0), 0.5f, true);
+        text.setColour(1, 1, 1);
         
         List<Point> pointList = new ArrayList<Point>();
       /*  
@@ -58,50 +66,13 @@ public class MainGameLoop {
         Building b = new Building(-15, pointList);
         float[] vertices = b.floatVertProcess();
         
-        /*
-        int[] indices = {
-        		
-        		1, 0, 3,
-        		0, 2, 3,
-        		3, 2, 5,
-        		2, 4, 5,
-        		5, 4, 7,
-        		3, 6, 7,
-        		7, 6, 9,
-        		6, 8, 9
-        		
-        };
-		*/
+
         
         int[] indices = b.generateIndices();
         
-        float[] vertices2 = {			
-				0.5f, -0.5f, 0.5f,
-				-0.5f, -0.5f, 0.5f,
-				-0.5f, -0.5f, -0.5f,
-				0.5f, -0.5f, -0.5f,
-				0.5f, 0.5f, 0.5f,
-				-0.5f, 0.5f, 0.5f,
-				-0.5f, 0.5f, -0.5f,
-				0.5f, 0.5f, -0.5f
-				
-		};
+        
         float[] textureCoords = {
-				
-        		1, 1, 1,
-        		1, 1, 1,
-        		1, 1, 1,
-        		1, 1, 1,
-        		1, 1, 1,
-        		1, 1, 1,
-        		1, 1, 1,
-        		1, 1, 1,
-        		1, 1, 1,
-        		1, 1, 1
-        		
-				
-
-				
+        		1, 1	
 		};
         
         float[] normals = {
@@ -127,7 +98,6 @@ public class MainGameLoop {
         };
        
         RawModel model = loader.loadToVAO(vertices, textureCoords, normals, indices);
-        //RawModel model = OBJLoader.loadObjModel("dragon", loader);
         TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("white")));
         
         ModelTexture texture = staticModel.getTexture();
@@ -136,9 +106,10 @@ public class MainGameLoop {
         
         Entity entity = new Entity(staticModel, new Vector3f(1525,-10,-1000),90,0,0,7);
         
+        Camera camera = new Camera(1900);
         
 
-        Light light = new Light(new Vector3f(11500,10500,-11500), new Vector3f(1,1,1));
+        Light light = new Light(new Vector3f(camera.getPosition().x,10500,9000), new Vector3f(1,1,1), 1900);
         
         
         //******************************TERRAIN TEXTURE******************
@@ -169,24 +140,33 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(1900);
-         
+     
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
         	
             camera.move();
-            
+            light.move();
             renderer.processTerrain(terrain);
             
           
             renderer.processEntity(entity);
             renderer.render(light, camera);
             //guiRenderer.render(guis);
+            text.setTextString("1");
+            TextMaster.render();
+            
+            
+            
             DisplayManager.updateDisplay();
+            
         }
+        
+        
+        //***********CLEAN UP *************
+        
+        TextMaster.cleanUp();
         //guiRenderer.cleanUp();
         renderer.cleanUp();
-        
         loader.cleanUp();
         DisplayManager.closeDisplay();
  
