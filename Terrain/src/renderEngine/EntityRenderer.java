@@ -39,9 +39,15 @@ public class EntityRenderer {
     	for(TexturedModel model: entities.keySet()){
     		prepareTexturedModel(model);
     		List<Entity> batch = entities.get(model);
+    		boolean t = false;
     		for(Entity entity: batch) {
     			prepareInstance(entity);
-    			if (Keyboard.isKeyDown(Keyboard.KEY_T)){
+    			
+    			if (Keyboard.isKeyDown(Keyboard.KEY_T)) {
+    				t = true;
+    			}
+    			
+    			if (t){
         			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
     				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 
