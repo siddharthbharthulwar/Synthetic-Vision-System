@@ -6,6 +6,7 @@ import models.TexturedModel;
 import java.util.List;
 import java.util.Map;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -40,8 +41,16 @@ public class EntityRenderer {
     		List<Entity> batch = entities.get(model);
     		for(Entity entity: batch) {
     			prepareInstance(entity);
-    	        GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+    			if (Keyboard.isKeyDown(Keyboard.KEY_T)){
+        			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
+    				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 
+
+    			}
+    			else {
+    				GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
+    				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+    			}
     		}
     		unbindTexturedModel();
     	}

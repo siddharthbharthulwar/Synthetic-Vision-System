@@ -32,11 +32,12 @@ public class MainGameLoop {
  
     public static void main(String[] args) {
  
-        DisplayManager.createDisplay(1200, 800);
+        DisplayManager.createDisplay(800, 800);
         Loader loader = new Loader();
 
         
         List<Point> pointList = new ArrayList<Point>();
+      /*  
         pointList.add(new Point(0, 0));
         pointList.add(new Point(15, 0));
         pointList.add(new Point(20, 5));
@@ -44,8 +45,15 @@ public class MainGameLoop {
         pointList.add(new Point(9,22));
         pointList.add(new Point(0, 10));
         pointList.add(new Point(-1, 5));
-
+	*/
         
+        pointList.add(new Point(-1, 5));
+        pointList.add(new Point(0, 10));
+        pointList.add(new Point(9,22));
+        pointList.add(new Point(15,11));
+        pointList.add(new Point(20, 5));
+        pointList.add(new Point(15, 0));
+        pointList.add(new Point(0, 0));
         
         Building b = new Building(-15, pointList);
         float[] vertices = b.floatVertProcess();
@@ -80,10 +88,17 @@ public class MainGameLoop {
 		};
         float[] textureCoords = {
 				
-				0,0,
-				0,1,
-				1,1,
-				1,0,			
+        		1, 1, 1,
+        		1, 1, 1,
+        		1, 1, 1,
+        		1, 1, 1,
+        		1, 1, 1,
+        		1, 1, 1,
+        		1, 1, 1,
+        		1, 1, 1,
+        		1, 1, 1,
+        		1, 1, 1
+        		
 				
 
 				
@@ -91,10 +106,22 @@ public class MainGameLoop {
         
         float[] normals = {
                 
-                0.2f, 0.3f, 0.4f,
-                0.5f, 0.6f, 0.8f,
                 1, 1, 1,
-                1,1,1
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1,
+                1, 1, 1
+                
             
            
         };
@@ -111,7 +138,7 @@ public class MainGameLoop {
         
         
 
-        Light light = new Light(new Vector3f(11500,11500,-11500), new Vector3f(1,1,1));
+        Light light = new Light(new Vector3f(11500,10500,-11500), new Vector3f(1,1,1));
         
         
         //******************************TERRAIN TEXTURE******************
@@ -142,7 +169,7 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
          
-        Camera camera = new Camera(2225);
+        Camera camera = new Camera(1900);
          
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
