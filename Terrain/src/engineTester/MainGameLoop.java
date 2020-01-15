@@ -114,13 +114,13 @@ public class MainGameLoop {
         	
         }
 
-        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-10,-1000),90,0,0,7);
-        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -10, -1921), 90, 0, 0, 7);
+        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-100,-1000),90,0,0,7);
+        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -100, -1921), 90, 0, 0, 7);
         
         entities.add(entity);
         entities.add(entity2);
         
-        Camera camera = new Camera(1900);
+        Camera camera = new Camera(5000);
         
 
         Light light = new Light(new Vector3f(camera.getPosition().x,10500,9000), new Vector3f(1,1,1), 1900);
