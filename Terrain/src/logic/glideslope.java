@@ -1,21 +1,40 @@
 package logic;
 
-public class glideslope {
+import org.lwjgl.util.vector.Vector3f;
 
-	public float distanceFromRunway;
-	public float height;
+public class glideslope{
 	
-	public glideslope(float d, float h) {
-		this.distanceFromRunway = d;
-		this.height = h;
+	public static float distance(Vector3f pos1, Vector3f pos2) {
+		
+		return (float) Math.sqrt(Math.pow(pos1.x - pos2.x, 2) + Math.pow(pos1.y - pos2.y, 2) + Math.pow(pos1.z - pos2.z, 2));
+		
 	}
 	
-	public float calcSlope() {
-		return this.height / this.distanceFromRunway;
+	public static float angle(Vector3f pos1, Vector3f pos2, float baseHeight) {
+		
+		float distance = distance(pos1, pos2);
+		return (float) Math.toDegrees(Math.atan(baseHeight / distance));
+		
 	}
 	
-	public int calcLightConfiguration() {
-		return -1;
-		//TODO: actually do this method properly
+	public static int PAPIConfiguration(Vector3f pos1, Vector3f pos2, float baseHeight) {
+		
+		double angle = (double) angle(pos1, pos2, baseHeight);
+		
+		if (angle < 2.5) {
+			return 1;
+		}
+		else if (angle <= 2.8 && angle >= 2.5) {
+			return 2;
+		}
+		else if (angle <= 3.5 && angle >= 3.2) {
+			return 4;
+		}
+		else if (angle > 3.5) {
+			return 5;
+		}
+		else {
+			return 3;
+		}
 	}
 }

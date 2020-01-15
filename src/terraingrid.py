@@ -448,6 +448,7 @@ class TerrainGrid:
                 'height': self.buildings[count][0],
                 'corners': self.buildings[count][1]
             })
+        
             count +=1
         if (saveBool):
             with open('data.json', 'w', encoding = 'utf-8') as f:

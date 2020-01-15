@@ -45,30 +45,8 @@ public class MainGameLoop {
         text.setColour(1, 1, 1);
         
         List<Point> pointList = new ArrayList<Point>();
-      /*  
-        pointList.add(new Point(0, 0));
-        pointList.add(new Point(15, 0));
-        pointList.add(new Point(20, 5));
-        pointList.add(new Point(15,11));
-        pointList.add(new Point(9,22));
-        pointList.add(new Point(0, 10));
-        pointList.add(new Point(-1, 5));
-	*/
-        
-        pointList.add(new Point(-1, 5));
-        pointList.add(new Point(0, 10));
-        pointList.add(new Point(9,22));
-        pointList.add(new Point(15,11));
-        pointList.add(new Point(20, 5));
-        pointList.add(new Point(15, 0));
-        pointList.add(new Point(0, 0));
-        
-        Building b = new Building(-15, pointList);
-        float[] vertices = b.floatVertProcess();
-        
-
-        
-        int[] indices = b.generateIndices();
+        List<Point> pointList2 = new ArrayList<Point>();
+        List<Building> buildings = new ArrayList<Building>();
         
         
         float[] textureCoords = {
@@ -97,14 +75,50 @@ public class MainGameLoop {
            
         };
        
-        RawModel model = loader.loadToVAO(vertices, textureCoords, normals, indices);
-        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(loader.loadTexture("white")));
+        pointList2.add(new Point(0, 0));
+        pointList2.add(new Point(15, 0));
+        pointList2.add(new Point(20, 5));
+        pointList2.add(new Point(15,11));
+        pointList2.add(new Point(9,22));
+        pointList2.add(new Point(0, 10));
+        pointList2.add(new Point(-1, 5));
+	
         
-        ModelTexture texture = staticModel.getTexture();
-        texture.setShineDamper(1000);
-        texture.setReflectivity(0.5f);
+        pointList.add(new Point(-1, 5));
+        pointList.add(new Point(0, 10));
+        pointList.add(new Point(9,22));
+        pointList.add(new Point(15,11));
+        pointList.add(new Point(20, 5));
+        pointList.add(new Point(15, 0));
+        pointList.add(new Point(0, 0));
         
-        Entity entity = new Entity(staticModel, new Vector3f(1525,-10,-1000),90,0,0,7);
+        Building b = new Building(-15, pointList);
+        Building c = new Building(-19, pointList);
+
+        buildings.add(b);
+        buildings.add(c);
+        
+        List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
+        List<Entity> entities = new ArrayList<Entity>();
+        
+        for (Building building: buildings) {
+        	
+        	RawModel model = loader.loadToVAO(building.floatVertProcess(), textureCoords, normals, building.generateIndices());
+        	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
+        	ModelTexture texture = staticModel.getTexture();
+            texture.setShineDamper(1000);
+            texture.setReflectivity(0.5f);
+            
+            staticModels.add(staticModel);
+            
+        	
+        }
+
+        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-10,-1000),90,0,0,7);
+        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -10, -1921), 90, 0, 0, 7);
+        
+        entities.add(entity);
+        entities.add(entity2);
         
         Camera camera = new Camera(1900);
         
@@ -116,7 +130,7 @@ public class MainGameLoop {
         
         
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("green"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("green"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("water"));
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grass"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("white"));
         
@@ -128,13 +142,13 @@ public class MainGameLoop {
         
         //*********************************END TERRAIN TEXTURE
         
-        /*
+        
         List<GuiTexture> guis = new ArrayList<GuiTexture>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("green"), new Vector2f(0.75f, 0.75f), new Vector2f(0.15f, 0.25f));
+        GuiTexture gui = new GuiTexture(loader.loadTexture("2-2"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.045f));
         guis.add(gui);
         
         GuiRenderer guiRenderer = new GuiRenderer(loader);
-        */
+        
         
         
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
@@ -148,10 +162,14 @@ public class MainGameLoop {
             light.move();
             renderer.processTerrain(terrain);
             
-          
+            for (Entity e: entities) {
+            	renderer.processEntity(e);
+            }
+            
+            
             renderer.processEntity(entity);
             renderer.render(light, camera);
-            //guiRenderer.render(guis);
+            guiRenderer.render(guis);
             text.setTextString("1");
             TextMaster.render();
             
@@ -165,7 +183,7 @@ public class MainGameLoop {
         //***********CLEAN UP *************
         
         TextMaster.cleanUp();
-        //guiRenderer.cleanUp();
+        guiRenderer.cleanUp();
         renderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();

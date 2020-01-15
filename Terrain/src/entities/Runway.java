@@ -7,13 +7,15 @@ public class Runway {
 	public int n1;
 	public int n2;
 	public int anchor;
+	public float centerLineAnchor;
 	
-	public Runway(int w, int l, int one, int two, int anchor) {
+	public Runway(int w, int l, int one, int two, int anchor, float center) {
 		this.width = w;
 		this.length = l;
 		this.n1 = one;
 		this.n2 = two;
 		this.anchor = anchor;
+		this.centerLineAnchor = center;
 	}
 	
 	
@@ -32,6 +34,10 @@ public class Runway {
 	
 	public int getN2() {
 		return this.n2;
+	}
+	
+	public float getCenter() {
+		return this.centerLineAnchor;
 	}
 	
 }
