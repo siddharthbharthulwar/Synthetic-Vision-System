@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -36,7 +37,7 @@ public class MainGameLoop {
  
     public static void main(String[] args) {
  
-        DisplayManager.createDisplay(1800, 1000);
+        DisplayManager.createDisplay(500, 500);
         Loader loader = new Loader();
         TextMaster.init(loader);
 
@@ -114,8 +115,8 @@ public class MainGameLoop {
         	
         }
 
-        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-100,-1000),90,0,0,7);
-        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -100, -1921), 90, 0, 0, 7);
+        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,0,-1000),90,0,0,1);
+        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, 0, -1921), 90, 0, 0, 1);
         
         entities.add(entity);
         entities.add(entity2);
@@ -143,9 +144,27 @@ public class MainGameLoop {
         //*********************************END TERRAIN TEXTURE
         
         
-        List<GuiTexture> guis = new ArrayList<GuiTexture>();
+        List<GuiTexture> g22 = new ArrayList<GuiTexture>();
         GuiTexture gui = new GuiTexture(loader.loadTexture("2-2"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.045f));
-        guis.add(gui);
+        g22.add(gui);
+        
+        List<GuiTexture> g13 = new ArrayList<GuiTexture>();
+        GuiTexture gui2 = new GuiTexture(loader.loadTexture("1-3"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.045f));
+        g13.add(gui2);
+        
+        List<GuiTexture> g04 = new ArrayList<GuiTexture>();
+        GuiTexture gui3 = new GuiTexture(loader.loadTexture("0-4"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.045f));
+        g04.add(gui3);
+        
+        List<GuiTexture> g31 = new ArrayList<GuiTexture>();
+        GuiTexture gui4 = new GuiTexture(loader.loadTexture("3-1"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.045f));
+        g31.add(gui4);
+        
+        List<GuiTexture> g40 = new ArrayList<GuiTexture>();
+        GuiTexture g5 = new GuiTexture(loader.loadTexture("4-0"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.045f));
+        g40.add(g5);
+        
+        
         
         GuiRenderer guiRenderer = new GuiRenderer(loader);
         
@@ -169,7 +188,22 @@ public class MainGameLoop {
             
             renderer.processEntity(entity);
             renderer.render(light, camera);
-            guiRenderer.render(guis);
+            if (Keyboard.isKeyDown(Keyboard.KEY_0)) {
+                guiRenderer.render(g04);
+
+            }
+            else if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
+            	guiRenderer.render(g13);
+            }
+            else if (Keyboard.isKeyDown(Keyboard.KEY_2)) {
+            	guiRenderer.render(g22);
+            }
+            else if (Keyboard.isKeyDown(Keyboard.KEY_3)) {
+            	guiRenderer.render(g31);
+            }
+            else {
+            	guiRenderer.render(g40);
+            }
             text.setTextString("1");
             TextMaster.render();
             
