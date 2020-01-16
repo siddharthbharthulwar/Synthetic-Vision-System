@@ -27,6 +27,7 @@ import textures.TerrainTexturePack;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
+import entities.Runway;
 import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
 import fontRendering.TextMaster;
@@ -99,6 +100,9 @@ public class MainGameLoop {
         buildings.add(b);
         buildings.add(c);
         
+        Runway r = new Runway(new Vector2f(12000, -3000), new Vector2f(7800,-5000), new Vector2f(7900, -6500), new Vector2f(12200, -3500), 50);
+        
+        
         List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
         List<Entity> entities = new ArrayList<Entity>();
         
@@ -114,14 +118,20 @@ public class MainGameLoop {
             
         	
         }
+        
+        RawModel model = loader.loadToVAO(r.genVertices(), textureCoords, normals, r.genIndices());
+        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
+        staticModels.add(staticModel);
 
         Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-7,-1000),90,0,0,1);
         Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -7, -1921), 90, 0, 0, 1);
+        Entity runway = new Entity(staticModels.get(2), new Vector3f(0, 0, 0), 0, 0, 0, 1);
         
         entities.add(entity);
         entities.add(entity2);
+        entities.add(runway);
         
-        Camera camera = new Camera(300);
+        Camera camera = new Camera(100);
         
 
         Light light = new Light(new Vector3f(camera.getPosition().x,10500,9000), new Vector3f(1,1,1), 1900);
@@ -175,6 +185,7 @@ public class MainGameLoop {
          
      
         MasterRenderer renderer = new MasterRenderer();
+        
         while(!Display.isCloseRequested()){
         	
             camera.move();
@@ -186,7 +197,7 @@ public class MainGameLoop {
             }
             
             
-            renderer.processEntity(entity);
+            
             renderer.render(light, camera);
             if (camera.getPosition().y > 100) {
                 guiRenderer.render(g40);

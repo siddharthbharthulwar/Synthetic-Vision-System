@@ -70,7 +70,7 @@ public class EntityRenderer {
     			prepareInstance(entity);
     			
         		GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
-    			GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+    			GL11.glDrawElements(GL11.GL_LINES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 
     			
     		}
