@@ -13,6 +13,7 @@ import rasterio.features
 from scipy import interpolate
 import time as time
 import json
+import tsp
 
 
 
@@ -379,6 +380,9 @@ class TerrainGrid:
             plt.imshow(self.arrayValues)
             plt.imshow(thresh)
             plt.show()
+
+            plt.imshow(derivative)
+            plt.show()
         self.n_labels, self.labels, self.stats, self.centroids = cv.connectedComponentsWithStats(thresh, connectivity = 4)
         variance = []
         self.buildings = []
@@ -392,6 +396,11 @@ class TerrainGrid:
         self.labelled_vegetation = np.zeros(self.labels.shape, np.uint8)
         start = time.time()
         incount = 0
+
+        
+        data = {}
+        data['buildings'] = []
+
         for i in np.delete(np.unique(self.labels), 0):
             if (self.stats[i, 4] > minarea):
                 print(i)
@@ -416,7 +425,34 @@ class TerrainGrid:
                     temp = org.filled()
                     temp = erodilate(temp, 2, erosionIterations)
                     corners = cv.goodFeaturesToTrack(temp, maxCorners, 0.01, 15)
+                    trueindices = tsp.tsp(corners)[1]
+                    truecorners = []
+                    data = {
+
+                    }
+                    data['buildings']= []
+                    for i in trueindices:
+                        truecorners.append(corners[i])
+                    rlcorners = {}
+                    rlcorners['indcorners'] = []
+                    for corner in truecorners:
+
+                        rlcorners['indcorners'].append({
+
+                            'x': corner[0][0],
+                            'y': corner[0][1]
+
+                        })
                     self.buildings.append((height, corners.tolist()))
+
+                    data['buildings'].append({
+
+                        'height': height,
+                        'corners': rlcorners
+
+
+                    })
+
                     self.labelled_buildings = np.add(self.labelled_buildings, org.filled(0))
         end = time.time()
         print(len(self.buildings), " buildings and ", len(self.vegetation), " instances of vegetation processed in ", int(end - start), " seconds.")
@@ -434,25 +470,10 @@ class TerrainGrid:
                     self.histogram_final.append(i)
             n, bins, patches = plt.hist(self.histogram_final, 250, facecolor = "blue", alpha = 0.6)
             plt.show()
-        
-
-
-        data = {}
-        data['buildings'] = []
-        count = 0
-        incount = 0
-        while (count < len(self.buildings)):
-
-            
-            data['buildings'].append({
-                'height': self.buildings[count][0],
-                'corners': self.buildings[count][1]
-            })
-        
-            count +=1
+    
         if (saveBool):
             with open('data.json', 'w', encoding = 'utf-8') as f:
-                json.dump(data, f, indent = 4)
+                json.dump(str(data), f, indent = 4)
         
     
 #TODO: vegetation exporting and labelling dict with x and y
