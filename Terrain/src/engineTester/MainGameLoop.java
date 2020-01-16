@@ -37,7 +37,7 @@ public class MainGameLoop {
  
     public static void main(String[] args) {
  
-        DisplayManager.createDisplay(500, 500);
+        DisplayManager.createDisplay(800, 800);
         Loader loader = new Loader();
         TextMaster.init(loader);
 
@@ -77,12 +77,12 @@ public class MainGameLoop {
         };
        
         pointList2.add(new Point(0, 0));
-        pointList2.add(new Point(15, 0));
-        pointList2.add(new Point(20, 5));
-        pointList2.add(new Point(15,11));
-        pointList2.add(new Point(9,22));
-        pointList2.add(new Point(0, 10));
-        pointList2.add(new Point(-1, 5));
+        pointList2.add(new Point(115, 10));
+        pointList2.add(new Point(210, 51));
+        pointList2.add(new Point(115,111));
+        pointList2.add(new Point(19,212));
+        pointList2.add(new Point(10, 110));
+        pointList2.add(new Point(-11, 51));
 	
         
         pointList.add(new Point(-1, 5));
@@ -94,7 +94,7 @@ public class MainGameLoop {
         pointList.add(new Point(0, 0));
         
         Building b = new Building(-15, pointList);
-        Building c = new Building(-19, pointList);
+        Building c = new Building(-19, pointList2);
 
         buildings.add(b);
         buildings.add(c);
@@ -115,13 +115,13 @@ public class MainGameLoop {
         	
         }
 
-        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,0,-1000),90,0,0,1);
-        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, 0, -1921), 90, 0, 0, 1);
+        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-7,-1000),90,0,0,1);
+        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -7, -1921), 90, 0, 0, 1);
         
         entities.add(entity);
         entities.add(entity2);
         
-        Camera camera = new Camera(5000);
+        Camera camera = new Camera(300);
         
 
         Light light = new Light(new Vector3f(camera.getPosition().x,10500,9000), new Vector3f(1,1,1), 1900);
@@ -145,23 +145,23 @@ public class MainGameLoop {
         
         
         List<GuiTexture> g22 = new ArrayList<GuiTexture>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("2-2"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.045f));
+        GuiTexture gui = new GuiTexture(loader.loadTexture("2-2"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.03f));
         g22.add(gui);
         
         List<GuiTexture> g13 = new ArrayList<GuiTexture>();
-        GuiTexture gui2 = new GuiTexture(loader.loadTexture("1-3"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.045f));
+        GuiTexture gui2 = new GuiTexture(loader.loadTexture("1-3"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.03f));
         g13.add(gui2);
         
         List<GuiTexture> g04 = new ArrayList<GuiTexture>();
-        GuiTexture gui3 = new GuiTexture(loader.loadTexture("0-4"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.045f));
+        GuiTexture gui3 = new GuiTexture(loader.loadTexture("0-4"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.03f));
         g04.add(gui3);
         
         List<GuiTexture> g31 = new ArrayList<GuiTexture>();
-        GuiTexture gui4 = new GuiTexture(loader.loadTexture("3-1"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.045f));
+        GuiTexture gui4 = new GuiTexture(loader.loadTexture("3-1"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.03f));
         g31.add(gui4);
         
         List<GuiTexture> g40 = new ArrayList<GuiTexture>();
-        GuiTexture g5 = new GuiTexture(loader.loadTexture("4-0"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.045f));
+        GuiTexture g5 = new GuiTexture(loader.loadTexture("4-0"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.03f));
         g40.add(g5);
         
         
@@ -188,21 +188,21 @@ public class MainGameLoop {
             
             renderer.processEntity(entity);
             renderer.render(light, camera);
-            if (Keyboard.isKeyDown(Keyboard.KEY_0)) {
-                guiRenderer.render(g04);
+            if (camera.getPosition().y > 100) {
+                guiRenderer.render(g40);
 
             }
-            else if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
-            	guiRenderer.render(g13);
-            }
-            else if (Keyboard.isKeyDown(Keyboard.KEY_2)) {
-            	guiRenderer.render(g22);
-            }
-            else if (Keyboard.isKeyDown(Keyboard.KEY_3)) {
+            else if (camera.getPosition().y > 75) {
             	guiRenderer.render(g31);
             }
+            else if (camera.getPosition().y > 50) {
+            	guiRenderer.render(g22);
+            }
+            else if (camera.getPosition().y > 25) {
+            	guiRenderer.render(g13);
+            }
             else {
-            	guiRenderer.render(g40);
+            	guiRenderer.render(g04);
             }
             text.setTextString("1");
             TextMaster.render();
