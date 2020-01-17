@@ -123,15 +123,15 @@ public class MainGameLoop {
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         staticModels.add(staticModel);
 
-        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-7,-1000),90,0,0,1);
-        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -7, -1921), 90, 0, 0, 1);
+        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-7,-1000),270,0,0,1);
+        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -7, -1921), 270, 0, 0, 1);
         Entity runway = new Entity(staticModels.get(2), new Vector3f(0, 0, 0), 0, 0, 0, 1);
         
         entities.add(entity);
         entities.add(entity2);
         entities.add(runway);
         
-        Camera camera = new Camera(100);
+        Camera camera = new Camera(1100);
         
 
         Light light = new Light(new Vector3f(camera.getPosition().x,10500,9000), new Vector3f(1,1,1), 1900);
