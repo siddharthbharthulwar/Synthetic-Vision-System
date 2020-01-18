@@ -117,8 +117,8 @@ public class MainGameLoop {
        pointList = reverseArrayList(pointList);
         
         
-        Building b = new Building(-15, pointList);
-        Building c = new Building(-19, pointList2);
+        Building b = new Building(60, pointList);
+        Building c = new Building(14, pointList2);
 
         buildings.add(b);
         buildings.add(c);
@@ -152,8 +152,8 @@ public class MainGameLoop {
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         staticModels.add(staticModel);
 */
-        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-7,-1000),0,0,0,1);
-        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -7, -1921), 0, 0, 0, 1);
+        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-40,-1000),0,0,0,1);
+        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -40, -1921), 0, 0, 0, 1);
         //Entity runway = new Entity(staticModels.get(2), new Vector3f(0, 0, 0), 0, 0, 0, 1);
         
         entities.add(entity);

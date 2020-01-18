@@ -42,22 +42,26 @@ dim = np.zeros(waterarray.shape)
 R = np.stack((waterarray, dim, dim), axis = 2)[0:1024, 0:1024]
 
 plt.imshow(R)
-p1 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Terrain\\blendmap.py")
-print(p1)
-print(type(p1))
-plt.imsave(str(p1), R, cmap = 'gist_gray')
+plt.imsave('blendmap.png', R, cmap = 'gist_gray')
 plt.show()
 plt.imshow(a.arrayValues, cmap = 'gist_gray')
 plt.show()
 
 
-a.arrayValues = gaussian_filter(a.arrayValues, sigma = 3.8)
+
+a.arrayValues = gaussian_filter(a.arrayValues, sigma = 0.5)
+
 
 min = np.amin(a.arrayValues)
 
 a.arrayValues = a.arrayValues - min
 
-p2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Terrain\\heightmap.py")
+
+plt.imshow(a.arrayValues)
+plt.show()
+
+print(np.amin(a.arrayValues))
 
 
-plt.imsave(str(p2), a.arrayValues, cmap = 'gist_gray')
+plt.imsave('heightmap.png', a.arrayValues, cmap = 'gist_gray')
+
