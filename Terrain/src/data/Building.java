@@ -56,7 +56,7 @@ public class Building {
 	public int[] generateIndices() {
 		
 		List<Integer> continuousIndices = new ArrayList<Integer>();
-		for (int i = 0; i < this.corners.size(); i++) {
+		for (int i = 0; i < this.corners.size() - 1; i++) {
 			
 			
 			int indX1 = (2 * i) + 1;
@@ -76,6 +76,8 @@ public class Building {
 			continuousIndices.add(indZ2);
 			
 		}
+		
+		System.out.println(continuousIndices);
 		
 		int finalInd = this.corners.size() - 1;
 		
