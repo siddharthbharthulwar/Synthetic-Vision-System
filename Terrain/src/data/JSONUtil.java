@@ -74,8 +74,10 @@ public class JSONUtil {
     	Building building = new Building(200, corners);
     	
     	String buildingJSON = JSONUtil.convertObjectToJSON(building);
+    	String string = "{'buildings': [{'height': 3, 'corners': {0: [{'x': 136.0, 'y': 971.0}, {'x': 121.0, 'y': 972.0}, {'x': 106.0, 'y': 978.0}, {'x': 88.0, 'y': 984.0}, {'x': 120.0, 'y': 996.0}, {'x': 141.0, 'y': 988.0}]}}]}";
     	
     	System.out.println(" ---- Building JSON is = " + buildingJSON);
+
     	 
     }
 }

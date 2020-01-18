@@ -39,6 +39,10 @@ def rioTransform(path, fillboolean):
         metadata = src.meta
         transformAffine = metadata['transform']
 
+def Convert(lst): 
+    res_dct = {lst[i]: lst[i + 1] for i in range(0, len(lst), 2)} 
+    return res_dct 
+
         
 def getBounds(path):
     with rio.open(path) as src:
@@ -427,22 +431,19 @@ class TerrainGrid:
                     corners = cv.goodFeaturesToTrack(temp, maxCorners, 0.01, 15)
                     trueindices = tsp.tsp(corners)[1]
                     truecorners = []
-                    data = {
 
-                    }
-                    data['buildings']= []
                     for i in trueindices:
                         truecorners.append(corners[i])
-                    rlcorners = {}
-                    rlcorners['indcorners'] = []
+                    rlcorners = []
                     for corner in truecorners:
 
-                        rlcorners['indcorners'].append({
+                        rlcorners.append({
 
                             'x': corner[0][0],
                             'y': corner[0][1]
 
                         })
+                    print(rlcorners)
                     self.buildings.append((height, corners.tolist()))
 
                     data['buildings'].append({
@@ -452,6 +453,9 @@ class TerrainGrid:
 
 
                     })
+
+                    print(data['buildings'])
+                    print(len(data['buildings']))
 
                     self.labelled_buildings = np.add(self.labelled_buildings, org.filled(0))
         end = time.time()

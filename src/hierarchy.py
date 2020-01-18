@@ -10,8 +10,6 @@ Z= sch.linkage(d,method='complete')
 
 P =sch.dendrogram(Z)
 
-plt.savefig('plot_dendrogram.png')
-
 T = sch.fcluster(Z, 0.5*d.max(), 'distance')
 #array([4, 5, 3, 2, 2, 3, 5, 2, 2, 5, 2, 2, 2, 3, 2, 3, 2, 5, 4, 5, 2, 5, 2,
 #       3, 3, 3, 1, 3, 4, 2, 2, 4, 2, 4, 3, 3, 2, 5, 5, 5, 3, 2, 2, 2, 5, 4,
@@ -39,6 +37,7 @@ def plot_tree(P, pos=None):
     plt.xlim(xmin-10, xmax + 0.1*abs(xmax))
     plt.ylim(ymin, ymax + 0.1*abs(ymax))
     plt.show()
+
 
   
 plot_tree(P)

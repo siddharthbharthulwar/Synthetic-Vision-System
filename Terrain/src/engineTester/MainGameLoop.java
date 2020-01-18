@@ -35,6 +35,20 @@ import guis.GuiRenderer;
 import guis.GuiTexture;
  
 public class MainGameLoop {
+	
+	public static List<Point> reverseArrayList(List<Point> alist) 
+    { 
+        // Arraylist for storing reversed elements 
+        ArrayList<Point> revArrayList = new ArrayList<Point>(); 
+        for (int i = alist.size() - 1; i >= 0; i--) { 
+  
+            // Append the elements in reverse order 
+            revArrayList.add(alist.get(i)); 
+        } 
+  
+        // Return the reversed arraylist 
+        return revArrayList; 
+    } 
  
     public static void main(String[] args) {
  
@@ -86,13 +100,21 @@ public class MainGameLoop {
         pointList2.add(new Point(-11, 51));
 	
         
-        pointList.add(new Point(-1, 5));
-        pointList.add(new Point(0, 10));
-        pointList.add(new Point(9,22));
-        pointList.add(new Point(15,11));
-        pointList.add(new Point(20, 5));
-        pointList.add(new Point(15, 0));
-        pointList.add(new Point(0, 0));
+        pointList.add(new Point(104, 43));
+        pointList.add(new Point(99, 33));
+        pointList.add(new Point(96, 23));
+        pointList.add(new Point(93, 2));
+        pointList.add(new Point(172, 2));
+        pointList.add(new Point(175, 19));
+        pointList.add(new Point(166, 25));
+        pointList.add(new Point(156, 28));
+        pointList.add(new Point(144, 31));
+        pointList.add(new Point(126, 37));
+        pointList.add(new Point(116, 41));
+        pointList.add(new Point(104, 43));
+        pointList = reverseArrayList(pointList);
+        
+        System.out.println(pointList);
         
         Building b = new Building(-15, pointList);
         Building c = new Building(-19, pointList2);
@@ -215,7 +237,6 @@ public class MainGameLoop {
             else {
             	guiRenderer.render(g04);
             }
-            text.setTextString("1");
             TextMaster.render();
             
             
