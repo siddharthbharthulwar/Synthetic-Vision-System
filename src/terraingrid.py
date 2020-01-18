@@ -403,7 +403,7 @@ class TerrainGrid:
 
         
         data = {}
-        data['buildings'] = []
+        data['Building'] = []
 
         for i in np.delete(np.unique(self.labels), 0):
             if (self.stats[i, 4] > minarea):
@@ -439,14 +439,14 @@ class TerrainGrid:
 
                         rlcorners.append({
 
-                            'x': corner[0][0],
-                            'y': corner[0][1]
+                            "x": corner[0][0],
+                            "y": corner[0][1]
 
                         })
                     print(rlcorners)
                     self.buildings.append((height, corners.tolist()))
 
-                    data['buildings'].append({
+                    data['Building'].append({
 
                         'height': height,
                         'corners': rlcorners
@@ -454,8 +454,8 @@ class TerrainGrid:
 
                     })
 
-                    print(data['buildings'])
-                    print(len(data['buildings']))
+                    print(data['Building'])
+                    print(len(data['Building']))
 
                     self.labelled_buildings = np.add(self.labelled_buildings, org.filled(0))
         end = time.time()

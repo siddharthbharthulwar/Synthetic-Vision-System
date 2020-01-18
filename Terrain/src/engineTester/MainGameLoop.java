@@ -4,6 +4,7 @@ import models.RawModel;
 import models.TexturedModel;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,53 +32,16 @@ import entities.Runway;
 import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
 import fontRendering.TextMaster;
+import guidance.guidingBox;
 import guis.GuiRenderer;
 import guis.GuiTexture;
+
+import toolbox.arrayUtils;
+import util.FileUtil;
  
 public class MainGameLoop {
-	
-	
-	public static String arrayToString(float[] var) {
-		
-		String s = "";
-		int count = 0;
-		while (count < var.length) {
-			s += var[count];
-			s += ", ";
-			count ++;
-		}
-		
-		return s;
-	}
-	
-	public static String arrayToString(int[] var) {
-		
-		String s = "";
-		int count = 0;
-		while (count < var.length) {
-			s += var[count];
-			s += ", ";
-			count ++;
-		}
-		
-		return s;
-	}
-	
-	public static List<Point> reverseArrayList(List<Point> alist) 
-    { 
-        // Arraylist for storing reversed elements 
-        ArrayList<Point> revArrayList = new ArrayList<Point>(); 
-        for (int i = alist.size() - 1; i >= 0; i--) { 
-  
-            // Append the elements in reverse order 
-            revArrayList.add(alist.get(i)); 
-        } 
-  
-        // Return the reversed arraylist 
-        return revArrayList; 
-    } 
  
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
  
         DisplayManager.createDisplay(800, 800);
         Loader loader = new Loader();
@@ -89,7 +53,30 @@ public class MainGameLoop {
         
         List<Point> pointList = new ArrayList<Point>();
         List<Point> pointList2 = new ArrayList<Point>();
-        List<Building> buildings = new ArrayList<Building>();
+        List<Building> buildings = FileUtil.loadBuildingsFromJSON("res/data.json");
+        
+        System.out.println(" ==== Building List read is: " + buildings);
+        System.out.println(" ==== Building List Size is: " + buildings.size());
+        System.out.println(" ==== Building List Class is: " + buildings.getClass());
+        
+        
+        List<Building> buildingList = null;
+
+        for(Object obj:buildings) {
+        	 System.out.println("  ==== Building class for OBJ is: " + obj.getClass());
+        	 
+        	 System.out.println(" ==== Building List 2 is: " + buildingList);
+        	 
+        	 buildingList = (ArrayList<Building>) obj;
+        	 
+        	 for(Building building:buildingList) {
+        		 System.out.println("   ==== Building is : " + building);
+        	 }
+        	 
+        	 
+        }
+        
+        guidingBox guide = new guidingBox(500, new Vector3f(500, -400, 500), 200, 5);
         
         
         float[] textureCoords = {
@@ -103,25 +90,7 @@ public class MainGameLoop {
            
         };
        
-        pointList.add(new Point(50, 160));
-        pointList.add(new Point(100, 170));
-        pointList.add(new Point(70, 210));
-        pointList.add(new Point(30, 150));
         
-        
-        pointList2.add(new Point(0, 150));
-        pointList2.add(new Point(100, 160));
-        pointList2.add(new Point(150, 110));
-        pointList2.add(new Point(20, 30));
-        
-       pointList = reverseArrayList(pointList);
-        
-        
-        Building b = new Building(60, pointList);
-        Building c = new Building(14, pointList2);
-
-        buildings.add(b);
-        buildings.add(c);
         
         Runway r = new Runway(new Vector2f(12000, -3000), new Vector2f(7800,-5000), new Vector2f(7900, -6500), new Vector2f(12200, -3500), 50);
         
@@ -129,7 +98,7 @@ public class MainGameLoop {
         List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
         List<Entity> entities = new ArrayList<Entity>();
         
-        for (Building building: buildings) {
+        for (Building building: buildingList) {
         	
         	RawModel model = loader.loadToVAO(building.floatVertProcess(), textureCoords, normals, building.generateIndices());
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
@@ -141,25 +110,42 @@ public class MainGameLoop {
             System.out.println(building.getCorners().size());
             
             
-            System.out.println(arrayToString(building.generateIndices()));
+            //System.out.println(arrayToString(building.generateIndices()));
             System.out.println(building.generateIndices().length);
             
         	
         }
+        
+        RawModel model = loader.loadToVAO(guide.generateVertices(), textureCoords, normals, guide.generateIndices());
+    	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
+    	ModelTexture texture = staticModel.getTexture();
+        texture.setShineDamper(1000);
+        texture.setReflectivity(0.5f);
+        
+        staticModels.add(staticModel);
         
         /*
         RawModel model = loader.loadToVAO(r.genVertices(), textureCoords, normals, r.genIndices());
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         staticModels.add(staticModel);
 */
+        
+        
+        for (int j = 0; j < buildingList.size() + 1; j++) {
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(0, -40, -1000), 0, 0, 0, 1));
+        	
+        }
+        /*
         Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-40,-1000),0,0,0,1);
         Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -40, -1921), 0, 0, 0, 1);
+        Entity entity3 = new Entity(staticModels.get(2), new Vector3f(400, -400, 400), 0, 0, 0, 1);
         //Entity runway = new Entity(staticModels.get(2), new Vector3f(0, 0, 0), 0, 0, 0, 1);
         
         entities.add(entity);
         entities.add(entity2);
+        entities.add(entity3);
         //entities.add(runway);
-        
+        */
         Camera camera = new Camera(1100);
         
 

@@ -1,4 +1,4 @@
-package data;
+package util;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,6 +6,9 @@ import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
+
+import data.Building;
+import data.Point;
 
 /**
  *********************************************************
@@ -26,7 +29,8 @@ public class JSONUtil {
 	private static void setAliases(XStream xstream){
 		
 		xstream.alias("Building", Building.class);
-		
+		xstream.alias("Point", Point.class);
+				
 	}
 	
 	public static String convertObjectToJSON(Object obj){
@@ -82,12 +86,14 @@ public class JSONUtil {
     	
     	buildings.add(building1);
     	buildings.add(building2);
-    	
-    	
+    	   	
     	String buildingsJSON = JSONUtil.convertObjectToJSON(buildings);
-    	String string = "{'buildings': [{'height': 3, 'corners': {0: [{'x': 136.0, 'y': 971.0}, {'x': 121.0, 'y': 972.0}, {'x': 106.0, 'y': 978.0}, {'x': 88.0, 'y': 984.0}, {'x': 120.0, 'y': 996.0}, {'x': 141.0, 'y': 988.0}]}}]}";
     	
     	System.out.println(" ---- Buildings JSON is = " + buildingsJSON);
+    	
+    	buildingsJSON = buildingsJSON.replace("\"", "'");
+    	
+    	System.out.println(" ---- Buildings JSON after replace is = " + buildingsJSON);
     	
     	List<Building> buildingList  =  (List<Building>)JSONUtil.convertJSONtoObject(buildingsJSON) ;
     	
