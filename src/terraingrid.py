@@ -443,7 +443,6 @@ class TerrainGrid:
                             "y": corner[0][1]
 
                         })
-                    print(rlcorners)
                     self.buildings.append((height, corners.tolist()))
 
                     data['Building'].append({
@@ -454,8 +453,6 @@ class TerrainGrid:
 
                     })
 
-                    print(data['Building'])
-                    print(len(data['Building']))
 
                     self.labelled_buildings = np.add(self.labelled_buildings, org.filled(0))
         end = time.time()
@@ -476,7 +473,7 @@ class TerrainGrid:
             plt.show()
     
         if (saveBool):
-            with open('data.json', 'w', encoding = 'utf-8') as f:
+            with open(r"C:\Users\siddh\Projects\Synthetic Vision System\Terrain\res\data.json", 'w', encoding = 'utf-8') as f:
                 json.dump(str(data), f, indent = 4)
         
     

@@ -131,8 +131,8 @@ public class MainGameLoop {
 */
         
         
-        for (int j = 0; j < buildingList.size() + 1; j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(0, -40, -1000), 0, 0, 0, 1));
+        for (int j = 0; j < buildingList.size(); j++) {
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(5550, -10, -4000), 0, 0, 0, 1));
         	
         }
         /*
