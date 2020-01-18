@@ -11,5 +11,6 @@
  - Mayavi
  - GDAL
  - LWJGL 2
+ - TSP
  
 
