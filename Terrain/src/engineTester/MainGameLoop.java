@@ -36,6 +36,20 @@ import guis.GuiTexture;
  
 public class MainGameLoop {
 	
+	
+	public static String arrayToString(float[] var) {
+		
+		String s = "";
+		int count = 0;
+		while (count < var.length) {
+			s += var[count];
+			s += ", ";
+			count ++;
+		}
+		
+		return s;
+	}
+	
 	public static List<Point> reverseArrayList(List<Point> alist) 
     { 
         // Arraylist for storing reversed elements 
@@ -71,23 +85,8 @@ public class MainGameLoop {
         
         float[] normals = {
                 
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1,
-                1, 1, 1
-                
-            
+                1, 1
+               
            
         };
        
@@ -100,27 +99,29 @@ public class MainGameLoop {
         pointList2.add(new Point(-11, 51));
 	
         
-        pointList.add(new Point(104, 43));
-        pointList.add(new Point(99, 33));
-        pointList.add(new Point(96, 23));
-        pointList.add(new Point(93, 2));
-        pointList.add(new Point(172, 2));
-        pointList.add(new Point(175, 19));
-        pointList.add(new Point(166, 25));
-        pointList.add(new Point(156, 28));
-        pointList.add(new Point(144, 31));
-        pointList.add(new Point(126, 37));
-        pointList.add(new Point(116, 41));
-        pointList.add(new Point(104, 43));
-        pointList = reverseArrayList(pointList);
+        pointList.add(new Point(14, 97));
+        pointList.add(new Point(41, 92));
+        pointList.add(new Point(56, 91));
+        pointList.add(new Point(71, 91));
+        pointList.add(new Point(78, 106));
+        pointList.add(new Point(51, 122));
+        pointList.add(new Point(26, 134));
+        pointList.add(new Point(20, 120));
         
-        System.out.println(pointList);
+        pointList.add(new Point(100, 100));
+        pointList.add(new Point(150, 100));
+        pointList.add(new Point(150, 150));
+        pointList.add(new Point(100, 150));
+        
+        
+       // pointList = reverseArrayList(pointList);
+        
         
         Building b = new Building(-15, pointList);
         Building c = new Building(-19, pointList2);
 
         buildings.add(b);
-        buildings.add(c);
+        //buildings.add(c);
         
         Runway r = new Runway(new Vector2f(12000, -3000), new Vector2f(7800,-5000), new Vector2f(7900, -6500), new Vector2f(12200, -3500), 50);
         
@@ -138,20 +139,23 @@ public class MainGameLoop {
             
             staticModels.add(staticModel);
             
+            System.out.println(arrayToString(building.floatVertProcess()));
+            
         	
         }
         
+        /*
         RawModel model = loader.loadToVAO(r.genVertices(), textureCoords, normals, r.genIndices());
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         staticModels.add(staticModel);
-
-        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-7,-1000),270,0,0,1);
-        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -7, -1921), 270, 0, 0, 1);
-        Entity runway = new Entity(staticModels.get(2), new Vector3f(0, 0, 0), 0, 0, 0, 1);
+*/
+        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-7,-1000),0,0,0,1);
+        //Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -7, -1921), 270, 0, 0, 1);
+        //Entity runway = new Entity(staticModels.get(2), new Vector3f(0, 0, 0), 0, 0, 0, 1);
         
         entities.add(entity);
-        entities.add(entity2);
-        entities.add(runway);
+        //entities.add(entity2);
+        //entities.add(runway);
         
         Camera camera = new Camera(1100);
         

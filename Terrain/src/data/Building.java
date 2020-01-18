@@ -35,12 +35,14 @@ public class Building {
 		ArrayList<Float> bef = new ArrayList<Float>();
 		for (Point p: points) {
 			bef.add(p.getX());
-			bef.add(p.getY());
 			bef.add((float) 0);
+
+			bef.add(p.getY());
 			
 			bef.add(p.getX());
-			bef.add(p.getY());
 			bef.add(height);
+
+			bef.add(p.getY());
 		}
 		
 		int count = 0;
@@ -48,7 +50,6 @@ public class Building {
 			fin[count] = bef.get(count);
 			count +=1;
 		}
-		System.out.println(bef);
 		return fin;
 	}
 	
@@ -81,7 +82,6 @@ public class Building {
 		continuousIndices.add((2 * finalInd) + 1);
 		continuousIndices.add(2 * finalInd);
 		continuousIndices.add(1);
-		System.out.println(1 + (2 * finalInd) + " and " + 2 * finalInd);
 		
 		continuousIndices.add(2 * finalInd);
 		continuousIndices.add(0);
@@ -104,8 +104,25 @@ public class Building {
 		}
 		
 		
-		System.out.println(continuousIndices);
 		return finalIndices;
+		
+	}
+	
+	public String toString() {
+		
+		String s = "";
+		s += "Height: " + this.height;
+		s += ", Corners: [";
+		
+		for (Point p: this.corners) {
+			s += p;
+			s += ", ";
+			
+		}
+		
+		s += "]";
+		
+		return s;
 		
 	}
 }

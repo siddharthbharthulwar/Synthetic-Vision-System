@@ -65,18 +65,33 @@ public class JSONUtil {
     
     public static void main(String[] args){
     	
-    	List<Point> corners = new ArrayList<Point>();
-    	corners.add(new Point(300.5f, 200.0f));
-    	corners.add(new Point(350.5f, 250.0f));
-    	corners.add(new Point(360.5f, 260.0f));
+    	List<Point> corners1 = new ArrayList<Point>();
+    	corners1.add(new Point(300.5f, 200.0f));
+    	corners1.add(new Point(350.5f, 250.0f));
+    	corners1.add(new Point(360.5f, 260.0f));
+    	
+    	List<Point> corners2 = new ArrayList<Point>();
+    	corners2.add(new Point(600.5f, 200.0f));
+    	corners2.add(new Point(650.5f, 250.0f));
+    	corners2.add(new Point(760.5f, 260.0f));
     	
     	
-    	Building building = new Building(200, corners);
+    	List<Building> buildings = new ArrayList<Building>();
+    	Building building1 = new Building(200, corners1);
+    	Building building2 = new Building(300, corners2);
     	
-    	String buildingJSON = JSONUtil.convertObjectToJSON(building);
+    	buildings.add(building1);
+    	buildings.add(building2);
+    	
+    	
+    	String buildingsJSON = JSONUtil.convertObjectToJSON(buildings);
     	String string = "{'buildings': [{'height': 3, 'corners': {0: [{'x': 136.0, 'y': 971.0}, {'x': 121.0, 'y': 972.0}, {'x': 106.0, 'y': 978.0}, {'x': 88.0, 'y': 984.0}, {'x': 120.0, 'y': 996.0}, {'x': 141.0, 'y': 988.0}]}}]}";
     	
-    	System.out.println(" ---- Building JSON is = " + buildingJSON);
+    	System.out.println(" ---- Buildings JSON is = " + buildingsJSON);
+    	
+    	List<Building> buildingList  =  (List<Building>)JSONUtil.convertJSONtoObject(buildingsJSON) ;
+    	
+    	System.out.println(" ---- Buildings List is = " + buildingList);
 
     	 
     }
