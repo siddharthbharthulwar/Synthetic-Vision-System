@@ -76,7 +76,7 @@ public class MainGameLoop {
         	 
         }
         
-        guidingBox guide = new guidingBox(500, new Vector3f(500, -400, 500), 200, 5);
+        guidingBox guide = new guidingBox(500, new Vector3f(500, 2400, 1000), 200, 5);
         
         
         float[] textureCoords = {
@@ -85,7 +85,34 @@ public class MainGameLoop {
         
         float[] normals = {
                 
-                1, 1
+                1, 0, 0,
+                1, 0, 0,
+                1, 0, 0,
+                1, 0, 0,
+                0, 0, 1,
+                0, 0, 1,
+                0, 0, 1,
+                0, 0, 1,
+                1, 0, 0,
+                1, 0, 0,
+                1, 0, 0,
+                1, 0, 0,
+                0, 0, 1,
+                0, 0, 1,
+                0, 0, 1,
+                0, 0, 1,
+                1, 0, 0,
+                1, 0, 0,
+                1, 0, 0,
+                1, 0, 0,
+                0, 0, 1,
+                0, 0, 1,
+                0, 0, 1,
+                0, 0, 1,
+                0, 1, 0, 
+                0, 1, 0,
+                0, 1, 0,
+                0, 1, 0
                
            
         };
@@ -131,7 +158,7 @@ public class MainGameLoop {
 */
         
         
-        for (int j = 0; j < buildingList.size(); j++) {
+        for (int j = 0; j < buildingList.size() + 1; j++) {
         	entities.add(new Entity(staticModels.get(j), new Vector3f(5550, -10, -4000), 0, 0, 0, 1));
         	
         }
@@ -146,7 +173,7 @@ public class MainGameLoop {
         entities.add(entity3);
         //entities.add(runway);
         */
-        Camera camera = new Camera(1100);
+        Camera camera = new Camera(11100);
         
 
         Light light = new Light(new Vector3f(camera.getPosition().x,10500,9000), new Vector3f(1,1,1), 1900);
