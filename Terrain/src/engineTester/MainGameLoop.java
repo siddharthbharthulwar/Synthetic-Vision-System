@@ -63,20 +63,38 @@ public class MainGameLoop {
         List<Building> buildingList = null;
 
         for(Object obj:buildings) {
-        	 System.out.println("  ==== Building class for OBJ is: " + obj.getClass());
+        	// System.out.println("  ==== Building class for OBJ is: " + obj.getClass());
         	 
-        	 System.out.println(" ==== Building List 2 is: " + buildingList);
+        	// System.out.println(" ==== Building List 2 is: " + buildingList);
         	 
         	 buildingList = (ArrayList<Building>) obj;
-        	 
-        	 for(Building building:buildingList) {
-        		 System.out.println("   ==== Building is : " + building);
-        	 }
-        	 
+
         	 
         }
         
-        guidingBox guide = new guidingBox(500, new Vector3f(500, 2400, 1000), 200, 5);
+        List<guidingBox> guideList = new ArrayList<guidingBox>();
+        
+        
+        guidingBox guide1 = new guidingBox(500, new Vector3f(500, 2400, 1000), 200, 50);
+        guidingBox guide2 = new guidingBox(500, new Vector3f(500, 2400, 3000), 200, 50);
+        guidingBox guide3 = new guidingBox(500, new Vector3f(500, 2400, 5000), 200, 50);
+        guidingBox guide4 = new guidingBox(500, new Vector3f(500, 2400, 7000), 200, 50);
+        guidingBox guide5 = new guidingBox(500, new Vector3f(500, 2400, 9000), 200, 50);
+        guidingBox guide6 = new guidingBox(500, new Vector3f(500, 2400, 11000), 200, 50);
+        guidingBox guide7 = new guidingBox(500, new Vector3f(500, 2400, 13000), 200, 50);
+        guidingBox guide8 = new guidingBox(500, new Vector3f(500, 2400, 15000), 200, 50);
+
+        
+
+        guideList.add(guide1);
+        guideList.add(guide2);
+        guideList.add(guide3);
+        guideList.add(guide4);
+        guideList.add(guide5);
+        guideList.add(guide6);
+        guideList.add(guide7);
+        guideList.add(guide8);
+        
         
         
         float[] textureCoords = {
@@ -93,18 +111,18 @@ public class MainGameLoop {
                 0, 0, 1,
                 0, 0, 1,
                 0, 0, 1,
-                1, 0, 0,
-                1, 0, 0,
-                1, 0, 0,
-                1, 0, 0,
+               - 1, 0, 0,
+                -1, 0, 0,
+                -1, 0, 0,
+               - 1, 0, 0,
                 0, 0, 1,
                 0, 0, 1,
                 0, 0, 1,
                 0, 0, 1,
-                1, 0, 0,
-                1, 0, 0,
-                1, 0, 0,
-                1, 0, 0,
+               - 1, 0, 0,
+                -1, 0, 0,
+                -1, 0, 0,
+                -1, 0, 0,
                 0, 0, 1,
                 0, 0, 1,
                 0, 0, 1,
@@ -134,22 +152,26 @@ public class MainGameLoop {
             texture.setReflectivity(0.5f);
             
             staticModels.add(staticModel);
-            System.out.println(building.getCorners().size());
+            //System.out.println(building.getCorners().size());
             
             
             //System.out.println(arrayToString(building.generateIndices()));
-            System.out.println(building.generateIndices().length);
+           // System.out.println(building.generateIndices().length);
             
         	
         }
         
-        RawModel model = loader.loadToVAO(guide.generateVertices(), textureCoords, normals, guide.generateIndices());
-    	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
-    	ModelTexture texture = staticModel.getTexture();
-        texture.setShineDamper(1000);
-        texture.setReflectivity(0.5f);
+        for (guidingBox guide: guideList) {
+        	RawModel model = loader.loadToVAO(guide.generateVertices(), textureCoords, normals, guide.generateIndices());
+        	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
+        	ModelTexture texture = staticModel.getTexture();
+            texture.setShineDamper(1000);
+            texture.setReflectivity(0.5f);
+            
+            staticModels.add(staticModel);
+        }
         
-        staticModels.add(staticModel);
+        
         
         /*
         RawModel model = loader.loadToVAO(r.genVertices(), textureCoords, normals, r.genIndices());
@@ -158,7 +180,7 @@ public class MainGameLoop {
 */
         
         
-        for (int j = 0; j < buildingList.size() + 1; j++) {
+        for (int j = 0; j < buildingList.size() + guideList.size(); j++) {
         	entities.add(new Entity(staticModels.get(j), new Vector3f(5550, -10, -4000), 0, 0, 0, 1));
         	
         }
@@ -173,7 +195,7 @@ public class MainGameLoop {
         entities.add(entity3);
         //entities.add(runway);
         */
-        Camera camera = new Camera(11100);
+        Camera camera = new Camera(10100);
         
 
         Light light = new Light(new Vector3f(camera.getPosition().x,10500,9000), new Vector3f(1,1,1), 1900);
@@ -223,6 +245,9 @@ public class MainGameLoop {
         
         
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
+        Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap, "heightmap");
+        Terrain terrain3 = new Terrain(-1, 0, loader, texturePack, blendMap, "heightmap");
+        Terrain terrain4 = new Terrain(0, 0, loader, texturePack, blendMap, "heightmap");
 
          
      
@@ -233,7 +258,7 @@ public class MainGameLoop {
             camera.move();
             light.move();
             renderer.processTerrain(terrain);
-            
+
             for (Entity e: entities) {
             	renderer.processEntity(e);
             }

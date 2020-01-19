@@ -89,15 +89,15 @@ public class JSONUtil {
     	   	
     	String buildingsJSON = JSONUtil.convertObjectToJSON(buildings);
     	
-    	System.out.println(" ---- Buildings JSON is = " + buildingsJSON);
+    	//System.out.println(" ---- Buildings JSON is = " + buildingsJSON);
     	
     	buildingsJSON = buildingsJSON.replace("\"", "'");
     	
-    	System.out.println(" ---- Buildings JSON after replace is = " + buildingsJSON);
+    	//System.out.println(" ---- Buildings JSON after replace is = " + buildingsJSON);
     	
     	List<Building> buildingList  =  (List<Building>)JSONUtil.convertJSONtoObject(buildingsJSON) ;
     	
-    	System.out.println(" ---- Buildings List is = " + buildingList);
+    	//System.out.println(" ---- Buildings List is = " + buildingList);
 
     	 
     }

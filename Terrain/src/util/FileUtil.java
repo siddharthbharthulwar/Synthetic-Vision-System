@@ -19,24 +19,24 @@ public class FileUtil {
 		
 		//Step1: Remove "
 		inputJSON = inputJSON.replace("\"", "");
-		System.out.println(" 1. file content: " + inputJSON);
+		//System.out.println(" 1. file content: " + inputJSON);
 		
 		//Step2 Replace
 		inputJSON = inputJSON.replace("'corners':", "'corners':[{'Point':");
 		
-		System.out.println(" 2. file content: " + inputJSON);
+		//System.out.println(" 2. file content: " + inputJSON);
 		
 		//Step3: Append end part
 		inputJSON = inputJSON.replace("]}, {'height'", "]}]}, {'height'");
-		System.out.println(" 3. file content: " + inputJSON);
+		//System.out.println(" 3. file content: " + inputJSON);
 		
 		//Step 4: append end part
 		inputJSON = inputJSON + "]}]}" ;
-		System.out.println(" 4. file content: " + inputJSON);
+		//System.out.println(" 4. file content: " + inputJSON);
 		
 		//Step 5: prepend List part in beginning
 		inputJSON = "{'list':[" + inputJSON;
-		System.out.println(" 5. file content: " + inputJSON);
+		//System.out.println(" 5. file content: " + inputJSON);
 		
 		return inputJSON;
 			
@@ -48,7 +48,7 @@ public class FileUtil {
 		s = updateJSON(s);
 		
 		List<Building> buildingsList = (List<Building>) JSONUtil.convertJSONtoObject(s);
-		System.out.println(buildingsList);
+		//System.out.println(buildingsList);
 		return buildingsList;
 	}
 	
