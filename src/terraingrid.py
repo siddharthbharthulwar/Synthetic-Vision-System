@@ -422,39 +422,40 @@ class TerrainGrid:
                     self.labelled_vegetation = np.add(self.labelled_vegetation, org.filled(0))
                     self.vegetation.append((height, self.centroids[i]))
                 else:
-                    self.index_building.append(i)
-                    self.relative_index_building.append(incount)
-                    incount +=1
-                    height = int(np.mean(org * self.arrayValues))
-                    temp = org.filled()
-                    temp = erodilate(temp, 2, erosionIterations)
-                    corners = cv.goodFeaturesToTrack(temp, maxCorners, 0.01, 15)
-                    trueindices = tsp.tsp(corners)[1]
-                    truecorners = []
+                    if (self.stats[i, 4] < 40000):
+                        self.index_building.append(i)
+                        self.relative_index_building.append(incount)
+                        incount +=1
+                        height = int(np.mean(org * self.arrayValues))
+                        temp = org.filled()
+                        temp = erodilate(temp, 2, erosionIterations)
+                        corners = cv.goodFeaturesToTrack(temp, maxCorners, 0.01, 15)
+                        trueindices = tsp.tsp(corners)[1]
+                        truecorners = []
 
-                    for i in trueindices:
-                        truecorners.append(corners[i])
-                    rlcorners = []
-                    for corner in truecorners:
+                        for i in trueindices:
+                            truecorners.append(corners[i])
+                        rlcorners = []
+                        for corner in truecorners:
 
-                        rlcorners.append({
+                            rlcorners.append({
 
-                            "x": corner[0][0],
-                            "y": corner[0][1]
+                                "x": corner[0][0],
+                                "y": corner[0][1]
+
+                            })
+                        self.buildings.append((height, corners.tolist()))
+
+                        data['Building'].append({
+
+                            'height': height,
+                            'corners': rlcorners
+
 
                         })
-                    self.buildings.append((height, corners.tolist()))
-
-                    data['Building'].append({
-
-                        'height': height,
-                        'corners': rlcorners
 
 
-                    })
-
-
-                    self.labelled_buildings = np.add(self.labelled_buildings, org.filled(0))
+                        self.labelled_buildings = np.add(self.labelled_buildings, org.filled(0))
         end = time.time()
         print(len(self.buildings), " buildings and ", len(self.vegetation), " instances of vegetation processed in ", int(end - start), " seconds.")
 

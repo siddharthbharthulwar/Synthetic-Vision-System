@@ -17,7 +17,7 @@ public class Building {
 		return height;
 	}
 	public void setHeight(int height) {
-		this.height = 200 * height;
+		this.height = 2000 * height;
 	}
 	public List<Point> getCorners() {
 		return corners;
@@ -88,6 +88,8 @@ public class Building {
 		continuousIndices.add(2 * finalInd);
 		continuousIndices.add(0);
 		continuousIndices.add(1);
+		
+		
 		
 		for (int j = 4; j < 2 * this.corners.size(); j++) {
 			

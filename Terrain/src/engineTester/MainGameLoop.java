@@ -181,7 +181,7 @@ public class MainGameLoop {
         
         
         for (int j = 0; j < buildingList.size() + guideList.size(); j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(5550, -10, -4000), 0, 0, 0, 1));
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(5550, -10, -4000), 0, 0, 0, 4));
         	
         }
         /*
@@ -195,7 +195,7 @@ public class MainGameLoop {
         entities.add(entity3);
         //entities.add(runway);
         */
-        Camera camera = new Camera(10100);
+        Camera camera = new Camera(1000);
         
 
         Light light = new Light(new Vector3f(camera.getPosition().x,10500,9000), new Vector3f(1,1,1), 1900);

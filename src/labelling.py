@@ -20,9 +20,9 @@ ehamr = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_25dn1.tif"
 r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
 path = r"C:\Users\siddh\Documents\DSMS\R_25GN1\r_25gn1.tif"
 
-a = TerrainGrid((ehamr), (1,1), 1)
+a = TerrainGrid((rd1), (1,1), 1)
 a.show(-5, 50)
-a.arrayValues = a.arrayValues[2800:3800, 8000:9000]
+a.arrayValues = a.arrayValues[9000:12000, 3000:6000]
 a.show(-5, 50)
 
 c = cv.threshold(a.arrayValues, 2.4, 200, cv.THRESH_BINARY)[1].astype('uint8')
@@ -124,7 +124,8 @@ while (count < len(buildings)):
     plt.imshow(a.arrayValues)
     plt.imshow(ma.masked_values(temp, 63), cmap = 'jet', alpha = 0.5)
     print("Real index of: ", buildings[count], " and relative index of: ", inbuildings[count], " with variance of: ", variance[inbuildings[count]], " (B)")
-    print(truecorners)
+    print(stats[buildings[count], 4])
+
     plt.show()
     count +=1
 count = 0
