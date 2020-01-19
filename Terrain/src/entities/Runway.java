@@ -66,23 +66,26 @@ public class Runway<Vertex2f>{
 		
 	}
 	
-	/*
+	
 	public int[] generateIndices() {
 		
 		//BASE RUNWAY:
 		
+		int[] ind = {
+		2, 0, 1,
+		2, 1, 3
+		};
 		
-		
-		
+		return ind;
 	}
-	*/
 	
+/*
 	public static void main(String[] args) {
 		
 		Runway r = new Runway(45, 1000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15);
 		float[] f = r.generateVertices();
 	}
 	
-	
+	*/
 	
 }

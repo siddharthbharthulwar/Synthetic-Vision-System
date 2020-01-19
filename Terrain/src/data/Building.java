@@ -17,7 +17,7 @@ public class Building {
 		return height;
 	}
 	public void setHeight(int height) {
-		this.height = 2000 * height;
+		this.height = 2000 + height;
 	}
 	public List<Point> getCorners() {
 		return corners;

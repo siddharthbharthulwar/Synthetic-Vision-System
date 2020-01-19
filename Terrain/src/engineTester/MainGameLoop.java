@@ -137,7 +137,7 @@ public class MainGameLoop {
        
         
         
-     //   Runway r = new Runway(new Vector2f(12000, -3000), new Vector2f(7800,-5000), new Vector2f(7900, -6500), new Vector2f(12200, -3500), 50);
+        Runway r = new Runway(45, 5000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15);
         
         
         List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
@@ -173,29 +173,21 @@ public class MainGameLoop {
         }
         
         
-        /*
         
-        RawModel model = loader.loadToVAO(r.genVertices(), textureCoords, normals, r.genIndices());
+        
+        RawModel model = loader.loadToVAO(r.generateVertices(), textureCoords, normals, r.generateIndices());
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
-        staticModels.add(staticModel);
-*/
+      	Entity runway = new Entity(staticModel, new Vector3f(0, 0, 0), 0, 0, 0, 1);
+
+
         
         
         for (int j = 0; j < buildingList.size() + guideList.size(); j++) {
         	entities.add(new Entity(staticModels.get(j), new Vector3f(5550, -10, -4000), 0, 57, 0, 4));
         	
         }
-        /*
-        Entity entity = new Entity(staticModels.get(0), new Vector3f(1525,-40,-1000),0,0,0,1);
-        Entity entity2 = new Entity(staticModels.get(1), new Vector3f(2151, -40, -1921), 0, 0, 0, 1);
-        Entity entity3 = new Entity(staticModels.get(2), new Vector3f(400, -400, 400), 0, 0, 0, 1);
-        //Entity runway = new Entity(staticModels.get(2), new Vector3f(0, 0, 0), 0, 0, 0, 1);
-        
-        entities.add(entity);
-        entities.add(entity2);
-        entities.add(entity3);
+   
         entities.add(runway);
-        */
         Camera camera = new Camera(10100);
         
 
