@@ -137,13 +137,14 @@ public class MainGameLoop {
        
         
         
-        Runway r = new Runway(new Vector2f(12000, -3000), new Vector2f(7800,-5000), new Vector2f(7900, -6500), new Vector2f(12200, -3500), 50);
+     //   Runway r = new Runway(new Vector2f(12000, -3000), new Vector2f(7800,-5000), new Vector2f(7900, -6500), new Vector2f(12200, -3500), 50);
         
         
         List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
         List<Entity> entities = new ArrayList<Entity>();
         
         for (Building building: buildingList) {
+        	System.out.println(building.getHeight());
         	
         	RawModel model = loader.loadToVAO(building.floatVertProcess(), textureCoords, normals, building.generateIndices());
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
@@ -172,8 +173,8 @@ public class MainGameLoop {
         }
         
         
-        
         /*
+        
         RawModel model = loader.loadToVAO(r.genVertices(), textureCoords, normals, r.genIndices());
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         staticModels.add(staticModel);
@@ -181,7 +182,7 @@ public class MainGameLoop {
         
         
         for (int j = 0; j < buildingList.size() + guideList.size(); j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(5550, -10, -4000), 0, 0, 0, 4));
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(5550, -10, -4000), 0, 57, 0, 4));
         	
         }
         /*
@@ -193,9 +194,9 @@ public class MainGameLoop {
         entities.add(entity);
         entities.add(entity2);
         entities.add(entity3);
-        //entities.add(runway);
+        entities.add(runway);
         */
-        Camera camera = new Camera(1000);
+        Camera camera = new Camera(10100);
         
 
         Light light = new Light(new Vector3f(camera.getPosition().x,10500,9000), new Vector3f(1,1,1), 1900);

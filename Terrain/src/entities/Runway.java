@@ -6,70 +6,83 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Runway<Vertex2f>{
 	
-	private Vector2f coord1;
-	private Vector2f coord2;
-	private Vector2f coord3;
-	private Vector2f coord4;
+	private float width;
+	private float length;
+	private Vector2f anchor1;
+	private Vector2f anchor2;
 	private float elevation;
 	
+	public static Vector2f normalize(Vector2f init) {
+		
+		float x = init.getX();
+		float y = init.getY();
+		
+		float squaredsum = (x * x) + (y * y);
+		float magnitude = (float) Math.sqrt(squaredsum);
+		
+		return new Vector2f(x / magnitude, y / magnitude);
+		
+	}
+	
+	public Runway(float width, float length, Vector2f anchor1, Vector2f anchor2, float elevation) {
+		
+		this.width = width;
+		this.length = length;
+		this.anchor1 = anchor1;
+		this.anchor2 = anchor2;
+		this.elevation = elevation;
+		
+	}
+	
+	
+	public float[] generateVertices() {
+		
+		
+		//VECTOR CALCULATIONS:
+		
+		Vector2f dirVec = new Vector2f(this.anchor1.getX() - this.anchor2.getX(), this.anchor1.getY() - this.anchor2.getY());
+		Vector2f dot = new Vector2f(1, -1 * (dirVec.getY() / dirVec.getX()));
+		dot = normalize(dot);
+		
+		
+		Vector2f pos1 = new Vector2f(this.anchor1.getX() + (dot.getX() * this.length), this.anchor1.getY() + (dot.getY() * this.length));
+		Vector2f pos2 = new Vector2f(this.anchor2.getX() + (dot.getX() * this.length), this.anchor2.getY() + (dot.getY() * this.length));
+		
+		System.out.println(pos1);
+		System.out.println(pos2);
+		
+		
+		//BASE RUNWAY:
+		float[] vert = {
+				
+			this.anchor1.getX(), this.elevation, this.anchor1.getY(),
+			this.anchor2.getX(), this.elevation, this.anchor2.getY(),
+			pos1.getX(), this.elevation, pos1.getY(),
+			pos2.getX(), this.elevation, pos2.getY()
+				
+		};
+		
+		return vert;
+		
+	}
+	
 	/*
-	 *
-	 *   1--------4
-	 *   
-	 *   
-	 *   
-	 *   
-	 *   
-	 *   2--------3
-	 
-	 */
-	
-	public Runway(Vector2f one, Vector2f two, Vector2f three, Vector2f four, float elev) {
+	public int[] generateIndices() {
 		
-		this.coord1 = one;
-		this.coord2 = two;
-		this.coord3 = three;
-		this.coord4 = four;
-		this.elevation = elev;
+		//BASE RUNWAY:
+		
+		
+		
 		
 	}
-
-	public float[] genVertices() {
+	*/
+	
+	public static void main(String[] args) {
 		
-		float[] fin = new float[12];
-		fin[0] = coord1.x;
-		fin[1] = coord1.y;
-		fin[2] = this.elevation;
-		
-		fin[3] = coord2.x;
-		fin[4] = coord2.y;
-		fin[5] = this.elevation;
-		
-		fin[6] = coord3.x;
-		fin[7] = coord3.y;
-		fin[8] = this.elevation;
-		
-		fin[9] = coord4.x;
-		fin[10] = coord4.y;
-		fin[11] = this.elevation;
-		
-		return fin;
-		
+		Runway r = new Runway(45, 1000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15);
+		float[] f = r.generateVertices();
 	}
 	
-	public int[] genIndices() {
-		
-		int[] fin = new int[6];
-		fin[0] = 1;
-		fin[1] = 2;
-		fin[2] = 4;
-		
-		fin[3] = 2;
-		fin[4] = 3;
-		fin[5] = 4;
-		
-		return fin;
-	}
 	
 	
 }
