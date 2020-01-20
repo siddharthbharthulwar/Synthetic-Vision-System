@@ -176,19 +176,38 @@ class BaseGrid:
     def interpolate(self, sigma):
         return gaussian_filter(self.arrayValues, sigma = sigma)
 
-    def partition(self, watersizethreshold):
+    def process(self):
         water = ma.masked_not_equal(self.arrayValues, 1).astype('uint8') + np.ones(self.arrayValues.shape)
         ret, thresh = cv.threshold(water, 0, 1, cv.THRESH_BINARY_INV)
-        n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(thresh.astype('uint8'), connectivity=4)
+        plt.imshow(thresh)
+        plt.show()
+
+        n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(thresh.astype('uint8'), connectivity = 4, )
         waterarray = np.zeros(self.arrayValues.shape)
         waterlist = []
+
         unique = np.delete(np.unique(labels), 0)
 
         for i in unique:
-            if (stats[i, 4]) > 75:
-                print(i)
-                waterlist.append(i)
+
+            if (stats[i, 4]) > 170:
+                print(i, " / ", n_labels)
                 org = ma.masked_not_equal(labels, i) / i
                 waterarray = np.add(waterarray, org.filled(0))
+        dim = np.zeros(waterarray.shape)
 
-        return waterarray
+        R = np.stack((waterarray, dim, dim), axis = 2)
+
+        plt.imshow(R)
+        plt.imsave('blendmap.png', cmap = 'gist_gray')
+        plt.show()
+
+        self.arrayValues = gaussian_filter(self.arrayValues, sigma = 0.5)
+        min = np.amin(self.arrayValues)
+
+        self.arrayValues = self.arrayValues - min
+
+        plt.imshow(self.arrayValues)
+        plt.show()
+
+        print(np.amin(self.arrayValues))
