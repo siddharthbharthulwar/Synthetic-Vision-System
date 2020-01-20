@@ -43,7 +43,7 @@ def harrisresponse(imggray):
     return harris_response
 
 
-'''
+
 
 rd0 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37ez2.tif"
 rd1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
@@ -51,13 +51,12 @@ rasdf = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37hn2.tif"
 ehamr = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_25dn1.tif"
 r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
 
-'''
+
 path = r"C:\Users\siddh\Documents\DSMS\R_25GN1\r_25gn1.tif"
 
-a = TerrainGrid((path), (1,1), 1)
+a = TerrainGrid((rd0), (1,1), 1)
 a.show(-5, 50)
-a.arrayValues = a.arrayValues[0:1000, 3000:4000]
-a.show(-5, 50)
+
 
 c = cv.threshold(a.arrayValues, 2.4, 200, cv.THRESH_BINARY)[1].astype('uint8')
 c = cv.erode(c, np.ones((2,2), np.uint8), iterations = 1)
@@ -101,8 +100,6 @@ for i in unique:
         var = np.std(org * bray)
         variance.append(var)
         har = (org * harris)
-        plt.imshow(har)
-        plt.show()
         maxharris.append(har.mean())
         histogram.append(var)
         if (var > 1.75):

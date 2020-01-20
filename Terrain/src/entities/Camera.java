@@ -8,7 +8,7 @@ public class Camera {
     private Vector3f position = new Vector3f(0,0,0);
     private float pitch;
     private float yaw;
-    private float roll;
+    private float roll = 20;
     private int speed;
      
     public Camera(int s){
@@ -34,6 +34,20 @@ public class Camera {
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_F)){
             position.y-=this.speed* 0.01f;
+        }
+        
+        if (Keyboard.isKeyDown(Keyboard.KEY_T)) {
+        	this.pitch -= 0.2f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_G)) {
+        	this.pitch += 0.2f;
+        }
+        
+        if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
+        	this.yaw -= 0.2f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
+        	this.yaw += 0.2f;
         }
 
     }

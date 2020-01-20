@@ -41,7 +41,7 @@ def harrisresponse(imggray):
     traceA = Ixx + Iyy
         
     harris_response = (detA - k * traceA ** 2) 
-    plt.imshow(harris_response, cmap = 'jet')
+    plt.imshow(harris_response, cmap = 'jet', vmin = -0.5, vmax = 2)
     plt.show()
 
 harrisresponse(thresh)
