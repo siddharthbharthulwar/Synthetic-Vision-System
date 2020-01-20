@@ -11,7 +11,6 @@ import rasterio.warp
 import rasterio.features
 from mayavi import mlab
 from scipy.ndimage.filters import gaussian_filter
-
 import time as time
 
 
