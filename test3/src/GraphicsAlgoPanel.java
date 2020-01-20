@@ -123,7 +123,7 @@ public class GraphicsAlgoPanel extends JPanel {
 	 */
 	private void drawTriangleFillEarCutting(Graphics2D g2d, List<Point> pointsList){
 		
-		List<Integer> trianglePointIndices = PolygonTriangulationUtil.getPolygonTriangulationIndices(pointsList);
+		List<Integer> trianglePointIndices = PolygonTriangulationUtil.getPolygonTriangulationIndices(pointsList, true);
 		
 		System.out.println("  === drawTriangleFillEarCutting()... trianglePointIndices = " + trianglePointIndices + ", SIZE = " + trianglePointIndices.size());
 		

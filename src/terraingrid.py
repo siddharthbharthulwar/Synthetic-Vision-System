@@ -438,7 +438,7 @@ class TerrainGrid:
         data['Building'] = []
 
         self.harrisresponses = []
-
+        self.varianceresponses = []
         for i in np.delete(np.unique(self.labels), 0):
             if (self.stats[i, 4] > minarea):
                 print(i)
@@ -448,7 +448,7 @@ class TerrainGrid:
                 variance.append(var)
                 histogram.append(var)
                 self.harrisresponses.append(har)
-
+                self.varianceresponses.append(var)
                 if (har > 1):
                     self.index_vegetation.append(i)
                     self.relative_index_vegetation.append(incount)
@@ -508,7 +508,10 @@ class TerrainGrid:
             n, bins, patches = plt.hist(self.histogram_final, 250, facecolor = "blue", alpha = 0.6)
             plt.show()
 
-            
+        if (displayBool):
+            plt.scatter(self.harrisresponses, self.varianceresponses)
+            plt.show()    
+        
         if (saveBool):
             with open(r"C:\Users\siddh\Projects\Synthetic Vision System\Terrain\res\data.json", 'w', encoding = 'utf-8') as f:
                 json.dump(str(data), f, indent = 4)

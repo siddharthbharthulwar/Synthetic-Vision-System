@@ -1,6 +1,5 @@
 package util;
 
-
 import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
@@ -8,9 +7,7 @@ import java.util.List;
 
 public class PolygonTriangulationUtil {
 	
-	private static List<Point> initialPointsList;
-	private static boolean firstEntry = true;
-	
+	private static List<Point> initialPointsList;	
 	private static List<Integer> indicesList = new ArrayList<Integer>();
 	
 	/**
@@ -20,7 +17,7 @@ public class PolygonTriangulationUtil {
 	 * @param pointsList
 	 * @return
 	 */
-	public static List<Integer> getPolygonTriangulationIndices(List<Point> pointsList){
+	public static List<Integer> getPolygonTriangulationIndices(List<Point> pointsList, boolean firstEntry){
 		
 		System.out.println("...getPolygonTriangulationIndices()... pointsList = " + pointsList);
         System.out.println("...getPolygonTriangulationIndices()... indicesList = " + indicesList);
@@ -29,7 +26,6 @@ public class PolygonTriangulationUtil {
 		if(firstEntry){
 			initialPointsList = new ArrayList<Point>(pointsList);
 			indicesList.clear();
-			firstEntry = false;
 		}
 							
 		Polygon polyShape = getPolygonShape(pointsList);
@@ -58,7 +54,7 @@ public class PolygonTriangulationUtil {
 						System.out.println(".....EAR CUTTING....Removing point = " + secondPoint);
 						pointsList.remove(secondPoint);
 						
-						getPolygonTriangulationIndices(pointsList);
+						getPolygonTriangulationIndices(pointsList, false);
 					}
 				}			
 			}
