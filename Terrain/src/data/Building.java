@@ -90,6 +90,8 @@ public class Building {
 		continuousIndices.add(1);
 		
 		
+		//to be implemented with the ear cutting algorithm
+		
 		
 		for (int j = 4; j < 2 * this.corners.size(); j++) {
 			
