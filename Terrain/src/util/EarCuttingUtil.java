@@ -11,7 +11,7 @@ import java.util.List;
 
 public class EarCuttingUtil {
 	
-	private boolean isLineInsideShape(Polygon polyShape, Point p1, Point p2){
+	private static boolean isLineInsideShape(Polygon polyShape, Point p1, Point p2){
 		
 		Point midPoint = new Point( (int)(p1.getX() + p2.getX())/2, (int)(p1.getY() + p2.getY())/2 );
 		
@@ -34,30 +34,22 @@ public class EarCuttingUtil {
 		return true;
 	}
 	
-	private List<Point> getInitialPointsList(){
-		List<Point> pointsList = new ArrayList<Point>();
-		
-		for(Point p:points){
-			pointsList.add(p);
-		}
-		return pointsList;
-	}
 	
-	private int getIndexOfPoint(Point point, List<Point> pointsList) {
+	private static int getIndexOfPoint(Point point, List<Point> pointsList) {
 		return pointsList.indexOf(point);
 	}
 	
-	private Polygon getPolygonShape(List<Point> pointsList){
+	private static Polygon getPolygonShape(List<Point> pointsList){
 	    	
 	    	Polygon poly = new Polygon();
 	    	
-	    	for(Point p:getInitialPointsList()){
+	    	for(Point p:pointsList){
 	    		poly.addPoint((int)p.getX(), (int)p.getY());
 	    	}
 			return poly;
 	    }
 
-	private void drawTriangleFillEarCutting(Graphics2D g2d, List<Point> pointsList){
+	private static void drawTriangleFillEarCutting(List<Point> pointsList, List<Point> initialPointsList){
 			
 			System.out.println("...drawTriangleFillEarCutting()... pointsList = " + pointsList);
 			
@@ -78,19 +70,18 @@ public class EarCuttingUtil {
 						if(isLineInsideShape(polyShape, firstPoint, thirdPoint)){
 							
 							//This is THE triangle to be rendered
-							renderTriangle(g2d, firstPoint, secondPoint, thirdPoint);
 							
-							int firstPointIndex = getIndexOfPoint(firstPoint, getInitialPointsList());
-							int secondPointIndex = getIndexOfPoint(secondPoint, getInitialPointsList());
-							int thirdPointIndex = getIndexOfPoint(thirdPoint, getInitialPointsList());
+							int firstPointIndex = getIndexOfPoint(firstPoint, initialPointsList);
+							int secondPointIndex = getIndexOfPoint(secondPoint, initialPointsList);
+							int thirdPointIndex = getIndexOfPoint(thirdPoint, initialPointsList);
 							
 							System.out.println(".....Traingle Points Indices = (" + firstPointIndex + ", " + secondPointIndex + ", " + thirdPointIndex + ")");
 							
 							
-							System.out.println(".....EAR CUTTING....Removing point = " + secondPoint);
+							//System.out.println(".....EAR CUTTING....Removing point = " + secondPoint);
 							pointsList.remove(secondPoint);
 							
-							drawTriangleFillEarCutting(g2d, pointsList);
+							drawTriangleFillEarCutting(pointsList, initialPointsList);
 						}
 					}
 					
@@ -98,8 +89,27 @@ public class EarCuttingUtil {
 			}else{
 				//we are done
 				System.out.println(".....ALL DONE!");
-				renderTriangle(g2d, pointsList.get(0), pointsList.get(1), pointsList.get(2));
 			}
 					
 		}
+	private static List<Point> getInitialPointsList(Point[] points){
+		List<Point> pointsList = new ArrayList<Point>();
+		
+		for(Point p:points){
+			pointsList.add(p);
+		}
+		return pointsList;
+	}
+	
+	public static void main(String[] args) {
+		
+		
+		Point[] points = {new Point(100, 100), new Point(100, 300),  new Point(150, 300), new Point(150, 150), new Point(300, 150), new Point(300, 300), new Point(350, 300), new Point(350, 100)};
+		List<Point> pointList = getInitialPointsList(points);
+		
+		drawTriangleFillEarCutting(pointList, pointList);
+		
+		
+
+	}
 }
