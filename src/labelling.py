@@ -22,7 +22,7 @@ path = r"C:\Users\siddh\Documents\DSMS\R_25GN1\r_25gn1.tif"
 
 a = TerrainGrid((rd1), (1,1), 1)
 a.show(-5, 50)
-a.arrayValues = a.arrayValues[9000:12000, 3000:6000]
+a.arrayValues = a.arrayValues[11000:12000, 5000:6000]
 a.show(-5, 50)
 
 c = cv.threshold(a.arrayValues, 2.4, 200, cv.THRESH_BINARY)[1].astype('uint8')

@@ -19,9 +19,9 @@ public class PolygonTriangulationUtil {
 	 */
 	public static List<Integer> getPolygonTriangulationIndices(List<Point> pointsList, boolean firstEntry){
 		
-		System.out.println("...getPolygonTriangulationIndices()... pointsList = " + pointsList);
-        System.out.println("...getPolygonTriangulationIndices()... indicesList = " + indicesList);
-        System.out.println("...getPolygonTriangulationIndices()... firstEntry = " + firstEntry);
+	    ///	System.out.println("...getPolygonTriangulationIndices()... pointsList = " + pointsList);
+        //    System.out.println("...getPolygonTriangulationIndices()... indicesList = " + indicesList);
+        //    System.out.println("...getPolygonTriangulationIndices()... firstEntry = " + firstEntry);
         	
 		if(firstEntry){
 			initialPointsList = new ArrayList<Point>(pointsList);
@@ -51,7 +51,7 @@ public class PolygonTriangulationUtil {
 						//This is THE triangle to be rendered
 						//renderTriangle(firstPoint, secondPoint, thirdPoint);
 												
-						System.out.println(".....EAR CUTTING....Removing point = " + secondPoint);
+					//	System.out.println(".....EAR CUTTING....Removing point = " + secondPoint);
 						pointsList.remove(secondPoint);
 						
 						getPolygonTriangulationIndices(pointsList, false);
@@ -60,7 +60,7 @@ public class PolygonTriangulationUtil {
 			}
 		}else{
 			//we are done LAST TRIANGLE
-			System.out.println(".....ALL DONE!");
+		    System.out.println(".....ALL DONE!....pointsList = " + pointsList);
 			Point firstPoint = pointsList.get(0);
 			Point secondPoint = pointsList.get(1);
 			Point thirdPoint = pointsList.get(2);

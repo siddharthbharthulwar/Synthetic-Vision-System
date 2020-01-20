@@ -43,7 +43,9 @@ public class EntityRenderer {
     		for(Entity entity: batch) {
     			prepareInstance(entity);
     			
-    			
+    			if (Keyboard.isKeyDown(Keyboard.KEY_Y)) {
+    				t = true;
+    			}
     			
     			if (t){
         			GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);

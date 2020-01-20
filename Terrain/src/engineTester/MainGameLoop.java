@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import data.Building;
-import data.Point;
+import data.normPoint;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
@@ -51,8 +51,8 @@ public class MainGameLoop {
         GUIText text = new GUIText("Synthetic Vision System", 1, font, new Vector2f(0, 0), 0.5f, true);
         text.setColour(1, 1, 1);
         
-        List<Point> pointList = new ArrayList<Point>();
-        List<Point> pointList2 = new ArrayList<Point>();
+        List<normPoint> pointList = new ArrayList<normPoint>();
+        List<normPoint> pointList2 = new ArrayList<normPoint>();
         List<Building> buildings = FileUtil.loadBuildingsFromJSON("res/data.json");
         
         System.out.println(" ==== Building List read is: " + buildings);
@@ -144,9 +144,10 @@ public class MainGameLoop {
         List<Entity> entities = new ArrayList<Entity>();
         
         for (Building building: buildingList) {
-        	System.out.println(building.getHeight());
+        	System.out.println("building height " + building.getHeight());
         	
         	RawModel model = loader.loadToVAO(building.floatVertProcess(), textureCoords, normals, building.generateIndices());
+        	
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         	ModelTexture texture = staticModel.getTexture();
             texture.setShineDamper(1000);
@@ -190,6 +191,7 @@ public class MainGameLoop {
         entities.add(runway);
         Camera camera = new Camera(1000);
         
+        System.out.println("camera");
 
         Light light = new Light(new Vector3f(camera.getPosition().x,10500,9000), new Vector3f(1,1,1), 1900);
         
@@ -245,7 +247,7 @@ public class MainGameLoop {
          
      
         MasterRenderer renderer = new MasterRenderer();
-        
+        System.out.println("SETUP");
         while(!Display.isCloseRequested()){
         	
             camera.move();

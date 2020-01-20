@@ -3,7 +3,7 @@ package toolbox;
 import java.util.ArrayList;
 import java.util.List;
 
-import data.Point;
+import data.normPoint;
 
 public class arrayUtils {
 	public static String arrayToString(float[] var) {
@@ -32,10 +32,10 @@ public class arrayUtils {
 		return s;
 	}
 	
-	public static List<Point> reverseArrayList(List<Point> alist) 
+	public static List<normPoint> reverseArrayList(List<normPoint> alist) 
     { 
         // Arraylist for storing reversed elements 
-        ArrayList<Point> revArrayList = new ArrayList<Point>(); 
+        ArrayList<normPoint> revArrayList = new ArrayList<normPoint>(); 
         for (int i = alist.size() - 1; i >= 0; i--) { 
   
             // Append the elements in reverse order 

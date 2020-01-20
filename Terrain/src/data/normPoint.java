@@ -1,11 +1,11 @@
 package data;
 
-public class Point {
+public class normPoint {
 	
 	private float x;
 	private float y;
 	
-	public Point(float x, float y) {
+	public normPoint(float x, float y) {
 		setX(x);
 		setY(y);
 	}

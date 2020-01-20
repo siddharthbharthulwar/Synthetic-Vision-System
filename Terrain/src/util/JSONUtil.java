@@ -8,7 +8,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 
 import data.Building;
-import data.Point;
+import data.normPoint;
 
 /**
  *********************************************************
@@ -29,7 +29,7 @@ public class JSONUtil {
 	private static void setAliases(XStream xstream){
 		
 		xstream.alias("Building", Building.class);
-		xstream.alias("Point", Point.class);
+		xstream.alias("Point", normPoint.class);
 				
 	}
 	
@@ -69,15 +69,15 @@ public class JSONUtil {
     
     public static void main(String[] args){
     	
-    	List<Point> corners1 = new ArrayList<Point>();
-    	corners1.add(new Point(300.5f, 200.0f));
-    	corners1.add(new Point(350.5f, 250.0f));
-    	corners1.add(new Point(360.5f, 260.0f));
+    	List<normPoint> corners1 = new ArrayList<normPoint>();
+    	corners1.add(new normPoint(300.5f, 200.0f));
+    	corners1.add(new normPoint(350.5f, 250.0f));
+    	corners1.add(new normPoint(360.5f, 260.0f));
     	
-    	List<Point> corners2 = new ArrayList<Point>();
-    	corners2.add(new Point(600.5f, 200.0f));
-    	corners2.add(new Point(650.5f, 250.0f));
-    	corners2.add(new Point(760.5f, 260.0f));
+    	List<normPoint> corners2 = new ArrayList<normPoint>();
+    	corners2.add(new normPoint(600.5f, 200.0f));
+    	corners2.add(new normPoint(650.5f, 250.0f));
+    	corners2.add(new normPoint(760.5f, 260.0f));
     	
     	
     	List<Building> buildings = new ArrayList<Building>();

@@ -1,14 +1,16 @@
 package data;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import util.PolygonTriangulationUtil;
 
 public class Building {
 
 	private int height;
-	private List<Point> corners;
+	private List<normPoint> corners;
 	
-	public Building(int height, List<Point> corners) {
+	public Building(int height, List<normPoint> corners) {
 		setHeight(height);
 		setCorners(corners);
 	}
@@ -19,21 +21,21 @@ public class Building {
 	public void setHeight(int height) {
 		this.height = 2000 + height;
 	}
-	public List<Point> getCorners() {
+	public List<normPoint> getCorners() {
 		return corners;
 	}
-	public void setCorners(List<Point> corners) {
+	public void setCorners(List<normPoint> corners) {
 		this.corners = corners;
 	}
 	
 	public float[] floatVertProcess() {
 		
-		List<Point> points = this.getCorners();
+		List<normPoint> points = this.getCorners();
 		float height = this.getHeight();
 		
 		float[] fin = new float[points.size() * 6];
 		ArrayList<Float> bef = new ArrayList<Float>();
-		for (Point p: points) {
+		for (normPoint p: points) {
 			bef.add(p.getX());
 			bef.add((float) 0);
 
@@ -102,9 +104,38 @@ public class Building {
 			}
 		}
 		*/
+		List<Point> truePoints = new ArrayList<Point>();
+		for (normPoint p: corners) {
+			Point n = new Point();
+			n.setLocation(p.getX(), p.getY());
+			truePoints.add(n);
+			
+		}
+		
+		System.out.println(" >>>>> truePoints SIZE = " + truePoints.size());
+		List<Integer> roofIndices = PolygonTriangulationUtil.getPolygonTriangulationIndices(truePoints, true);
+		
+		System.out.println("SUCCESSFUL");
 		
 		
+//to be implemented with the ear cutting algorithm
+
+		/*
+		for (int j = 4; j < 2 * this.corners.size(); j++) {
+			
+			if (j % 2 == 1) {
+				continuousIndices.add(1);
+				continuousIndices.add(j - 2);
+				continuousIndices.add(j);
+			}
+		}
+		*/
 		
+		for (int i = 0; i < roofIndices.size(); i ++) {
+			roofIndices.set(i, (roofIndices.get(i) * 2) + 1);
+		}
+		
+		continuousIndices.addAll(roofIndices);
 		
 		
 		int[] finalIndices = new int[continuousIndices.size()];
@@ -113,9 +144,9 @@ public class Building {
 			finalIndices[j] = continuousIndices.get(j);
 		}
 		
-		
+		System.out.println("RETURN SUCCESSFUL");
 		return finalIndices;
-		
+	
 	}
 	
 	public String toString() {
@@ -124,7 +155,7 @@ public class Building {
 		s += "Height: " + this.height;
 		s += ", Corners: [";
 		
-		for (Point p: this.corners) {
+		for (normPoint p: this.corners) {
 			s += p;
 			s += ", ";
 			

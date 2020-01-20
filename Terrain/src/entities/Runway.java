@@ -4,7 +4,7 @@ package entities;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import data.Point;
+import data.normPoint;
 
 public class Runway<Vertex2f>{
 	

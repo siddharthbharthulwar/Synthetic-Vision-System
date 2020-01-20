@@ -465,32 +465,33 @@ class TerrainGrid:
                         temp = org.filled()
                         temp = erodilate(temp, 2, erosionIterations)
                         corners = cv.goodFeaturesToTrack(temp, maxCorners, 0.01, 15)
-                        trueindices = tsp.tsp(corners)[1]
-                        truecorners = []
+                        if (len(corners) > 2):
+                            trueindices = tsp.tsp(corners)[1]
+                            truecorners = []
 
-                        for i in trueindices:
-                            truecorners.append(corners[i])
-                        rlcorners = []
-                        for corner in truecorners:
+                            for i in trueindices:
+                                truecorners.append(corners[i])
+                            rlcorners = []
+                            for corner in truecorners:
 
-                            rlcorners.append({
+                                rlcorners.append({
 
-                                "x": corner[0][0],
-                                "y": corner[0][1]
+                                    "x": corner[0][0],
+                                    "y": corner[0][1]
+
+                                })
+                            self.buildings.append((height, corners.tolist(), har))
+
+                            data['Building'].append({
+
+                                'height': height,
+                                'corners': rlcorners
+
 
                             })
-                        self.buildings.append((height, corners.tolist(), har))
-
-                        data['Building'].append({
-
-                            'height': height,
-                            'corners': rlcorners
 
 
-                        })
-
-
-                        self.labelled_buildings = np.add(self.labelled_buildings, org.filled(0))
+                            self.labelled_buildings = np.add(self.labelled_buildings, org.filled(0))
         end = time.time()
         print(len(self.buildings), " buildings and ", len(self.vegetation), " instances of vegetation processed in ", int(end - start), " seconds.")
 
