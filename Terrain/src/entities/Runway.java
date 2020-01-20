@@ -4,6 +4,8 @@ package entities;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import data.Point;
+
 public class Runway<Vertex2f>{
 	
 	private float width;
@@ -11,6 +13,8 @@ public class Runway<Vertex2f>{
 	private Vector2f anchor1;
 	private Vector2f anchor2;
 	private float elevation;
+	private float thresholdSize;
+	private Vector2f midpoint;
 	
 	public static Vector2f normalize(Vector2f init) {
 		
@@ -24,13 +28,15 @@ public class Runway<Vertex2f>{
 		
 	}
 	
-	public Runway(float width, float length, Vector2f anchor1, Vector2f anchor2, float elevation) {
+	public Runway(float width, float length, Vector2f anchor1, Vector2f anchor2, float elevation, float threshsize) {
 		
 		this.width = width;
 		this.length = length;
 		this.anchor1 = anchor1;
 		this.anchor2 = anchor2;
 		this.elevation = elevation;
+		this.thresholdSize = threshsize;
+		this.midpoint = new Vector2f((this.anchor1.x + this.anchor2.x) / 2, (this.anchor1.y + this.anchor2.y) / 2);
 		
 	}
 	
@@ -52,8 +58,8 @@ public class Runway<Vertex2f>{
 		System.out.println(pos2);
 		
 		
-		//BASE RUNWAY:
-		float[] vert = {
+		//BASE RUNWAY LEN 12:
+		float[] base = {
 				
 			this.anchor1.getX(), this.elevation, this.anchor1.getY(),
 			this.anchor2.getX(), this.elevation, this.anchor2.getY(),
@@ -61,8 +67,13 @@ public class Runway<Vertex2f>{
 			pos2.getX(), this.elevation, pos2.getY()
 				
 		};
-		
-		return vert;
+		/*
+		float[] threshmarkings = {
+				
+				
+		}
+		*/
+		return base;
 		
 	}
 	
