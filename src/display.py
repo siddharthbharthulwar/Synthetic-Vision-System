@@ -11,4 +11,10 @@ path = r"C:\Users\siddh\Documents\DSMS\R_25GN1\r_25gn1.tif"
 a = TerrainGrid((rd0), (1,1), 1)
 a.show(-5, 50)
 a.arrayValues = a.arrayValues[4000:8000, 6000:10000]
+'''
 a.full_classification(2.7, 600, 2, True, 10, 10, True)
+
+'''
+
+plt.imshow(a.totalSlope('h'), vmin = -0.5, vmax = 1, cmap = 'jet')
+plt.show()

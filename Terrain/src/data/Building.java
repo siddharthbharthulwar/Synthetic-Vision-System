@@ -90,7 +90,7 @@ public class Building {
 		continuousIndices.add(1);
 		
 		
-		/*
+		
 		for (int j = 4; j < 2 * this.corners.size(); j++) {
 			
 			if (j % 2 == 1) {
@@ -99,7 +99,7 @@ public class Building {
 				continuousIndices.add(j);
 			}
 		}
-		*/
+		
 		
 		int[] finalIndices = new int[continuousIndices.size()];
 		
