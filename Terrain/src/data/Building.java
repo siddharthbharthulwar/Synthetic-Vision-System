@@ -105,6 +105,8 @@ public class Building {
 		
 		
 		
+		
+		
 		int[] finalIndices = new int[continuousIndices.size()];
 		
 		for (int j = 0; j < continuousIndices.size(); j++) {

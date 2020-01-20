@@ -10,7 +10,11 @@ import math
 import cv2 as cv 
 import rasterio.warp
 import rasterio.features
+import scipy.signal as sig
 from scipy import interpolate
+import scipy.ndimage as ndi
+from skimage.color import rgb2gray
+
 import time as time
 import json
 import tsp
@@ -18,6 +22,32 @@ import tsp
 
 
 #spatial extent for normal AHN grid tile is 8500 left, 437500 bottom, 90000 right, 443750 top
+def gradient_x(imggray):
+    ##Sobel operator kernels.
+    kernel_x = np.array([[-1, 0, 1],[-2, 0, 2],[-1, 0, 1]])
+    return sig.convolve2d(imggray, kernel_x, mode='same')
+def gradient_y(imggray):
+    kernel_y = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
+    return sig.convolve2d(imggray, kernel_y, mode='same')
+
+def harrisresponse(imggray):
+    I_x = gradient_x(imggray)
+    I_y = gradient_y(imggray)
+    Ixx = ndi.gaussian_filter(I_x**2, sigma=1)
+    Ixy = ndi.gaussian_filter(I_y*I_x, sigma=1)
+    Iyy = ndi.gaussian_filter(I_y**2, sigma=1)
+    k = 0.05
+    # determinant
+    detA = Ixx * Iyy - Ixy ** 2
+    # trace
+    traceA = Ixx + Iyy
+        
+    harris_response = (detA - k * traceA ** 2) 
+    return harris_response
+
+
+
+
 
 def load(path, fillBoolean):
     with rio.open(path) as src:
@@ -376,16 +406,18 @@ class TerrainGrid:
         print(self.final_buildings)
 
     def full_classification(self, threshold, minarea, cutoff, displayBool, erosionIterations, maxCorners, saveBool):
-        derivative = np.gradient(self.arrayValues)[1]
+        self.derivative = np.gradient(self.arrayValues)[1]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
         #these are hardcoded in because they are unlikely to change in real world scenarios
         thresh = cv.erode(thresh, np.ones((2, 2), np.uint8), iterations = 1)
+        self.harris_response = harrisresponse(thresh)
+
         if(displayBool):
             plt.imshow(self.arrayValues)
             plt.imshow(thresh)
             plt.show()
 
-            plt.imshow(derivative)
+            plt.imshow(self.derivative)
             plt.show()
         self.n_labels, self.labels, self.stats, self.centroids = cv.connectedComponentsWithStats(thresh, connectivity = 4)
         variance = []
@@ -405,22 +437,25 @@ class TerrainGrid:
         data = {}
         data['Building'] = []
 
+        self.harrisresponses = []
+
         for i in np.delete(np.unique(self.labels), 0):
             if (self.stats[i, 4] > minarea):
                 print(i)
                 org = (ma.masked_not_equal(self.labels, i) / i).astype('uint8')
-
-                var = np.std(org * derivative)
+                har = ma.mean(self.harris_response * org)
+                var = np.std(org * self.derivative)
                 variance.append(var)
                 histogram.append(var)
+                self.harrisresponses.append(har)
 
-                if (var > cutoff):
+                if (har > 1):
                     self.index_vegetation.append(i)
                     self.relative_index_vegetation.append(incount)
                     incount +=1
                     height = int(np.mean(org * self.arrayValues))
                     self.labelled_vegetation = np.add(self.labelled_vegetation, org.filled(0))
-                    self.vegetation.append((height, self.centroids[i]))
+                    self.vegetation.append((height, self.centroids[i], har))
                 else:
                     if (self.stats[i, 4] < 40000):
                         self.index_building.append(i)
@@ -444,7 +479,7 @@ class TerrainGrid:
                                 "y": corner[0][1]
 
                             })
-                        self.buildings.append((height, corners.tolist()))
+                        self.buildings.append((height, corners.tolist(), har))
 
                         data['Building'].append({
 
@@ -472,7 +507,8 @@ class TerrainGrid:
                     self.histogram_final.append(i)
             n, bins, patches = plt.hist(self.histogram_final, 250, facecolor = "blue", alpha = 0.6)
             plt.show()
-    
+
+            
         if (saveBool):
             with open(r"C:\Users\siddh\Projects\Synthetic Vision System\Terrain\res\data.json", 'w', encoding = 'utf-8') as f:
                 json.dump(str(data), f, indent = 4)
