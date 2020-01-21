@@ -4,12 +4,17 @@ from skimage.color import rgb2gray
 import scipy.ndimage as ndi
 from terraingrid import TerrainGrid
 import cv2 as cv
+from scipy.ndimage.filters import gaussian_filter
+
 
 rd0 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37ez2.tif"
 rd1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
 
 a = TerrainGrid(rd1, (1,1), 1)
-imggray = a.arrayValues[11200:12400, 3000:5000]
+a.show(-5, 50)
+imggray = a.arrayValues[9500: 10000, 2500:3000]
+plt.imshow(imggray)
+plt.show()
 
 ret, thresh = cv.threshold(imggray, 10, 1, cv.THRESH_BINARY)
 
@@ -41,7 +46,7 @@ def harrisresponse(imggray):
     traceA = Ixx + Iyy
         
     harris_response = (detA - k * traceA ** 2) 
-    plt.imshow(harris_response, cmap = 'jet', vmin = -0.5, vmax = 2)
-    plt.show()
+    return harris_response
 
-harrisresponse(thresh)
+plt.imshow(harrisresponse(imggray), cmap = 'jet')
+plt.show()

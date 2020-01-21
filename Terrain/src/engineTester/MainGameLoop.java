@@ -35,6 +35,7 @@ import fontRendering.TextMaster;
 import guidance.guidingBox;
 import guis.GuiRenderer;
 import guis.GuiTexture;
+import logic.glideslope;
 
 import toolbox.arrayUtils;
 import util.FileUtil;
@@ -184,7 +185,7 @@ public class MainGameLoop {
         
         
         for (int j = 0; j < buildingList.size() + guideList.size(); j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(5550, -10, -4000), 0, 57, 0, 4));
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(7000, -10, -4000), 0, 57, 0, 4));
         	
         }
    
@@ -261,6 +262,10 @@ public class MainGameLoop {
             
             
             renderer.render(light, camera);
+            int config = glideslope.PAPIConfiguration(camera.getPosition(), r.getMidpoint());
+            
+            
+            /*
             if (camera.getPosition().y > 100) {
                 guiRenderer.render(g40);
 
@@ -276,6 +281,26 @@ public class MainGameLoop {
             }
             else {
             	guiRenderer.render(g04);
+            }
+            */
+            
+            if (config == 1) {
+            	guiRenderer.render(g04);
+            }
+            else if (config == 2) {
+            	guiRenderer.render(g13);
+            }
+            
+            else if (config == 3) {
+            	guiRenderer.render(g22);
+            }
+            
+            else if (config == 4) {
+            	guiRenderer.render(g31);
+            }
+            
+            else {
+            	guiRenderer.render(g40);
             }
             TextMaster.render();
             

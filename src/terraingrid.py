@@ -14,7 +14,7 @@ import scipy.signal as sig
 from scipy import interpolate
 import scipy.ndimage as ndi
 from skimage.color import rgb2gray
-
+from mpl_toolkits.mplot3d import Axes3D
 import time as time
 import json
 import tsp
@@ -443,7 +443,7 @@ class TerrainGrid:
             if (self.stats[i, 4] > minarea):
                 print(i)
                 org = (ma.masked_not_equal(self.labels, i) / i).astype('uint8')
-                har = ma.mean(self.harris_response * org)
+                har = (ma.mean(self.harris_response * org))
                 var = np.std(org * self.derivative)
                 variance.append(var)
                 histogram.append(var)
@@ -510,9 +510,17 @@ class TerrainGrid:
             plt.show()
 
         if (displayBool):
-            plt.scatter(self.harrisresponses, self.varianceresponses)
-            plt.show()    
+            fig = plt.figure()
+            ax = fig.add_subplot(111, projection = '3d')
+
+            ax.scatter(self.harrisresponses,  self.varianceresponses, self.harrisresponses)   
+
+            ax.set_xlabel("Lateral Harris Response Function Mean")
+            ax.set_ylabel("STD of Gradient Derivative")
+            ax.set_zlabel("Vertical Harris Response Function Mean")
         
+            plt.show()
+
         if (saveBool):
             with open(r"C:\Users\siddh\Projects\Synthetic Vision System\Terrain\res\data.json", 'w', encoding = 'utf-8') as f:
                 json.dump(str(data), f, indent = 4)

@@ -17,9 +17,9 @@ public class glideslope{
 		
 	}
 	
-	public static int PAPIConfiguration(Vector3f pos1, Vector3f pos2, float baseHeight) {
+	public static int PAPIConfiguration(Vector3f pos1, Vector3f pos2) {
 		
-		double angle = (double) angle(pos1, pos2, baseHeight);
+		double angle = (double) angle(pos1, pos2, Math.abs(pos1.getZ() - pos2.getZ()));
 		
 		if (angle < 2.5) {
 			return 1;

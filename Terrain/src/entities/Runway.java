@@ -40,6 +40,10 @@ public class Runway<Vertex2f>{
 		
 	}
 	
+	public Vector3f getMidpoint() {
+		return new Vector3f(this.midpoint.x, this.midpoint.y, this.elevation);
+	}
+	
 	
 	public float[] generateVertices() {
 		
