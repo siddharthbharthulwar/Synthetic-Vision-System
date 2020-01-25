@@ -54,7 +54,7 @@ r2 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz2.tif"
 
 path = r"C:\Users\siddh\Documents\DSMS\R_25GN1\r_25gn1.tif"
 
-a = TerrainGrid((rd0), (1,1), 1)
+a = TerrainGrid((rd0, rd1), (2,1), 1)
 a.show(-5, 50)
 
 
@@ -117,5 +117,15 @@ for i in unique:
 
 plt.scatter(variance, maxharris)
 plt.show()
+
+from sklearn.mixture import gaussian_mixture
+
+X = []
+
+for i in range(len(variance)):
+    X.append((variance[i], maxharris[i]))
+
+np.save('test.npy', X)
+
 
 

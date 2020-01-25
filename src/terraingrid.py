@@ -520,6 +520,12 @@ class TerrainGrid:
             ax.set_zlabel("Vertical Harris Response Function Mean")
         
             plt.show()
+        if (displayBool):
+            plt.scatter(self.harrisresponses, self.varianceresponses)
+            plt.show()
+        if (saveBool):
+            np.save('harrisresponse1.npy', self.harrisresponses)
+            np.save('vargrads1.npy', self.varianceresponses)
 
         if (saveBool):
             with open(r"C:\Users\siddh\Projects\Synthetic Vision System\Terrain\res\data.json", 'w', encoding = 'utf-8') as f:
