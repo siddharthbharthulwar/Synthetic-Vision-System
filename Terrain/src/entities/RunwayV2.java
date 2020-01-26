@@ -1,6 +1,7 @@
 package entities;
 
 import org.lwjgl.util.vector.Vector2f;
+import java.lang.Math;
 
 public class RunwayV2 {
 	
@@ -12,6 +13,7 @@ public class RunwayV2 {
 	private Vector2f midpoint;
 	private float[] vertices;
 	private int[] indices;
+	private int runwayNumber;
 	
 	/*
 	 * 
@@ -40,7 +42,7 @@ public class RunwayV2 {
 	
 	//constructor
 	
-	public RunwayV2(float width, float length, Vector2f anchor1, Vector2f anchor2, Vector2f anchor3, float elevation) {
+	public RunwayV2(float width, float length, Vector2f anchor1, Vector2f anchor2, Vector2f anchor3, float elevation, int number) {
 		
 		this.width = width;
 		this.length = length;
@@ -50,7 +52,7 @@ public class RunwayV2 {
 		this.elevation = elevation;
 		
 		this.midpoint = new Vector2f((this.anchor1.x + this.anchor2.x) / 2, (this.anchor1.y + this.anchor2.y) / 2);
-		
+		this.runwayNumber = number;
 		
 	}
 	
@@ -105,5 +107,23 @@ public class RunwayV2 {
 		Vector2f norm = new Vector2f(0, 1);
 		return Vector2f.angle(dot, norm);
 	}
+	
+	public boolean isSameDirection() {
+		
+		float adjustedHeading = (float) (Math.toDegrees(this.calculateHeading()));
+		if (Math.abs(adjustedHeading - (10 * this.runwayNumber)) < 20) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+			
+			RunwayV2 r = new RunwayV2(50, 5000, new Vector2f(750, 1000), new Vector2f(1100, 750), new Vector2f(0, 0), 16, 24);
+			System.out.println(r.isSameDirection());
+		}
 
 }
