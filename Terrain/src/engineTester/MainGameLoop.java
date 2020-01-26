@@ -178,7 +178,7 @@ public class MainGameLoop {
         
         
         RawModel model = loader.loadToVAO(r.generateVertices(), textureCoords, normals, r.generateIndices());
-        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
+        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("black")));
       	Entity runway = new Entity(staticModel, new Vector3f(21000, 0, -10000), 0, 135, 0, 1);
 
 

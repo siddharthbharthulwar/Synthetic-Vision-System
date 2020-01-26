@@ -12,9 +12,8 @@ rd1 = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_37fz1.tif"
 
 a = TerrainGrid(rd1, (1,1), 1)
 a.show(-5, 50)
-imggray = a.arrayValues[9500: 10000, 2500:3000]
-plt.imshow(imggray)
-plt.show()
+a.arrayValues = a.arrayValues[9560:9760, 4120:4320]
+imggray = a.arrayValues
 
 ret, thresh = cv.threshold(imggray, 10, 1, cv.THRESH_BINARY)
 
@@ -48,5 +47,5 @@ def harrisresponse(imggray):
     harris_response = (detA - k * traceA ** 2) 
     return harris_response
 
-plt.imshow(harrisresponse(imggray), cmap = 'jet')
+plt.imshow((harrisresponse(imggray) * harrisresponse(imggray)) / 100000, cmap = 'inferno')
 plt.show()
