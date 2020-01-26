@@ -13,7 +13,7 @@ public class Runway<Vertex2f>{
 	private Vector2f anchor1;
 	private Vector2f anchor2;
 	private float elevation;
-	private float thresholdSize;
+	private int runwayNumber;
 	private Vector2f midpoint;
 	private float heading;
 	private float[] vertices;
@@ -34,14 +34,14 @@ public class Runway<Vertex2f>{
 		
 	}
 	
-	public Runway(float width, float length, Vector2f anchor1, Vector2f anchor2, float elevation, float threshsize) {
+	public Runway(float width, float length, Vector2f anchor1, Vector2f anchor2, float elevation, int runwayNumber) {
 		
 		this.width = width;
 		this.length = length;
 		this.anchor1 = anchor1;
 		this.anchor2 = anchor2;
 		this.elevation = elevation;
-		this.thresholdSize = threshsize;
+		this.runwayNumber = runwayNumber;
 		this.midpoint = new Vector2f((this.anchor1.x + this.anchor2.x) / 2, (this.anchor1.y + this.anchor2.y) / 2);
 		this.heading = calculateHeading();
 		this.vertices = generateVertices();
@@ -62,8 +62,16 @@ public class Runway<Vertex2f>{
 		
 		Vector2f dirVec = new Vector2f(this.anchor1.getX() - this.anchor2.getX(), this.anchor1.getY() - this.anchor2.getY());
 		Vector2f dot = new Vector2f(1, -1 * (dirVec.getY() / dirVec.getX()));
-		dot = normalize(dot);
 		
+		if (this.isSameDirection()) {
+			dot = normalize(dot);
+
+		}
+		else {
+			dot = normalize(dot);
+			dot.x = dot.getX() * -1;
+			dot.y = dot.getY() * -1;
+		}
 		
 		Vector2f pos1 = new Vector2f(this.anchor1.getX() + (dot.getX() * this.length), this.anchor1.getY() + (dot.getY() * this.length));
 		Vector2f pos2 = new Vector2f(this.anchor2.getX() + (dot.getX() * this.length), this.anchor2.getY() + (dot.getY() * this.length));
@@ -128,6 +136,18 @@ public class Runway<Vertex2f>{
 		
 		return 0.5f;
 	}
+	
+	public boolean isSameDirection() {
+		
+		float adjustedHeading = (float) (Math.toDegrees(this.calculateHeading()));
+		if (Math.abs(adjustedHeading - (10 * this.runwayNumber)) < 20) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	
 	public static void main(String[] args) {
 		

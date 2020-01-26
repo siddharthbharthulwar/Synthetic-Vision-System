@@ -138,7 +138,7 @@ public class MainGameLoop {
        
         
         
-        Runway r = new Runway(45, 10000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15, 15);
+        Runway r = new Runway(45, 10000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15, 6);
         
         
         List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
@@ -190,7 +190,7 @@ public class MainGameLoop {
         }
    
         entities.add(runway);
-        Camera camera = new Camera(1000);
+        Camera camera = new Camera(11000);
         
         System.out.println("camera");
 
