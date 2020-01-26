@@ -185,7 +185,7 @@ public class MainGameLoop {
         
         
         for (int j = 0; j < buildingList.size() + guideList.size(); j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(7000, -10, -4000), 0, 57, 0, 4));
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(7000, -10, -4000), 0, 0, 0, 4));
         	
         }
    

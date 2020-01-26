@@ -15,6 +15,12 @@ public class Runway<Vertex2f>{
 	private float elevation;
 	private float thresholdSize;
 	private Vector2f midpoint;
+	private float heading;
+	private float[] vertices;
+	private int[] indices;
+	private Vector2f p3;
+	private Vector2f p4;
+	
 	
 	public static Vector2f normalize(Vector2f init) {
 		
@@ -37,6 +43,10 @@ public class Runway<Vertex2f>{
 		this.elevation = elevation;
 		this.thresholdSize = threshsize;
 		this.midpoint = new Vector2f((this.anchor1.x + this.anchor2.x) / 2, (this.anchor1.y + this.anchor2.y) / 2);
+		this.heading = calculateHeading();
+		this.vertices = generateVertices();
+		this.indices = generateIndices();
+		
 		
 	}
 	
@@ -94,13 +104,36 @@ public class Runway<Vertex2f>{
 		return ind;
 	}
 	
-/*
-	public static void main(String[] args) {
+	public float calculateHeading() {
 		
-		Runway r = new Runway(45, 1000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15);
-		float[] f = r.generateVertices();
+		Vector2f dirVec = new Vector2f(this.anchor1.getX() - this.anchor2.getX(), this.anchor1.getY() - this.anchor2.getY());
+		Vector2f dot = new Vector2f(1, -1 * (dirVec.getY() / dirVec.getX()));
+
+		Vector2f norm = new Vector2f(0, 1);
+		return Vector2f.angle(dot, norm);
 	}
 	
-	*/
+	public Vector3f centerlinePointDownDistance(float distance) {
+		Vector2f dirVec = new Vector2f(this.anchor1.getX() - this.anchor2.getX(), this.anchor1.getY() - this.anchor2.getY());
+		Vector2f dot = new Vector2f(1, -1 * (dirVec.getY() / dirVec.getX()));
+		
+		
+		dot = normalize(dot);
+		return new Vector3f(this.midpoint.getX() + (dot.getX() * distance), this.midpoint.getY() + (dot.getY() * distance), this.elevation);
+		
+		
+	}
+	
+	public float generateSingleCenterlineVertices(float distance) {
+		
+		return 0.5f;
+	}
+	
+	public static void main(String[] args) {
+		
+		Runway r = new Runway(45, 1000, new Vector2f(750, 1000), new Vector2f(1100, 750), 15, 5);
+		System.out.println(r.centerlinePointDownDistance(150));
+		System.out.println(r.calculateHeading());
+	}
 	
 }
