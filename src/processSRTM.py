@@ -46,7 +46,8 @@ dim = np.zeros(waterarray.shape)
 
 waterarray = waterarray.astype('uint8')
 
-a.arrayValues = gaussian_filter(a.arrayValues, sigma = 0.5)
+a.arrayValues = gaussian_filter(a.arrayValues, sigma = 2.5)
+a.show(-5, 50)
 
 
 min = np.amin(a.arrayValues)

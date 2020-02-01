@@ -3,23 +3,34 @@ package data;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.lwjgl.util.vector.Vector3f;
+
 import util.PolygonTriangulationUtil;
 
 public class Building {
 
 	private int height;
 	private List<normPoint> corners;
+	public List<Float> vertices;
+	public List<Integer> indices;
+	public List<Vector3f> vertexNormals;
+	
+	
 	
 	public Building(int height, List<normPoint> corners) {
 		setHeight(height);
 		setCorners(corners);
+		generateVertices();
+		generateIndices();
+		//System.out.println("Building(...) parameter constructor..... " + this.vertices + " and " + this.indices);
 	}
 	
 	public int getHeight() {
 		return height;
 	}
 	public void setHeight(int height) {
-		this.height = 2000 + height;
+		this.height = 400 * height;
 	}
 	public List<normPoint> getCorners() {
 		return corners;
@@ -28,7 +39,8 @@ public class Building {
 		this.corners = corners;
 	}
 	
-	public float[] floatVertProcess() {
+	public void generateVertices(){
+		System.out.println("Genvertices called");
 		
 		List<normPoint> points = this.getCorners();
 		float height = this.getHeight();
@@ -47,16 +59,14 @@ public class Building {
 			bef.add(p.getY());
 		}
 		
-		int count = 0;
-		while (count < bef.size()) {
-			fin[count] = bef.get(count);
-			count +=1;
-		}
-		return fin;
+		this.vertices = bef;
+		
 	}
 	
-	public int[] generateIndices() {
-		
+	
+	
+	public void generateIndices() {
+		System.out.println("genindices called");
 		List<Integer> continuousIndices = new ArrayList<Integer>();
 		for (int i = 0; i < this.corners.size() - 1; i++) {
 			
@@ -77,6 +87,8 @@ public class Building {
 			continuousIndices.add(indY2);
 			continuousIndices.add(indZ2);
 			
+			
+			
 		}
 		
 		//System.out.println(continuousIndices);
@@ -92,18 +104,7 @@ public class Building {
 		continuousIndices.add(1);
 		
 		
-		//to be implemented with the ear cutting algorithm
 		
-		/*
-		for (int j = 4; j < 2 * this.corners.size(); j++) {
-			
-			if (j % 2 == 1) {
-				continuousIndices.add(1);
-				continuousIndices.add(j - 2);
-				continuousIndices.add(j);
-			}
-		}
-		*/
 		List<Point> truePoints = new ArrayList<Point>();
 		for (normPoint p: corners) {
 			Point n = new Point();
@@ -112,41 +113,106 @@ public class Building {
 			
 		}
 		
-		System.out.println(" >>>>> truePoints SIZE = " + truePoints.size());
+	//	System.out.println(" >>>>> truePoints SIZE = " + truePoints.size());
 		List<Integer> roofIndices = PolygonTriangulationUtil.getPolygonTriangulationIndices(truePoints, true);
 		
-		System.out.println("SUCCESSFUL");
+	//	System.out.println("SUCCESSFUL");
 		
 		
-//to be implemented with the ear cutting algorithm
 
-		/*
-		for (int j = 4; j < 2 * this.corners.size(); j++) {
-			
-			if (j % 2 == 1) {
-				continuousIndices.add(1);
-				continuousIndices.add(j - 2);
-				continuousIndices.add(j);
-			}
-		}
-		*/
 		
 		for (int i = 0; i < roofIndices.size(); i ++) {
 			roofIndices.set(i, (roofIndices.get(i) * 2) + 1);
 		}
 		
 		continuousIndices.addAll(roofIndices);
+		this.indices = continuousIndices;
+	
+	}
+	
+	public float[] getVertices() {
+		float[] ret = new float[this.vertices.size()];
+		for (int i = 0; i < this.vertices.size(); i++) {
+			ret[i] = this.vertices.get(i);
+			
+		}
+		return ret;
+	}
+	
+	public int[] getIndices() {
 		
+		int[] ret = new int[this.indices.size()];
+		for (int i = 0; i < this.indices.size(); i++) {
+			ret[i] = this.indices.get(i);
+			
+		}
+		return ret;
+	}
+	
+	public Vector3f vertexAt(int index) {
 		
-		int[] finalIndices = new int[continuousIndices.size()];
+		return new Vector3f(this.vertices.get(index * 3), this.vertices.get((index * 3) + 1), this.vertices.get((index * 3) + 2));
 		
-		for (int j = 0; j < continuousIndices.size(); j++) {
-			finalIndices[j] = continuousIndices.get(j);
+	}
+	
+	public void generateVectorNormals(){
+		
+		List<Vector3f> vertexNormals = new ArrayList<Vector3f>();
+		
+		for (int vertex = 0; vertex < this.vertices.size(); vertex++) {
+			
+			vertexNormals.add(new Vector3f(0, 0, 0));
 		}
 		
-		System.out.println("RETURN SUCCESSFUL");
-		return finalIndices;
+		for (int i = 0; i < this.indices.size(); i +=3) {
+			
+			System.out.println(this.indices.get(i) + ", " + this.indices.get(i + 1) + ", " + this.indices.get(i + 2));
+			
+			int vertA = this.indices.get(i);
+			int vertB = this.indices.get(i + 1);
+			int vertC = this.indices.get(i + 2);
+			
+			Vector3f posA = this.vertexAt(vertA);
+			Vector3f posB = this.vertexAt(vertB);
+			Vector3f posC = this.vertexAt(vertC);
+			
+
+			Vector3f edgeAB = Vector3f.sub(posA, posB, null);
+			Vector3f edgeAC = Vector3f.sub(posA, posC, null);
+			
+			Vector3f cross = Vector3f.cross(edgeAB, edgeAC, null);
+			vertexNormals.set(vertA, Vector3f.add(vertexNormals.get(vertA), cross, null));
+			vertexNormals.set(vertB, Vector3f.add(vertexNormals.get(vertB), cross, null));
+			vertexNormals.set(vertC, Vector3f.add(vertexNormals.get(vertC), cross, null));
+			
+			
+			
+		}
+		
+		for (int vertex = 0; vertex < vertexNormals.size(); vertex++) {
+			vertexNormals.set(vertex, vertexNormals.get(vertex).normalise(null));
+		}
+		
+		this.vertexNormals = vertexNormals;
+		
+	}
 	
+	public float[] getVertexNormals() {
+		
+		float[] fin = new float[this.vertexNormals.size() * 3];
+		List<Float> temp = new ArrayList<Float>();
+		
+		for (int i = 0; i < this.vertexNormals.size(); i++) {
+			temp.add(this.vertexNormals.get(i).getX());
+			temp.add(this.vertexNormals.get(i).getY());
+			temp.add(this.vertexNormals.get(i).getZ());
+		}
+		
+		for (int j = 0; j < temp.size(); j++) {
+			fin[j] = temp.get(j);
+		}
+		
+		return fin;
 	}
 	
 	public String toString() {
@@ -164,6 +230,19 @@ public class Building {
 		s += "]";
 		
 		return s;
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		List<normPoint> p = new ArrayList<normPoint>();
+		p.add(new normPoint(0, 0));
+		p.add(new normPoint(150, 0));
+		p.add(new normPoint(150, 150));
+		p.add(new normPoint(0, 150));
+		
+		
+		Building b = new Building(5, p);
 		
 	}
 }

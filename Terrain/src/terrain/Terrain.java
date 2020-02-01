@@ -14,7 +14,7 @@ import textures.TerrainTexturePack;
 
 public class Terrain {
 	
-	public static final float SIZE = 61440;
+	public static final float SIZE = 61140;
 	private static final float MAX_HEIGHT = 150;
 	private static final float MAX_PIXEL_COLOUR = 256*256*256;
 	
