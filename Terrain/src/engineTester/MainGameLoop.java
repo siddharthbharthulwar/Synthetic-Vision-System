@@ -153,8 +153,36 @@ public class MainGameLoop {
         Entity tree = new Entity(staticTreeModel, new Vector3f(500, 0, -500), 0, 0, 0, 100);
         entities.add(tree);
         
+        
+        float[] guidingBoxNormals = {
+        		
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1
+        };
+        
+        
+        
         for (guidingBox guide: guideList) {
-        	RawModel model = loader.loadToVAO(guide.generateVertices(), textureCoords, normals, guide.generateIndices());
+        	RawModel model = loader.loadToVAO(guide.generateVertices(), textureCoords, guidingBoxNormals, guide.generateIndices());
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         	ModelTexture texture = staticModel.getTexture();
             texture.setShineDamper(1000);
@@ -167,7 +195,7 @@ public class MainGameLoop {
         
         
         RawModel model = loader.loadToVAO(r.generateVertices(), textureCoords, normals, r.generateIndices());
-        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("black")));
+        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
       	Entity runway = new Entity(staticModel, new Vector3f(21000, 0, -10000), 0, 135, 0, 1);
 
 
@@ -179,18 +207,17 @@ public class MainGameLoop {
         }
    
         entities.add(runway);
-        Camera camera = new Camera(1100);
+        Camera camera = new Camera(1110);
         
-        System.out.println("camera");
 
-        Light light = new Light(new Vector3f(camera.getPosition().x,10500,9000), new Vector3f(1,1,1), 1900);
+        Light light = new Light(new Vector3f(camera.getPosition().x,10500,camera.getPosition().z), new Vector3f(1,1,1), 1900);
         
         
         //******************************TERRAIN TEXTURE******************
         
         
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("green"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("water"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("black"));
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grass"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("white"));
         
@@ -242,6 +269,7 @@ public class MainGameLoop {
         	
             camera.move();
             light.move();
+            //System.out.println(camera.getPosition().getX() - light.getPosition().getX());
             renderer.processTerrain(terrain);
 
             for (Entity e: entities) {

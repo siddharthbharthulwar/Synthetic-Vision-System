@@ -5,7 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Light {
 
-	private Vector3f position;
+	public Vector3f position;
 	private Vector3f colour;
 	private int speed;
 	
@@ -30,25 +30,27 @@ public class Light {
 	
 	
     public void move(){
-        if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-            position.z-=this.speed * 0.01f;
+
+            if(Keyboard.isKeyDown(Keyboard.KEY_W)){
+                position.z-=this.speed * 0.01f;
+                
+            }
+            if(Keyboard.isKeyDown(Keyboard.KEY_D)){
+                position.x+=this.speed * 0.01f;
+            }
+            if(Keyboard.isKeyDown(Keyboard.KEY_A)){
+                position.x-=this.speed * 0.01f;
+            }
+            if(Keyboard.isKeyDown(Keyboard.KEY_S)){
+                position.z+=this.speed * 0.01f;
+            }
+            if(Keyboard.isKeyDown(Keyboard.KEY_R)){
+                position.y+=this.speed * 0.01f;
+            }
+            if(Keyboard.isKeyDown(Keyboard.KEY_F)){
+                position.y-=this.speed* 0.01f;
+            }
             
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-            position.x+=this.speed * 0.01f;
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-            position.x-=this.speed * 0.01f;
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-            position.z+=this.speed* 0.01f;
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_R)){
-            position.y+=this.speed * 0.01f;
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_F)){
-            position.y-=this.speed * 0.01f;
-        }
 
     }
 	
