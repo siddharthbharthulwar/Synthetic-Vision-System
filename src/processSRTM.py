@@ -25,7 +25,7 @@ plt.show()
 
 n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(thresh.astype('uint8'), connectivity=4)
 print(n_labels)
-waterarray = np.zeros(a.arrayValues.shape)
+waterarray = np.zeros(a.arrayValues.shape, dtype = np.uint8)
 waterlist = []
 unique = np.delete(np.unique(labels), 0)
 
@@ -38,17 +38,13 @@ for i in unique:
         org = ma.masked_not_equal(labels, i) / i
         waterarray = np.add(waterarray, org.filled(0))
 
+plt.imshow(waterarray)
+plt.show()
+
+inversewater = np.subtract(np.ones(waterarray.shape), waterarray)
 dim = np.zeros(waterarray.shape)
 
-R = np.stack((waterarray, dim, dim), axis = 2)
-
-plt.imshow(R)
-plt.imsave('blendmap.png', R, cmap = 'gist_gray')
-plt.show()
-plt.imshow(a.arrayValues, cmap = 'gist_gray')
-plt.show()
-
-
+waterarray = waterarray.astype('uint8')
 
 a.arrayValues = gaussian_filter(a.arrayValues, sigma = 0.5)
 
@@ -56,13 +52,19 @@ a.arrayValues = gaussian_filter(a.arrayValues, sigma = 0.5)
 min = np.amin(a.arrayValues)
 
 a.arrayValues = a.arrayValues - min
+print(np.amin(a.arrayValues))
+max = np.amax(a.arrayValues)
 
-
-plt.imshow(a.arrayValues)
+rgbvals = ((inversewater * a.arrayValues) * (255/max)).astype('uint8')
+plt.imshow(rgbvals)
+print(np.amax(rgbvals))
 plt.show()
 
-print(np.amin(a.arrayValues))
 
+R = np.stack((waterarray * 255, rgbvals, dim.astype('uint8')), axis = 2)
 
+plt.imshow(R)
+plt.imsave('blendmap.png', R)
+plt.show()
 plt.imsave('heightmap.png', a.arrayValues, cmap = 'gist_gray')
 

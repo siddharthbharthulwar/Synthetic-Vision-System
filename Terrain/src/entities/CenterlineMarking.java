@@ -40,7 +40,10 @@ public class CenterlineMarking {
 		
 		Vector2f dot = new Vector2f(1, -1 * (this.parallelNormVector().getY() / this.parallelNormVector().getX()));
 		return dot;
+		
 	}
+	
+	
 	/*
 	public float[] generateVertices() {
 		

@@ -148,7 +148,7 @@ public class MainGameLoop {
         }
         
         RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
-        TexturedModel staticTreeModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("white")));
+        TexturedModel staticTreeModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("water")));
         ModelTexture treeTexture = staticTreeModel.getTexture();
         Entity tree = new Entity(staticTreeModel, new Vector3f(500, 0, -500), 0, 0, 0, 100);
         entities.add(tree);
@@ -207,7 +207,7 @@ public class MainGameLoop {
         }
    
         entities.add(runway);
-        Camera camera = new Camera(1110);
+        Camera camera = new Camera(11110);
         
 
         Light light = new Light(new Vector3f(camera.getPosition().x,10500,camera.getPosition().z), new Vector3f(1,1,1), 1900);
@@ -216,9 +216,9 @@ public class MainGameLoop {
         //******************************TERRAIN TEXTURE******************
         
         
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("green"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("water"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("black"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grass"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("higher"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("white"));
         
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
