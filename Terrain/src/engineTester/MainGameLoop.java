@@ -104,34 +104,17 @@ public class MainGameLoop {
         
         float[] normals = {
                 
-                1, 0, 0,
-                1, 0, 0,
-                1, 0, 0,
-                1, 0, 0,
-                0, 0, 1,
-                0, 0, 1,
-                0, 0, 1,
-                0, 0, 1,
-               - 1, 0, 0,
-                -1, 0, 0,
-                -1, 0, 0,
-               - 1, 0, 0,
-                0, 0, 1,
-                0, 0, 1,
-                0, 0, 1,
-                0, 0, 1,
-               - 1, 0, 0,
-                -1, 0, 0,
-                -1, 0, 0,
-                -1, 0, 0,
-                0, 0, 1,
-                0, 0, 1,
-                0, 0, 1,
-                0, 0, 1,
-                0, 1, 0, 
-                0, 1, 0,
-                0, 1, 0,
-                0, 1, 0
+                0, 0, 0,
+                0, 0.1f, 0,
+                0, 0.2f, 0,
+                0, 0.3f, 0,
+                0, 0.4f, 0,
+                0, 0.5f, 0,
+                0, 0.6f, 0,
+                0, 0.7f, 0,
+                0, 0.8f, 0,
+                0, 0.9f, 0,
+                0, 1.0f, 0
                
            
         };
@@ -145,7 +128,7 @@ public class MainGameLoop {
         List<Entity> entities = new ArrayList<Entity>();
         
         for (Building building: buildingList) {
-        	System.out.println("building height " + building.getHeight());
+        //	System.out.println("building height " + building.getHeight());
         	
         	RawModel model = loader.loadToVAO(building.floatVertProcess(), textureCoords, normals, building.generateIndices());
         	

@@ -14,9 +14,10 @@ SRTM3 = "D:\\Documents\\School\\2019-20\\ISEF 2020\SRTM\\n51_e004_1arc_v3.tif"
 SRTM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n51_e005_1arc_v3.tif"
 
 
-a = TerrainGrid((SRTM3), (1,1), 0)
+a = TerrainGrid((SRTM1, SRTM2, SRTM3, SRTM4), (2,2), 0)
+a.arrayValues = a.arrayValues[3000:5048, 0:2048]
 a.show(-5, 50)
-a.arrayValues = a.arrayValues[100:356, 644:900]
+
 water = ma.masked_not_equal(a.arrayValues, 1).astype('uint8') + np.ones(a.arrayValues.shape)
 ret, thresh = cv.threshold(water, 0, 1, cv.THRESH_BINARY_INV)
 plt.imshow(thresh)
@@ -39,7 +40,7 @@ for i in unique:
 
 dim = np.zeros(waterarray.shape)
 
-R = np.stack((waterarray, dim, dim), axis = 2)[0:1024, 0:1024]
+R = np.stack((waterarray, dim, dim), axis = 2)
 
 plt.imshow(R)
 plt.imsave('blendmap.png', R, cmap = 'gist_gray')

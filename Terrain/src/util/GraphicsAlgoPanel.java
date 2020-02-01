@@ -64,7 +64,7 @@ public class GraphicsAlgoPanel extends JPanel {
 		
 		long end = System.currentTimeMillis();
 		
-		System.out.println("...finished rendering.....Time taken = " + (end-start) + "mS");
+		//System.out.println("...finished rendering.....Time taken = " + (end-start) + "mS");
     }
     
     private Polygon getPolygonShape(List<Point> pointsList){
@@ -112,8 +112,8 @@ public class GraphicsAlgoPanel extends JPanel {
 				boolean isLine1InsideShape = isLineInsideShape(polygonShape, startingPoint, points[index+1]);
 				boolean isLine2InsideShape = isLineInsideShape(polygonShape, startingPoint, points[index+2]);
 				
-				System.out.println(index + ". P1 = " + startingPoint + ", P2 = " + points[index+1] + " === Is LINE1 inside shape? " + isLine1InsideShape);
-				System.out.println(index + ". P1 = " + startingPoint + ", P2 = " + points[index+2] + " === Is LINE2 inside shape? " + isLine2InsideShape);
+				//System.out.println(index + ". P1 = " + startingPoint + ", P2 = " + points[index+1] + " === Is LINE1 inside shape? " + isLine1InsideShape);
+				//System.out.println(index + ". P1 = " + startingPoint + ", P2 = " + points[index+2] + " === Is LINE2 inside shape? " + isLine2InsideShape);
 			}			
 			index++;
 		}	
@@ -127,7 +127,7 @@ public class GraphicsAlgoPanel extends JPanel {
 		
 		List<Integer> trianglePointIndices = PolygonTriangulationUtil.getPolygonTriangulationIndices(pointsList, true);
 		
-		System.out.println("  === drawTriangleFillEarCutting()... trianglePointIndices = " + trianglePointIndices + ", SIZE = " + trianglePointIndices.size());
+		//System.out.println("  === drawTriangleFillEarCutting()... trianglePointIndices = " + trianglePointIndices + ", SIZE = " + trianglePointIndices.size());
 		
         List<Point> initialPointsList = new ArrayList<Point>();
 		
@@ -135,7 +135,7 @@ public class GraphicsAlgoPanel extends JPanel {
 			initialPointsList.add(p);
 		}
 		
-		System.out.println("  === drawTriangleFillEarCutting()... initialPointsList = " + initialPointsList);
+		//System.out.println("  === drawTriangleFillEarCutting()... initialPointsList = " + initialPointsList);
 		int index = 0;
 		for(int i = 0; index <= trianglePointIndices.size()-3; i++){
 			
