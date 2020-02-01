@@ -128,6 +128,16 @@ public class Runway<Vertex2f>{
 		
 	}
 	
+	public Vector2f guidelineDownDistance(float distance) {
+		Vector2f dirVec = new Vector2f(this.anchor1.getX() - this.anchor2.getX(), this.anchor1.getY() - this.anchor2.getY());
+		Vector2f dot = new Vector2f(1, -1 * (dirVec.getY() / dirVec.getX()));
+		dot = normalize(dot);
+		
+		return new Vector2f(this.midpoint.getX() + (dot.getX() * (-1 * distance)), this.midpoint.getY() + (dot.getY() * (-1 * distance)));
+		
+	}
+	
+	
 
 	public boolean isSameDirection() {
 		

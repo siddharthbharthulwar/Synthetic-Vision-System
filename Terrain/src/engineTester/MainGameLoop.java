@@ -32,6 +32,7 @@ import entities.Runway;
 import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
 import fontRendering.TextMaster;
+import guidance.glideSlopeMap;
 import guidance.guidingBox;
 import guis.GuiRenderer;
 import guis.GuiTexture;
@@ -54,9 +55,9 @@ public class MainGameLoop {
             
         List<Building> buildings = FileUtil.loadBuildingsFromJSON("res/data.json");
         
-        System.out.println(" ==== Building List read is: " + buildings);
-        System.out.println(" ==== Building List Size is: " + buildings.size());
-        System.out.println(" ==== Building List Class is: " + buildings.getClass());
+   //     System.out.println(" ==== Building List read is: " + buildings);
+   //     System.out.println(" ==== Building List Size is: " + buildings.size());
+   //     System.out.println(" ==== Building List Class is: " + buildings.getClass());
         
         
         List<Building> buildingList = null;
@@ -69,29 +70,10 @@ public class MainGameLoop {
         	 buildingList = (ArrayList<Building>) obj;
       	 
         }
-        
-        List<guidingBox> guideList = new ArrayList<guidingBox>();
-        
-        
-        guidingBox guide1 = new guidingBox(500, new Vector3f(500, 2400, 1000), 200, 50);
-        guidingBox guide2 = new guidingBox(500, new Vector3f(500, 2400, 3000), 200, 50);
-        guidingBox guide3 = new guidingBox(500, new Vector3f(500, 2400, 5000), 200, 50);
-        guidingBox guide4 = new guidingBox(500, new Vector3f(500, 2400, 7000), 200, 50);
-        guidingBox guide5 = new guidingBox(500, new Vector3f(500, 2400, 9000), 200, 50);
-        guidingBox guide6 = new guidingBox(500, new Vector3f(500, 2400, 11000), 200, 50);
-        guidingBox guide7 = new guidingBox(500, new Vector3f(500, 2400, 13000), 200, 50);
-        guidingBox guide8 = new guidingBox(500, new Vector3f(500, 2400, 15000), 200, 50);
+        Runway r = new Runway(45, 10000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15, 6);
 
-        
-
-        guideList.add(guide1);
-        guideList.add(guide2);
-        guideList.add(guide3);
-        guideList.add(guide4);
-        guideList.add(guide5);
-        guideList.add(guide6);
-        guideList.add(guide7);
-        guideList.add(guide8);
+        glideSlopeMap rwyMap = new glideSlopeMap(r, 100.5f, 11);
+        List<guidingBox> guideList = rwyMap.getBoxes();
         
         
         
@@ -124,21 +106,21 @@ public class MainGameLoop {
         };
        
                
-        Runway r = new Runway(45, 10000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15, 6);
         
         
         List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
         List<Entity> entities = new ArrayList<Entity>();
         
         for (Building building: buildingList) {
-        	System.out.println(" ==== Building = " + building);
+        	//System.out.println(" ==== Building = " + building);
         	
+        	building.setHeight(building.getHeight());
         	building.generateVertices();
         	building.generateIndices();
         	building.generateVectorNormals();
         	
         	
-            System.out.println(" ==== Building.... vertices = " + building.getVertices() + ", indices = " + building.getIndices());
+           // System.out.println(" ==== Building.... vertices = " + building.getVertices() + ", indices = " + building.getIndices());
         	
         	RawModel model = loader.loadToVAO(building.getVertices(), textureCoords, building.getVertexNormals(), building.getIndices());
         	
@@ -217,7 +199,7 @@ public class MainGameLoop {
         }
    
         entities.add(runway);
-        Camera camera = new Camera(1110);
+        Camera camera = new Camera(11110);
         
 
         Light light = new Light(new Vector3f(camera.getPosition().x,10500,camera.getPosition().z), new Vector3f(1,1,1), 1900);

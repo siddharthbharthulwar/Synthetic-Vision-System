@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import util.PolygonTriangulationUtil;
@@ -30,7 +31,7 @@ public class Building {
 		return height;
 	}
 	public void setHeight(int height) {
-		this.height = 400 * height;
+		this.height = (2 * height) + 10;
 	}
 	public List<normPoint> getCorners() {
 		return corners;
@@ -62,7 +63,18 @@ public class Building {
 		this.vertices = bef;
 		
 	}
-	
+	public static Vector3f normalize(Vector3f init) {
+			
+			float x = init.getX();
+			float y = init.getY();
+			float z = init.getZ();
+			
+			float squaredsum = (x * x) + (y * y) + (z * z);
+			float magnitude = (float) Math.sqrt(squaredsum);
+			
+			return new Vector3f(x / magnitude, y / magnitude, z / magnitude);
+		
+	}
 	
 	
 	public void generateIndices() {
@@ -159,14 +171,9 @@ public class Building {
 		
 		List<Vector3f> vertexNormals = new ArrayList<Vector3f>();
 		
-		for (int vertex = 0; vertex < this.vertices.size(); vertex++) {
-			
-			vertexNormals.add(new Vector3f(0, 0, 0));
-		}
-		
 		for (int i = 0; i < this.indices.size(); i +=3) {
 			
-			System.out.println(this.indices.get(i) + ", " + this.indices.get(i + 1) + ", " + this.indices.get(i + 2));
+			//System.out.println(this.indices.get(i) + ", " + this.indices.get(i + 1) + ", " + this.indices.get(i + 2));
 			
 			int vertA = this.indices.get(i);
 			int vertB = this.indices.get(i + 1);
@@ -181,17 +188,17 @@ public class Building {
 			Vector3f edgeAC = Vector3f.sub(posA, posC, null);
 			
 			Vector3f cross = Vector3f.cross(edgeAB, edgeAC, null);
-			vertexNormals.set(vertA, Vector3f.add(vertexNormals.get(vertA), cross, null));
-			vertexNormals.set(vertB, Vector3f.add(vertexNormals.get(vertB), cross, null));
-			vertexNormals.set(vertC, Vector3f.add(vertexNormals.get(vertC), cross, null));
+			
+			cross = normalize(cross);
+			
+			vertexNormals.add(cross);
+		//	vertexNormals.add(cross);
+		//	vertexNormals.add(cross);
 			
 			
 			
 		}
 		
-		for (int vertex = 0; vertex < vertexNormals.size(); vertex++) {
-			vertexNormals.set(vertex, vertexNormals.get(vertex).normalise(null));
-		}
 		
 		this.vertexNormals = vertexNormals;
 		
@@ -211,7 +218,7 @@ public class Building {
 		for (int j = 0; j < temp.size(); j++) {
 			fin[j] = temp.get(j);
 		}
-		
+		System.out.println(fin.length);
 		return fin;
 	}
 	
