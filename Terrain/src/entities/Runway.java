@@ -76,8 +76,8 @@ public class Runway<Vertex2f>{
 		Vector2f pos1 = new Vector2f(this.anchor1.getX() + (dot.getX() * this.length), this.anchor1.getY() + (dot.getY() * this.length));
 		Vector2f pos2 = new Vector2f(this.anchor2.getX() + (dot.getX() * this.length), this.anchor2.getY() + (dot.getY() * this.length));
 		
-		System.out.println(pos1);
-		System.out.println(pos2);
+	//	System.out.println(pos1);
+	//	System.out.println(pos2);
 		
 		
 		//BASE RUNWAY LEN 12:
@@ -89,15 +89,11 @@ public class Runway<Vertex2f>{
 			pos2.getX(), this.elevation, pos2.getY()
 				
 		};
-		/*
-		float[] threshmarkings = {
-				
-				
-		}
-		*/
+
 		return base;
 		
 	}
+	
 	
 	
 	public int[] generateIndices() {
@@ -132,11 +128,7 @@ public class Runway<Vertex2f>{
 		
 	}
 	
-	public float generateSingleCenterlineVertices(float distance) {
-		
-		return 0.5f;
-	}
-	
+
 	public boolean isSameDirection() {
 		
 		float adjustedHeading = (float) (Math.toDegrees(this.calculateHeading()));
@@ -151,9 +143,8 @@ public class Runway<Vertex2f>{
 	
 	public static void main(String[] args) {
 		
-		Runway r = new Runway(45, 1000, new Vector2f(750, 1000), new Vector2f(1100, 750), 15, 5);
+		Runway r = new Runway(45, 1000, new Vector2f(500, 0), new Vector2f(0, 500), 15, 5);
 		System.out.println(r.centerlinePointDownDistance(150));
-		System.out.println(r.calculateHeading());
 	}
 	
 }
