@@ -47,7 +47,10 @@ for i in range(len(cl.labels_)):
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-
+ax.set_xlabel('Average Lateral Harris Response')
+ax.set_ylabel('STD of Gradient Derivative')
+ax.set_zlabel('Average Vertical Harris Response')
+ax.set_title('Agglomerative Hierarchical Clustering for Structure Footprint Features')
 ax.scatter(buildingshar, buildingsvar, buildingsyik)
 ax.scatter(vegetationhar, vegetationvar, vegetationyik)
 plt.show()

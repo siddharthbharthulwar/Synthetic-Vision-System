@@ -1,9 +1,17 @@
 import scipy
 import scipy.cluster.hierarchy as sch
+import numpy as np
 import matplotlib.pylab as plt
 
-X = scipy.randn(1001,2)
+#X = scipy.randn(1001,2)
+harris = np.load('harrisresponse1.npy')
+var = np.load('vargrads1.npy')
 
+
+X = []
+
+for i in range(len(harris)):
+  X.append([harris[i], var[i]])
 d = sch.distance.pdist(X)
 
 Z= sch.linkage(d,method='complete')
@@ -26,16 +34,22 @@ def plot_tree(P, pos=None):
     icoord = scipy.array(P['icoord'])
     dcoord = scipy.array(P['dcoord'])
     color_list = scipy.array(P['color_list'])
+    print(len(color_list))
     xmin, xmax = icoord.min(), icoord.max()
     ymin, ymax = dcoord.min(), dcoord.max()
     if pos:
         icoord = icoord[pos]
         dcoord = dcoord[pos]
         color_list = color_list[pos]
+    fig, ax = plt.subplots()
+
     for xs, ys, color in zip(icoord, dcoord, color_list):
-        plt.plot(xs, ys, color)
-    plt.xlim(xmin-10, xmax + 0.1*abs(xmax))
-    plt.ylim(ymin, ymax + 0.1*abs(ymax))
+        ax.plot(xs, ys, color)
+
+
+    ax.set_xlabel('Weighted Average of Harris Response Function')
+    ax.set_ylabel('Height')
+    ax.set_title('Agglomerative Hierarchical Cluster Dendogram')
     plt.show()
 
 

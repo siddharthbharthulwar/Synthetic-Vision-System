@@ -164,6 +164,12 @@ public class MainGameLoop {
         	
         }
         
+        RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
+        TexturedModel staticTreeModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("white")));
+        ModelTexture treeTexture = staticTreeModel.getTexture();
+        Entity tree = new Entity(staticTreeModel, new Vector3f(500, 0, -500), 0, 0, 0, 100);
+        entities.add(tree);
+        
         for (guidingBox guide: guideList) {
         	RawModel model = loader.loadToVAO(guide.generateVertices(), textureCoords, normals, guide.generateIndices());
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
@@ -185,12 +191,12 @@ public class MainGameLoop {
         
         
         for (int j = 0; j < buildingList.size() + guideList.size(); j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(7000, -10, -4000), 0, 0, 0, 4));
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(7000, -10, -30000), 0, 0, 0, 1));
         	
         }
    
         entities.add(runway);
-        Camera camera = new Camera(11000);
+        Camera camera = new Camera(1100);
         
         System.out.println("camera");
 

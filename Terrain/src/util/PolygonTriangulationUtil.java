@@ -32,12 +32,12 @@ public class PolygonTriangulationUtil {
 		
 		if(pointsList.size()>3){
 			
-			System.out.println("...Polygon size is > 3, Will proceed to Cut an Ear!");
+		//	System.out.println("...Polygon size is > 3, Will proceed to Cut an Ear!");
 			
 			for(int i=0; i< pointsList.size(); i++){
 				
 				if(i < pointsList.size()-2){
-					System.out.println(" ...inside for loop, i = " + i);
+			//		System.out.println(" ...inside for loop, i = " + i);
 					Point firstPoint = pointsList.get(i);
 					Point secondPoint = pointsList.get(i+1);
 					Point thirdPoint = pointsList.get(i+2);
@@ -60,7 +60,7 @@ public class PolygonTriangulationUtil {
 			}
 		}else{
 			//we are done LAST TRIANGLE
-		    System.out.println(".....ALL DONE!....pointsList = " + pointsList);
+		//    System.out.println(".....ALL DONE!....pointsList = " + pointsList);
 			Point firstPoint = pointsList.get(0);
 			Point secondPoint = pointsList.get(1);
 			Point thirdPoint = pointsList.get(2);
