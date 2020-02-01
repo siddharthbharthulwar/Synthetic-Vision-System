@@ -104,17 +104,24 @@ public class MainGameLoop {
         
         float[] normals = {
                 
-                0, 0, 0,
-                0, 0.1f, 0,
-                0, 0.2f, 0,
-                0, 0.3f, 0,
-                0, 0.4f, 0,
-                0, 0.5f, 0,
-                0, 0.6f, 0,
-                0, 0.7f, 0,
-                0, 0.8f, 0,
-                0, 0.9f, 0,
-                0, 1.0f, 0
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1,
+                
                
            
         };
@@ -281,25 +288,7 @@ public class MainGameLoop {
             renderer.render(light, camera);
             int config = glideslope.PAPIConfiguration(camera.getPosition(), r.getMidpoint());
             
-            
-            /*
-            if (camera.getPosition().y > 100) {
-                guiRenderer.render(g40);
 
-            }
-            else if (camera.getPosition().y > 75) {
-            	guiRenderer.render(g31);
-            }
-            else if (camera.getPosition().y > 50) {
-            	guiRenderer.render(g22);
-            }
-            else if (camera.getPosition().y > 25) {
-            	guiRenderer.render(g13);
-            }
-            else {
-            	guiRenderer.render(g04);
-            }
-            */
             
             if (config == 1) {
             	guiRenderer.render(g04);
