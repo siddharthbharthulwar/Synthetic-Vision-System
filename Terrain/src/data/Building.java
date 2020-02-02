@@ -41,7 +41,7 @@ public class Building {
 	}
 	
 	public void generateVertices(){
-		System.out.println("Genvertices called");
+		
 		
 		List<normPoint> points = this.getCorners();
 		float height = this.getHeight();
@@ -102,6 +102,7 @@ public class Building {
 			
 			
 		}
+		
 		
 		//System.out.println(continuousIndices);
 		
@@ -192,8 +193,8 @@ public class Building {
 			cross = normalize(cross);
 			
 			vertexNormals.add(cross);
-		//	vertexNormals.add(cross);
-		//	vertexNormals.add(cross);
+			vertexNormals.add(cross);
+			vertexNormals.add(cross);
 			
 			
 			

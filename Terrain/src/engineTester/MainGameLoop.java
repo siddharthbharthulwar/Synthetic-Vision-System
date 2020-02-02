@@ -52,7 +52,7 @@ public class MainGameLoop {
         FontType font = new FontType(loader.loadTexture("segoeUI"), new File("res/segoeUI.fnt"));
         GUIText text = new GUIText("Synthetic Vision System", 1, font, new Vector2f(0, 0), 0.5f, true);
         text.setColour(1, 1, 1);
-            
+        /*    
         List<Building> buildings = FileUtil.loadBuildingsFromJSON("res/data.json");
         
    //     System.out.println(" ==== Building List read is: " + buildings);
@@ -70,9 +70,10 @@ public class MainGameLoop {
         	 buildingList = (ArrayList<Building>) obj;
       	 
         }
+        */
         Runway r = new Runway(45, 10000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15, 6);
 
-        glideSlopeMap rwyMap = new glideSlopeMap(r, 100.5f, 11);
+        glideSlopeMap rwyMap = new glideSlopeMap(r, 1001.5f, 20);
         List<guidingBox> guideList = rwyMap.getBoxes();
         
         
@@ -83,33 +84,115 @@ public class MainGameLoop {
         
         float[] normals = {
                 
-                0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1,
-                
-               
-           
+        		0, -0.5f, 0,
+        		0, -0.5f, 0,
+        		0.5f, 0, 0,
+        		0.5f, 0, 0,
+        		0, 0.5f, 0,
+        		0, 0.5f, 0,
+        		-0.5f, 0, 0,
+        		-0.5f, 0, 0,
+        		0, 0, 0,
+        		0, 0, 0, 
+        		0, 0, 0.5f, 
+        		0, 0, 0.5f,
+        		0, -0.5f, 0,
+        		0, -0.5f, 0,
+        		0.5f, 0, 0,
+        		0.5f, 0, 0,
+        		0, 0.5f, 0,
+        		0, 0.5f, 0,
+        		-0.5f, 0, 0,
+        		-0.5f, 0, 0,
+        		0, 0, 0,
+        		0, 0, 0, 
+        		0, 0, 0.5f, 
+        		0, 0, 0.5f
         };
-       
+        
                
         
         
         List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
         List<Entity> entities = new ArrayList<Entity>();
+        List<Building> buildingList = new ArrayList<Building>();
+        
+        
+        List<normPoint> p = new ArrayList<normPoint>();
+        p.add(new normPoint(0, 0));
+        p.add(new normPoint(50, 0));
+        p.add(new normPoint(50, 50));
+        p.add(new normPoint(0, 50));
+        Building b = new Building(16, p);
+        buildingList.add(b);
+        
+        float[] vertices = {
+        	
+        	0, 0, 0,
+        	0, 50, 0,
+        	50, 0, 0,
+        	50, 50, 0,
+        	50, 0, 0,
+        	50, 50, 0,
+        	50, 0, 50,
+        	50, 50, 50,
+        	50, 0, 50,
+        	50, 50, 50,
+        	0, 0, 50,
+        	0, 50, 50,
+        	0, 0, 50,
+        	0, 50, 50,
+        	0, 0, 0,
+        	0, 50, 0,
+        	
+        	
+        	0, 50, 0,
+        	50, 50, 0,
+        	50, 50, 50,
+        	0, 50, 50
+        		
+        };
+        
+        int[] indicesNew = {
+        	
+        	1, 0, 3,
+        	0, 2, 3,
+        	5, 4, 7,
+        	4, 6, 7,
+        	9, 8, 11,
+        	8, 10, 11,
+        	13, 12, 15,
+        	12, 14, 15,
+        	
+        	19, 16, 18,
+        	16, 17, 18
+        		
+        };
+        
+        float[] normalsNew = {
+        	
+        	0, 0, 1,
+        	0, 0, 1,
+        	0, 0, 1,
+        	0, 0, 1,
+        	1, 0, 0,
+        	1, 0, 0,
+        	1, 0, 0,
+        	1, 0, 0,
+        	0, 0,- 1,
+        	0, 0,- 1,
+        	0, 0, -1,
+        	0, 0, -1,
+        	-1, 0, 0,
+        	-1, 0, 0,
+        	-1, 0, 0,
+        	-1, 0, 0,
+        	0, -1, 0,
+        	0, -1, 0,
+        	0, -1, 0,
+        	0, -1, 0
+        	
+        };
         
         for (Building building: buildingList) {
         	//System.out.println(" ==== Building = " + building);
@@ -120,14 +203,16 @@ public class MainGameLoop {
         	building.generateVectorNormals();
         	
         	
+        	
+        	
            // System.out.println(" ==== Building.... vertices = " + building.getVertices() + ", indices = " + building.getIndices());
         	
-        	RawModel model = loader.loadToVAO(building.getVertices(), textureCoords, building.getVertexNormals(), building.getIndices());
+        	RawModel model = loader.loadToVAO(vertices, textureCoords, normalsNew, indicesNew);
         	
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         	ModelTexture texture = staticModel.getTexture();
-            texture.setShineDamper(1000);
-            texture.setReflectivity(0.5f);
+            texture.setShineDamper(10000);
+            texture.setReflectivity(0.0f);
             
             staticModels.add(staticModel);
             //System.out.println(building.getCorners().size());
@@ -152,17 +237,8 @@ public class MainGameLoop {
         	1, 1, 1,
         	1, 1, 1,
         	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
+        	
+        	1, 1, 1,1, 1, 1,
         	1, 1, 1,
         	1, 1, 1,
         	1, 1, 1,
@@ -178,7 +254,7 @@ public class MainGameLoop {
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         	ModelTexture texture = staticModel.getTexture();
             texture.setShineDamper(1000);
-            texture.setReflectivity(0.5f);
+            texture.setReflectivity(0.0f);
             
             staticModels.add(staticModel);
         }
@@ -188,21 +264,26 @@ public class MainGameLoop {
         
         RawModel model = loader.loadToVAO(r.generateVertices(), textureCoords, normals, r.generateIndices());
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
-      	Entity runway = new Entity(staticModel, new Vector3f(21000, 0, -10000), 0, 135, 0, 1);
+      	Entity runway = new Entity(staticModel, new Vector3f(21000, 0, -10000), 0, 0, 0, 1);
 
 
         
         
-        for (int j = 0; j < buildingList.size() + guideList.size(); j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(7000, -10, -30000), 0, 0, 0, 1));
+        for (int j = 0; j < buildingList.size(); j++) {
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(7000, -10, -3000), 0, 0, 0, 11));
+        	
+        }
+        
+        for (int j = 0; j < guideList.size(); j++) {
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(0, 0, 0), 0, 0, 0, 1));
         	
         }
    
         entities.add(runway);
-        Camera camera = new Camera(11110);
+        Camera camera = new Camera(1110);
         
 
-        Light light = new Light(new Vector3f(camera.getPosition().x,10500,camera.getPosition().z), new Vector3f(1,1,1), 1900);
+        Light light = new Light(new Vector3f(10, -5000, 10), new Vector3f(1,1,1), 1900);
         
         
         //******************************TERRAIN TEXTURE******************
@@ -260,7 +341,7 @@ public class MainGameLoop {
         while(!Display.isCloseRequested()){
         	
             camera.move();
-            light.setPosition(camera.getPosition());
+          //  light.setPosition(camera.getPosition());
             renderer.processTerrain(terrain);
 
             for (Entity e: entities) {
