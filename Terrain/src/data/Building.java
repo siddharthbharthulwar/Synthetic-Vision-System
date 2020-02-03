@@ -13,17 +13,19 @@ public class Building {
 
 	private int height;
 	private List<normPoint> corners;
-	public List<Float> vertices;
-	public List<Integer> indices;
-	public List<Vector3f> vertexNormals;
+	public float[] vertices;
+	public int[] indices;
+	public float[] normals;
 	
 	
 	
 	public Building(int height, List<normPoint> corners) {
 		setHeight(height);
 		setCorners(corners);
-		generateVertices();
-		generateIndices();
+		this.vertices = vecToArray(this.generateVertices());
+		this.indices = intToArray(this.generateIndices());
+		this.normals = vecToArray(this.generateVertexNormals());
+		
 		//System.out.println("Building(...) parameter constructor..... " + this.vertices + " and " + this.indices);
 	}
 	
@@ -40,151 +42,128 @@ public class Building {
 		this.corners = corners;
 	}
 	
-	public void generateVertices(){
-		
-		
-		List<normPoint> points = this.getCorners();
-		float height = this.getHeight();
-		
-		float[] fin = new float[points.size() * 6];
-		ArrayList<Float> bef = new ArrayList<Float>();
-		for (normPoint p: points) {
-			bef.add(p.getX());
-			bef.add((float) 0);
-
-			bef.add(p.getY());
-			
-			bef.add(p.getX());
-			bef.add(height);
-
-			bef.add(p.getY());
-		}
-		
-		this.vertices = bef;
-		
-	}
+	
 	public static Vector3f normalize(Vector3f init) {
+		
+		float x = init.getX();
+		float y = init.getY();
+		float z = init.getZ();
+		
+		float squaredsum = (x * x) + (y * y) + (z * z);
+		float magnitude = (float) Math.sqrt(squaredsum);
+		
+		return new Vector3f(x / magnitude, y / magnitude, z / magnitude);
+		
+	}
+	public static float[] vecToArray(List<Vector3f> listOfVectors) {
 			
-			float x = init.getX();
-			float y = init.getY();
-			float z = init.getZ();
+		List<Float> temp = new ArrayList<Float>();
+		float[] ret = new float[listOfVectors.size() * 3];
+		
+		for (int i = 0; i < listOfVectors.size(); i++) {
+			Vector3f vec = listOfVectors.get(i);
+			temp.add(vec.getX());
+			temp.add(vec.getY());
+			temp.add(vec.getZ());
+		}
+		
+		for (int i = 0; i < temp.size(); i++) {
 			
-			float squaredsum = (x * x) + (y * y) + (z * z);
-			float magnitude = (float) Math.sqrt(squaredsum);
+			ret[i] = temp.get(i);
+		}
+		return ret;
 			
-			return new Vector3f(x / magnitude, y / magnitude, z / magnitude);
+	}
+	public static int[] intToArray(List<Integer> listOfInts) {
+		int[] ret = new int[listOfInts.size()];
+		
+		for (int i = 0; i < listOfInts.size(); i++) {
+			ret[i] = listOfInts.get(i);
+		}
+		return ret;
+	}
+	
+	public List<Vector3f> generateVertices() {
+		
+		List<Vector3f> vec = new ArrayList<Vector3f>();
+		normPoint init = this.corners.get(0);
+		
+		//SIDE FACES
+		vec.add(new Vector3f(init.getX(), 0, init.getY()));
+		vec.add(new Vector3f(init.getY(), this.height, init.getY()));
+		
+		for (int i = 1; i < this.corners.size(); i++) {
+			normPoint corner = this.corners.get(i);
+			vec.add(new Vector3f(corner.getX(), 0, corner.getY()));
+			vec.add(new Vector3f(corner.getX(), this.height, corner.getY()));
+			
+			vec.add(new Vector3f(corner.getX(), 0, corner.getY()));
+			vec.add(new Vector3f(corner.getX(), this.height, corner.getY()));
+		}
+		
+		vec.add(new Vector3f(init.getX(), 0, init.getY()));
+		vec.add(new Vector3f(init.getY(), this.height, init.getY()));
+		//END SIDE FACES
+		
+		for (normPoint point: this.corners) {
+			vec.add(new Vector3f(point.getX(), this.height, point.getY()));
+		}
+		
+		return vec;
 		
 	}
 	
-	
-	public void generateIndices() {
-		System.out.println("genindices called");
-		List<Integer> continuousIndices = new ArrayList<Integer>();
-		for (int i = 0; i < this.corners.size() - 1; i++) {
+	public List<Integer> generateIndices(){
+		
+		List<Integer> indices = new ArrayList<Integer>();
+		for (int i = 0; i < this.corners.size(); i++) {
 			
-			
-			int indX1 = (2 * i) + 1;
-			int indY1  = 2 * i;
-			int indZ1  = (2 * i) + 3;
-			
-			int indX2 = 2 * i;
-			int indY2 = (2 * i) + 2;
-			int indZ2 = (2 * i) + 3;
-			
-			continuousIndices.add(indX1);
-			continuousIndices.add(indY1);
-			continuousIndices.add(indZ1);
-			
-			continuousIndices.add(indX2);
-			continuousIndices.add(indY2);
-			continuousIndices.add(indZ2);
-			
+			int iterate = i * 4;
+			indices.add(iterate + 1);
+			indices.add(iterate);
+			indices.add(iterate + 3);
+			indices.add(iterate);
+			indices.add(iterate + 2);
+			indices.add(iterate + 3);
 			
 			
 		}
-		
-		
-		//System.out.println(continuousIndices);
-		
-		int finalInd = this.corners.size() - 1;
-		
-		continuousIndices.add((2 * finalInd) + 1);
-		continuousIndices.add(2 * finalInd);
-		continuousIndices.add(1);
-		
-		continuousIndices.add(2 * finalInd);
-		continuousIndices.add(0);
-		continuousIndices.add(1);
-		
-		
 		
 		List<Point> truePoints = new ArrayList<Point>();
-		for (normPoint p: corners) {
+		for (normPoint p: this.corners) {
+			
 			Point n = new Point();
 			n.setLocation(p.getX(), p.getY());
 			truePoints.add(n);
-			
 		}
-		
-	//	System.out.println(" >>>>> truePoints SIZE = " + truePoints.size());
 		List<Integer> roofIndices = PolygonTriangulationUtil.getPolygonTriangulationIndices(truePoints, true);
+		for (int i = 0; i < roofIndices.size(); i++) {
+			roofIndices.set(i, roofIndices.get(i) + ((4 * this.corners.size())));
+		}
+		//indices.addAll(roofIndices);
+		return indices;
 		
-	//	System.out.println("SUCCESSFUL");
+	}
+	
+	public List<Vector3f> generateVertexNormals(){
 		
-		
-
-		
-		for (int i = 0; i < roofIndices.size(); i ++) {
-			roofIndices.set(i, (roofIndices.get(i) * 2) + 1);
+		List<Vector3f> normals = new ArrayList<Vector3f>();
+		List<Vector3f> verts = this.generateVertices();
+		List<Integer> inds = this.generateIndices();
+		for (int i = 0; i < verts.size(); i++) {
+			normals.add(new Vector3f(0, 0, 0));
 		}
 		
-		continuousIndices.addAll(roofIndices);
-		this.indices = continuousIndices;
-	
-	}
-	
-	public float[] getVertices() {
-		float[] ret = new float[this.vertices.size()];
-		for (int i = 0; i < this.vertices.size(); i++) {
-			ret[i] = this.vertices.get(i);
+		for (int i = 0; i < inds.size() - 1; i +=3) {
 			
-		}
-		return ret;
-	}
-	
-	public int[] getIndices() {
-		
-		int[] ret = new int[this.indices.size()];
-		for (int i = 0; i < this.indices.size(); i++) {
-			ret[i] = this.indices.get(i);
+			int vertA = inds.get(i);
+			int vertB = inds.get(i + 1);
+			int vertC = inds.get(i + 2);
 			
-		}
-		return ret;
-	}
-	
-	public Vector3f vertexAt(int index) {
-		
-		return new Vector3f(this.vertices.get(index * 3), this.vertices.get((index * 3) + 1), this.vertices.get((index * 3) + 2));
-		
-	}
-	
-	public void generateVectorNormals(){
-		
-		List<Vector3f> vertexNormals = new ArrayList<Vector3f>();
-		
-		for (int i = 0; i < this.indices.size(); i +=3) {
+			Vector3f posA = verts.get(vertA);
+			Vector3f posB = verts.get(vertB);
+			Vector3f posC = verts.get(vertC);
 			
-			//System.out.println(this.indices.get(i) + ", " + this.indices.get(i + 1) + ", " + this.indices.get(i + 2));
-			
-			int vertA = this.indices.get(i);
-			int vertB = this.indices.get(i + 1);
-			int vertC = this.indices.get(i + 2);
-			
-			Vector3f posA = this.vertexAt(vertA);
-			Vector3f posB = this.vertexAt(vertB);
-			Vector3f posC = this.vertexAt(vertC);
-			
-
 			Vector3f edgeAB = Vector3f.sub(posA, posB, null);
 			Vector3f edgeAC = Vector3f.sub(posA, posC, null);
 			
@@ -192,36 +171,15 @@ public class Building {
 			
 			cross = normalize(cross);
 			
-			vertexNormals.add(cross);
-			vertexNormals.add(cross);
-			vertexNormals.add(cross);
-			
-			
+			normals.set(vertA, cross);
+			normals.set(vertB, cross);
+			normals.set(vertC, cross);
 			
 		}
-		
-		
-		this.vertexNormals = vertexNormals;
-		
+		return normals;
 	}
 	
-	public float[] getVertexNormals() {
-		
-		float[] fin = new float[this.vertexNormals.size() * 3];
-		List<Float> temp = new ArrayList<Float>();
-		
-		for (int i = 0; i < this.vertexNormals.size(); i++) {
-			temp.add(this.vertexNormals.get(i).getX());
-			temp.add(this.vertexNormals.get(i).getY());
-			temp.add(this.vertexNormals.get(i).getZ());
-		}
-		
-		for (int j = 0; j < temp.size(); j++) {
-			fin[j] = temp.get(j);
-		}
-		System.out.println(fin.length);
-		return fin;
-	}
+	
 	
 	public String toString() {
 		

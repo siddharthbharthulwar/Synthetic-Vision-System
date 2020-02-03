@@ -53,7 +53,7 @@ public class MainGameLoop {
         FontType font = new FontType(loader.loadTexture("segoeUI"), new File("res/segoeUI.fnt"));
         GUIText text = new GUIText("Synthetic Vision System", 1, font, new Vector2f(0, 0), 0.5f, true);
         text.setColour(1, 1, 1);
-        /*    
+        
         List<Building> buildings = FileUtil.loadBuildingsFromJSON("res/data.json");
         
    //     System.out.println(" ==== Building List read is: " + buildings);
@@ -71,7 +71,7 @@ public class MainGameLoop {
         	 buildingList = (ArrayList<Building>) obj;
       	 
         }
-        */
+        
         Runway r = new Runway(45, 10000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15, 6);
 
         glideSlopeMap rwyMap = new glideSlopeMap(r, 1001.5f, 20);
@@ -116,18 +116,19 @@ public class MainGameLoop {
         
         List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
         List<Entity> entities = new ArrayList<Entity>();
+        
+        /*
         List<Building> buildingList = new ArrayList<Building>();
-        
-        
         List<normPoint> p = new ArrayList<normPoint>();
         p.add(new normPoint(0, 0));
         p.add(new normPoint(50, 0));
         p.add(new normPoint(50, 50));
+        p.add(new normPoint(25, 75));
         p.add(new normPoint(0, 50));
         Building b = new Building(16, p);
         BuildingV2 b2 = new BuildingV2(5, p);
         buildingList.add(b);
-        
+        */
         float[] vertices = {
         	
         	0, 0, 0,
@@ -202,16 +203,16 @@ public class MainGameLoop {
         	//System.out.println(" ==== Building = " + building);
         	
         	building.setHeight(building.getHeight());
-        	building.generateVertices();
-        	building.generateIndices();
-        	building.generateVectorNormals();
+        	building.vertices = Building.vecToArray(building.generateVertices());
+        	building.indices = Building.intToArray(building.generateIndices());
+        	building.normals = Building.vecToArray(building.generateVertexNormals());
         	
         	
         	
         	
            // System.out.println(" ==== Building.... vertices = " + building.getVertices() + ", indices = " + building.getIndices());
         	
-        	RawModel model = loader.loadToVAO(BuildingV2.vecToArray(b2.generateVertices()), textureCoords, normalsNew, BuildingV2.intToArray(b2.generateIndices()));
+        	RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
         	
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         	ModelTexture texture = staticModel.getTexture();
@@ -284,7 +285,7 @@ public class MainGameLoop {
         }
    
         entities.add(runway);
-        Camera camera = new Camera(1110);
+        Camera camera = new Camera(11100);
         
 
         Light light = new Light(new Vector3f(1000, -5000, -1000), new Vector3f(1,1,1), 1900);

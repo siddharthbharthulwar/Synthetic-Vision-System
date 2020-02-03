@@ -143,33 +143,43 @@ public class BuildingV2 {
 		for (int i = 0; i < roofIndices.size(); i++) {
 			roofIndices.set(i, roofIndices.get(i) + ((4 * this.corners.size())));
 		}
-		indices.addAll(roofIndices);
+		//indices.addAll(roofIndices);
 		return indices;
 		
 	}
 	
 	public List<Vector3f> generateVertexNormals(){
 		
-		List<Vector3f> normVertices = this.generateVertices();
-		List<Vector3f> vertexNormals = new ArrayList<Vector3f>();
-		for (int i = 0; i < normVertices.size() - 2; i+=3) {
-			System.out.println(i);
-			Vector3f posA = normVertices.get(i);
-			Vector3f posB = normVertices.get(i + 1);
-			Vector3f posC = normVertices.get(i + 2);
-			
-			Vector3f edgeAB = Vector3f.sub(posA, posB, null);
-			Vector3f edgeBC = Vector3f.sub(posA, posC, null);
-			
-			Vector3f cross = Vector3f.cross(edgeAB, edgeBC, null);
-			cross = normalize(cross);
-			
-			vertexNormals.add(cross);
-			vertexNormals.add(cross);
-			vertexNormals.add(cross);
+		List<Vector3f> normals = new ArrayList<Vector3f>();
+		List<Vector3f> verts = this.generateVertices();
+		List<Integer> inds = this.generateIndices();
+		for (int i = 0; i < verts.size(); i++) {
+			normals.add(new Vector3f(0, 0, 0));
 		}
 		
-		return vertexNormals;
+		for (int i = 0; i < inds.size() - 1; i +=3) {
+			
+			int vertA = inds.get(i);
+			int vertB = inds.get(i + 1);
+			int vertC = inds.get(i + 2);
+			
+			Vector3f posA = verts.get(vertA);
+			Vector3f posB = verts.get(vertB);
+			Vector3f posC = verts.get(vertC);
+			
+			Vector3f edgeAB = Vector3f.sub(posA, posB, null);
+			Vector3f edgeAC = Vector3f.sub(posA, posC, null);
+			
+			Vector3f cross = Vector3f.cross(edgeAB, edgeAC, null);
+			
+			cross = normalize(cross);
+			
+			normals.set(vertA, cross);
+			normals.set(vertB, cross);
+			normals.set(vertC, cross);
+			
+		}
+		return normals;
 	}
 	
 	public String toString() {
@@ -201,6 +211,7 @@ public class BuildingV2 {
 		
 		BuildingV2 b = new BuildingV2(5, p);
 		System.out.println(b.generateVertexNormals());
+		System.out.println(b.generateVertexNormals().size());
 		
 	}
 }
