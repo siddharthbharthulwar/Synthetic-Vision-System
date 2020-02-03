@@ -159,8 +159,10 @@ public class MainGameLoop {
         	
         	1, 0, 3,
         	0, 2, 3,
+        	
         	5, 4, 7,
         	4, 6, 7,
+        	
         	9, 8, 11,
         	8, 10, 11,
         	13, 12, 15,
@@ -209,7 +211,7 @@ public class MainGameLoop {
         	
            // System.out.println(" ==== Building.... vertices = " + building.getVertices() + ", indices = " + building.getIndices());
         	
-        	RawModel model = loader.loadToVAO(BuildingV2.vecToArray(b2.generateVertices()), textureCoords, normalsNew, indicesNew);
+        	RawModel model = loader.loadToVAO(BuildingV2.vecToArray(b2.generateVertices()), textureCoords, normalsNew, BuildingV2.intToArray(b2.generateIndices()));
         	
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         	ModelTexture texture = staticModel.getTexture();
