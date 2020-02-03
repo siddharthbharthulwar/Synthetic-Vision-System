@@ -72,53 +72,33 @@ public class BuildingV2 {
 	
 	public List<Vector3f> generateVertices() {
 		
-		List<Vector3f> ret = new ArrayList<Vector3f>();
+		List<Vector3f> vec = new ArrayList<Vector3f>();
+		normPoint init = this.corners.get(0);
 		
-		
-		//*********BASE VERTEX INITIALIZATION
-		normPoint initCorner = this.corners.get(0);
-		ret.add(new Vector3f(initCorner.getX(), initCorner.getY(), 0));
-		ret.add(new Vector3f(initCorner.getX(), initCorner.getY(), this.height));
+		//SIDE FACES
+		vec.add(new Vector3f(init.getX(), 0, init.getY()));
+		vec.add(new Vector3f(init.getY(), this.height, init.getY()));
 		
 		for (int i = 1; i < this.corners.size(); i++) {
 			normPoint corner = this.corners.get(i);
-			ret.add(new Vector3f(corner.getX(), corner.getY(), 0));
-			ret.add(new Vector3f(corner.getX(), corner.getY(), this.height));
-			ret.add(new Vector3f(corner.getX(), corner.getY(), 0));
-			ret.add(new Vector3f(corner.getX(), corner.getY(), this.height));
-
-
-		}
-		ret.add(new Vector3f(initCorner.getX(), initCorner.getY(), 0));
-		ret.add(new Vector3f(initCorner.getX(), initCorner.getY(), this.height));
-		
-		for (int i = 0; i < this.corners.size(); i++) {
-			normPoint corner = this.corners.get(i);
-			ret.add(new Vector3f(corner.getX(), corner.getY(), this.height)); //roof vertices
+			vec.add(new Vector3f(corner.getX(), 0, corner.getY()));
+			vec.add(new Vector3f(corner.getX(), this.height, corner.getY()));
 			
+			vec.add(new Vector3f(corner.getX(), 0, corner.getY()));
+			vec.add(new Vector3f(corner.getX(), this.height, corner.getY()));
 		}
 		
-		System.out.println(ret.size());
+		vec.add(new Vector3f(init.getX(), 0, init.getY()));
+		vec.add(new Vector3f(init.getY(), this.height, init.getY()));
+		//END SIDE FACES
 		
-		//************END BASE VERTEX INITIALIZATION
-		
-		
-		return ret;
-		
-	}
-	
-	/*
-	public List<Integer> generateIndices(){
-		
-		List<Integer> ret = new ArrayList<Integer>();
-		int[] arr = {
-				
-				
+		for (normPoint point: this.corners) {
+			vec.add(new Vector3f(point.getX(), this.height, point.getY()));
 		}
 		
+		return vec;
+		
 	}
-	*/
-	
 	
 	public String toString() {
 		

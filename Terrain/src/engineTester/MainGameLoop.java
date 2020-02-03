@@ -14,6 +14,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import data.Building;
+import data.BuildingV2;
 import data.normPoint;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
@@ -124,6 +125,7 @@ public class MainGameLoop {
         p.add(new normPoint(50, 50));
         p.add(new normPoint(0, 50));
         Building b = new Building(16, p);
+        BuildingV2 b2 = new BuildingV2(5, p);
         buildingList.add(b);
         
         float[] vertices = {
@@ -171,26 +173,26 @@ public class MainGameLoop {
         
         float[] normalsNew = {
         	
-        	0, 0, 1,
-        	0, 0, 1,
-        	0, 0, 1,
-        	0, 0, 1,
-        	1, 0, 0,
-        	1, 0, 0,
-        	1, 0, 0,
-        	1, 0, 0,
-        	0, 0,- 1,
-        	0, 0,- 1,
-        	0, 0, -1,
-        	0, 0, -1,
-        	-1, 0, 0,
-        	-1, 0, 0,
-        	-1, 0, 0,
-        	-1, 0, 0,
-        	0, -1, 0,
-        	0, -1, 0,
-        	0, -1, 0,
-        	0, -1, 0
+        	0, 0, 0.9f,
+        	0, 0, 0.9f,
+        	0, 0, 0.9f,
+        	0, 0, 0.9f,
+        	0.9f, 0, 0,
+        	0.9f, 0, 0,
+        	0.9f, 0, 0,
+        	0.9f, 0, 0,
+        	0, 0,- 0.9f,
+        	0, 0,- 0.9f,
+        	0, 0, -0.9f,
+        	0, 0, -0.9f,
+        	-0.9f, 0, 0,
+        	-0.9f, 0, 0,
+        	-0.9f, 0, 0,
+        	-0.9f, 0, 0,
+        	0, -0.9f, 0,
+        	0, -0.9f, 0,
+        	0, -0.9f, 0,
+        	0, -0.9f, 0
         	
         };
         
@@ -207,7 +209,7 @@ public class MainGameLoop {
         	
            // System.out.println(" ==== Building.... vertices = " + building.getVertices() + ", indices = " + building.getIndices());
         	
-        	RawModel model = loader.loadToVAO(vertices, textureCoords, normalsNew, indicesNew);
+        	RawModel model = loader.loadToVAO(BuildingV2.vecToArray(b2.generateVertices()), textureCoords, normalsNew, indicesNew);
         	
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         	ModelTexture texture = staticModel.getTexture();
@@ -283,14 +285,14 @@ public class MainGameLoop {
         Camera camera = new Camera(1110);
         
 
-        Light light = new Light(new Vector3f(10, -5000, 10), new Vector3f(1,1,1), 1900);
+        Light light = new Light(new Vector3f(1000, -5000, -1000), new Vector3f(1,1,1), 1900);
         
         
         //******************************TERRAIN TEXTURE******************
         
         
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("lower"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("black"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("water2"));
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("higher"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("white"));
         
@@ -341,7 +343,7 @@ public class MainGameLoop {
         while(!Display.isCloseRequested()){
         	
             camera.move();
-          //  light.setPosition(camera.getPosition());
+            //light.setPosition(camera.getPosition());
             renderer.processTerrain(terrain);
 
             for (Entity e: entities) {
