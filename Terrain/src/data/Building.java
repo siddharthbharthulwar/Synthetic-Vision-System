@@ -205,10 +205,13 @@ public class Building {
 		p.add(new normPoint(0, 0));
 		p.add(new normPoint(150, 0));
 		p.add(new normPoint(150, 150));
+		p.add(new normPoint(75, 255));
+		p.add(new normPoint(60, 266));
 		p.add(new normPoint(0, 150));
 		
 		
 		Building b = new Building(5, p);
+		System.out.println(b.generateIndices());
 		
 	}
 }

@@ -73,12 +73,21 @@ public class MainGameLoop {
         }
         
         Runway r = new Runway(45, 10000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15, 6);
-
+		
         glideSlopeMap rwyMap = new glideSlopeMap(r, 1001.5f, 20);
         List<guidingBox> guideList = rwyMap.getBoxes();
-        
-        
-        
+        /*
+        List<Building> buildingList = new ArrayList<Building>();
+        List<normPoint> p = new ArrayList<normPoint>();
+		p.add(new normPoint(0, 0));
+		p.add(new normPoint(150, 0));
+		p.add(new normPoint(150, 150));
+		p.add(new normPoint(75, 255));
+		p.add(new normPoint(60, 266));
+		p.add(new normPoint(0, 150));
+		Building bld = new Building(50, p);
+		buildingList.add(bld);
+        */
         float[] textureCoords = {
         		1, 1	
 		};
@@ -117,18 +126,7 @@ public class MainGameLoop {
         List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
         List<Entity> entities = new ArrayList<Entity>();
         
-        /*
-        List<Building> buildingList = new ArrayList<Building>();
-        List<normPoint> p = new ArrayList<normPoint>();
-        p.add(new normPoint(0, 0));
-        p.add(new normPoint(50, 0));
-        p.add(new normPoint(50, 50));
-        p.add(new normPoint(25, 75));
-        p.add(new normPoint(0, 50));
-        Building b = new Building(16, p);
-        BuildingV2 b2 = new BuildingV2(5, p);
-        buildingList.add(b);
-        */
+      
         float[] vertices = {
         	
         	0, 0, 0,
@@ -211,15 +209,18 @@ public class MainGameLoop {
         	
         	
            // System.out.println(" ==== Building.... vertices = " + building.getVertices() + ", indices = " + building.getIndices());
+        	if (true) {
+        		RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
+            	System.out.println(building.generateIndices());
+            	System.out.println(building.generateVertices());
+            	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
+            	ModelTexture texture = staticModel.getTexture();
+                texture.setShineDamper(10000);
+                texture.setReflectivity(0.0f);
+                
+                staticModels.add(staticModel);
+        	}
         	
-        	RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
-        	
-        	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
-        	ModelTexture texture = staticModel.getTexture();
-            texture.setShineDamper(10000);
-            texture.setReflectivity(0.0f);
-            
-            staticModels.add(staticModel);
             //System.out.println(building.getCorners().size());
             
             
@@ -274,8 +275,8 @@ public class MainGameLoop {
 
         
         
-        for (int j = 0; j < buildingList.size(); j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(7000, -10, -3000), 0, 0, 0, 11));
+        for (int j = 0; j < buildingList.size() + guideList.size(); j++) {
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(7000, -10, -3000), 0, 0, 0, 1));
         	
         }
         
