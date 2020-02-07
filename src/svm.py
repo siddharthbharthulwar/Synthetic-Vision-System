@@ -2,10 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import svm
 
-xx, yy = np.meshgrid(np.linspace(-3, 3, 1500),
-                     np.linspace(-3, 3, 1500))
+xx, yy = np.meshgrid(np.linspace(-3, 3, 150),
+                     np.linspace(-3, 3, 150))
 np.random.seed(0)
-X = np.random.randn(3000, 2)
+X = np.random.randn(300, 2)
 Y = np.logical_xor(X[:, 0] > 0, X[:, 1] > 0)
 
 # fit the model
