@@ -116,7 +116,7 @@ public class Building {
 	public List<Integer> generateIndices(){
 		
 		List<Integer> indices = new ArrayList<Integer>();
-		for (int i = 0; i < this.corners.size(); i++) {
+		for (int i = 1; i < this.corners.size() - 1; i++) {
 			
 			int iterate = i * 4;
 			indices.add(iterate + 1);
@@ -140,7 +140,7 @@ public class Building {
 		for (int i = 0; i < roofIndices.size(); i++) {
 			roofIndices.set(i, roofIndices.get(i) + ((4 * this.corners.size())));
 		}
-		//indices.addAll(roofIndices);
+		indices.addAll(roofIndices);
 		return indices;
 		
 	}
