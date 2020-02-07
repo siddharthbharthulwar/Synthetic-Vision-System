@@ -289,7 +289,7 @@ public class MainGameLoop {
         Camera camera = new Camera(11100);
         
 
-        Light light = new Light(new Vector3f(10000, -5000, -10000), new Vector3f(1,1,1), 1900);
+        Light light = new Light(camera.getPosition(), new Vector3f(1,1,1), 11100);
         
         
         //******************************TERRAIN TEXTURE******************
@@ -347,7 +347,7 @@ public class MainGameLoop {
         while(!Display.isCloseRequested()){
         	
             camera.move();
-            //light.setPosition(camera.getPosition());
+            light.setPosition(camera.getPosition());
             renderer.processTerrain(terrain);
 
             for (Entity e: entities) {

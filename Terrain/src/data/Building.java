@@ -116,6 +116,8 @@ public class Building {
 	public List<Integer> generateIndices(){
 		
 		List<Integer> indices = new ArrayList<Integer>();
+		
+		
 		for (int i = 1; i < this.corners.size() - 1; i++) {
 			
 			int iterate = i * 4;
