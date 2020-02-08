@@ -14,7 +14,6 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import data.Building;
-import data.BuildingV2;
 import data.normPoint;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
@@ -73,7 +72,7 @@ public class MainGameLoop {
         }
         
         Runway r = new Runway(45, 10000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15, 6);
-        List<Vector3f> centerlines = r.centerlinePositionGeneration(15);
+        List<Vector3f> centerlines = r.centerlinePositionGeneration(25);
         
 		
         glideSlopeMap rwyMap = new glideSlopeMap(r, 1001.5f, 20);
@@ -225,7 +224,7 @@ public class MainGameLoop {
         	RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
             TexturedModel staticTreeModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("water")));
             ModelTexture treeTexture = staticTreeModel.getTexture();
-            Vector3f curPos = new Vector3f(centerlines.get(i).getX(), -1 * centerlines.get(i).getZ(), -1 * centerlines.get(i).getY());
+            Vector3f curPos = new Vector3f(centerlines.get(i).getX(), -1 * centerlines.get(i).getZ(), 1 * centerlines.get(i).getY());
             Entity tree = new Entity(staticTreeModel, curPos, 0, 0, 0, 15);
             entities.add(tree);
         }
@@ -263,9 +262,9 @@ public class MainGameLoop {
         
         
         
-        RawModel model = loader.loadToVAO(r.generateVertices(), textureCoords, normals, r.generateIndices());
+        RawModel model = loader.loadToVAO(r.generateVertices(), textureCoords, guidingBoxNormals, r.generateIndices());
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
-      	Entity runway = new Entity(staticModel, new Vector3f(21000, 0, -10000), 0, 0, 0, 1);
+      	Entity runway = new Entity(staticModel, new Vector3f(0, 0, -0), 0, 0, 0, 1);
 
 
         
@@ -345,7 +344,7 @@ public class MainGameLoop {
         	
             camera.move();
             System.out.println(camera.getPosition());
-            //light.setPosition(camera.getPosition());
+            light.setPosition(new Vector3f(camera.getPosition().getX(), camera.getPosition().getY() - 1000, camera.getPosition().getZ()));
             renderer.processTerrain(terrain);
 
             for (Entity e: entities) {

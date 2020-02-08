@@ -147,7 +147,7 @@ public class Runway<Vertex2f>{
 		
 		for (int i = 0; i < markings; i++) {
 			
-			centerlinePositions.add(this.centerlinePointDownDistance(i * distance, true));
+			centerlinePositions.add(this.centerlinePointDownDistance(i * distance, false));
 			
 			
 		}
@@ -166,7 +166,25 @@ public class Runway<Vertex2f>{
 		}
 	}
 	
+	public List<Vector3f> singleCenterMarkingVertices(Vector3f centroid, float width, float length){
+		
+		Vector2f dirVec = new Vector2f(this.anchor1.getX() - this.anchor2.getX(), this.anchor1.getY() - this.anchor2.getY());
+		Vector2f dot = new Vector2f(1, -1 * (dirVec.getY() / dirVec.getX()));
+		
+		dirVec = normalize(dirVec);
+		dot = normalize(dot);
+		
+		Vector2f upperMiddle = new Vector2f(centroid.getX() * (dot.getX() * (length / 2)), centroid.getZ() * (dot.getY() * (length / 2)));
+		Vector2f lowerMiddle = new Vector2f(centroid.getX() * (dot.getX() * -1 * (length / 2)), centroid.getZ() * (dot.getY() * -1 * (length / 2)));
+		
+		return null;
 
+	}
+	
+	public boolean pointInRunway(Vector2f point) {
+		
+		return false;
+	}
 	
 	
 	public static void main(String[] args) {
