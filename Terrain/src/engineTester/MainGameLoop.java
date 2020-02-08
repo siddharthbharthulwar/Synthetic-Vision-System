@@ -73,21 +73,12 @@ public class MainGameLoop {
         }
         
         Runway r = new Runway(45, 10000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15, 6);
+        List<Vector3f> centerlines = r.centerlinePositionGeneration(15);
+        
 		
         glideSlopeMap rwyMap = new glideSlopeMap(r, 1001.5f, 20);
         List<guidingBox> guideList = rwyMap.getBoxes();
-        /*
-        List<Building> buildingList = new ArrayList<Building>();
-        List<normPoint> p = new ArrayList<normPoint>();
-		p.add(new normPoint(0, 0));
-		p.add(new normPoint(150, 0));
-		p.add(new normPoint(150, 150));
-		p.add(new normPoint(75, 255));
-		p.add(new normPoint(60, 266));
-		p.add(new normPoint(0, 150));
-		Building bld = new Building(50, p);
-		buildingList.add(bld);
-        */
+        
         float[] textureCoords = {
         		1, 1	
 		};
@@ -230,11 +221,15 @@ public class MainGameLoop {
         	
         }
         
-        RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
-        TexturedModel staticTreeModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("water")));
-        ModelTexture treeTexture = staticTreeModel.getTexture();
-        Entity tree = new Entity(staticTreeModel, new Vector3f(500, 0, -500), 0, 0, 0, 100);
-        entities.add(tree);
+        for (int i = 0; i < centerlines.size(); i++) {
+        	RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
+            TexturedModel staticTreeModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("water")));
+            ModelTexture treeTexture = staticTreeModel.getTexture();
+            Vector3f curPos = new Vector3f(centerlines.get(i).getX(), -1 * centerlines.get(i).getZ(), -1 * centerlines.get(i).getY());
+            Entity tree = new Entity(staticTreeModel, curPos, 0, 0, 0, 15);
+            entities.add(tree);
+        }
+        
         
         
         float[] guidingBoxNormals = {
@@ -284,6 +279,8 @@ public class MainGameLoop {
         	entities.add(new Entity(staticModels.get(j), new Vector3f(0, 0, 0), 0, 0, 0, 1));
         	
         }
+        
+        
    
         entities.add(runway);
         Camera camera = new Camera(11100);
