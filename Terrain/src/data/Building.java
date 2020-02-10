@@ -172,10 +172,10 @@ public class Building {
 			Vector3f cross = Vector3f.cross(edgeAB, edgeAC, null);
 			
 			cross = normalize(cross);
-			
-			normals.set(vertA, cross);
-			normals.set(vertB, cross);
-			normals.set(vertC, cross);
+			Vector3f newCross = new Vector3f(cross.getX(), -1 * cross.getY(), -1 * cross.getZ());
+			normals.set(vertA, newCross);
+			normals.set(vertB, newCross);
+			normals.set(vertC, newCross);
 			
 		}
 		return normals;
