@@ -1,6 +1,9 @@
 package entities;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -117,26 +120,39 @@ public class Runway<Vertex2f>{
 		return Vector2f.angle(dot, norm);
 	}
 	
-	public Vector3f centerlinePointDownDistance(float distance) {
+	public Vector3f centerlinePointDownDistance(float distance, boolean pos) {
 		Vector2f dirVec = new Vector2f(this.anchor1.getX() - this.anchor2.getX(), this.anchor1.getY() - this.anchor2.getY());
-		Vector2f dot = new Vector2f(1, -1 * (dirVec.getY() / dirVec.getX()));
-		
-		
-		dot = normalize(dot);
+		Vector2f dot = new Vector2f(-1 * dirVec.getY(), dirVec.getX());
+		if (pos) {
+			dot = normalize(dot);
+		}
+		else {
+			dot.x = -1 * dot.getX();
+			dot.y = -1 * dot.getY();
+			dot = normalize(dot);
+		}
+		//System.out.println(dot);
+		//System.out.println(dirVec);
+		//System.out.println(Vector2f.dot(dot, dirVec));
+
 		return new Vector3f(this.midpoint.getX() + (dot.getX() * distance), this.midpoint.getY() + (dot.getY() * distance), this.elevation);
 		
 		
 	}
 	
-	public Vector2f guidelineDownDistance(float distance) {
-		Vector2f dirVec = new Vector2f(this.anchor1.getX() - this.anchor2.getX(), this.anchor1.getY() - this.anchor2.getY());
-		Vector2f dot = new Vector2f(1, -1 * (dirVec.getY() / dirVec.getX()));
-		dot = normalize(dot);
+	public List<Vector3f> centerlinePositionGeneration(int markings){
 		
-		return new Vector2f(this.midpoint.getX() + (dot.getX() * (-1 * distance)), this.midpoint.getY() + (dot.getY() * (-1 * distance)));
+		float distance = this.length / markings;
+		List<Vector3f> centerlinePositions = new ArrayList<Vector3f>();
 		
+		for (int i = 0; i < markings; i++) {
+			
+			centerlinePositions.add(this.centerlinePointDownDistance(i * distance, false));
+			
+			
+		}
+		return centerlinePositions;
 	}
-	
 	
 
 	public boolean isSameDirection() {
@@ -150,11 +166,31 @@ public class Runway<Vertex2f>{
 		}
 	}
 	
+	public List<Vector3f> singleCenterMarkingVertices(Vector3f centroid, float width, float length){
+		
+		Vector2f dirVec = new Vector2f(this.anchor1.getX() - this.anchor2.getX(), this.anchor1.getY() - this.anchor2.getY());
+		Vector2f dot = new Vector2f(1, -1 * (dirVec.getY() / dirVec.getX()));
+		
+		dirVec = normalize(dirVec);
+		dot = normalize(dot);
+		
+		Vector2f upperMiddle = new Vector2f(centroid.getX() * (dot.getX() * (length / 2)), centroid.getZ() * (dot.getY() * (length / 2)));
+		Vector2f lowerMiddle = new Vector2f(centroid.getX() * (dot.getX() * -1 * (length / 2)), centroid.getZ() * (dot.getY() * -1 * (length / 2)));
+		
+		return null;
+
+	}
+	
+	public boolean pointInRunway(Vector2f point) {
+		
+		return false;
+	}
+	
 	
 	public static void main(String[] args) {
 		
-		Runway r = new Runway(45, 1000, new Vector2f(500, 0), new Vector2f(0, 500), 15, 5);
-		System.out.println(r.centerlinePointDownDistance(150));
+		Runway r = new Runway(45, 1000, new Vector2f(500, 0), new Vector2f(0, 5000), 15, 5);
+		System.out.println(r.centerlinePointDownDistance(1500, true));
 	}
 	
 }

@@ -19,7 +19,7 @@ public class glideSlopeMap {
 		
 		for (int i = 2; i < frequency + 2; i++) {
 			
-			Vector3f point = new Vector3f(runway.guidelineDownDistance(i * separation).getX(), 20, runway.guidelineDownDistance(i * separation).getY());
+			Vector3f point = new Vector3f(runway.centerlinePointDownDistance(i * separation, true).getX(), 20, runway.centerlinePointDownDistance(i * separation, true).getY());
 			this.boxes.add(new guidingBox(1000, point, 100, 25));
 			
 		}

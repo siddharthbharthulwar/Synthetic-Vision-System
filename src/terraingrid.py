@@ -88,6 +88,45 @@ def getAffine(path):
     with rio.open(path) as src:
         retrieve = src.meta
         return retrieve['transform']
+def semistack(inputPaths, dimensions):
+
+    if False:
+        return a
+    else:
+        print(dimensions)
+        if len(inputPaths) == dimensions[0] * dimensions[1]:
+            counter = 0
+            paths = []
+            while counter < len(inputPaths):
+                paths.append(inputPaths[counter])
+                counter = counter + 1
+            xdim = int(dimensions[0])
+            ydim = int(dimensions[1])
+            vert = 0
+            hor = 1
+            fin = []
+            while vert < len(paths):
+                fin.append(paths[vert])
+                vert = vert + xdim
+            #creates a list with all values in the first column of path array
+            vert = 0
+            posMark = 0
+            while vert < ydim:
+                while hor < xdim: 
+                    fin[vert] = np.hstack((fin[vert], paths[hor + posMark]))
+                    hor = hor + 1
+                posMark = posMark + xdim
+                hor = 1
+                vert = vert + 1
+
+            vertical = 1
+            finalArray = fin[0]
+            while vertical < ydim:
+                finalArray = np.vstack((finalArray, fin[vertical]))
+                vertical = vertical + 1
+            return(finalArray)
+        else:
+            print("Dimensions and length of arrayList do not match")
 
 def stack(inputPaths, dimensions, fillBool):
 
