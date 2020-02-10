@@ -46,8 +46,11 @@ def harrisresponse(imggray):
     return harris_response
 
 
-
-
+def shiftcorners(cornerlist, shiftx, shifty):
+    newCornerList = []
+    for i in range(len(cornerlist)):
+        newCornerList.append([cornerlist[i][0] + shiftx, cornerlist[i][1] + shifty])
+    return newCornerList
 
 def load(path, fillBoolean):
     with rio.open(path) as src:
@@ -569,6 +572,33 @@ class TerrainGrid:
         if (saveBool):
             with open(r"C:\Users\siddh\Projects\Synthetic Vision System\Terrain\res\data.json", 'w', encoding = 'utf-8') as f:
                 json.dump(str(data), f, indent = 4)
-        
     
+    def kernelclassification(self, threshold, kernel, minarea, cutoff, displayBool, erosionIterations, maxCorners, saveBool):
+        self.derivative = np.gradient(self.arrayValues)[1]
+        thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
+        thresh = cv.erode(thresh, np.ones((2, 2), np.uint8), iterations = 1)
+        self.harris_response = harrisresponse(thresh)
+
+        if (displayBool):
+            plt.imshow(self.arrayValues)
+            plt.imshow(thresh)
+            plt.show()
+
+            plt.imshow(self.derivative)
+            plt.show()
+
+        self.n_labels, self.labels, self.stats, self.centroids = cv.connectedComponentsWithStats(thresh, connectivity = 4)
+        self.kerneliterations = []
+        self.kwidth = int(self.arrayValues.shape[1] / kernel)
+        self.klength = int(self.arrayValues.shape[0] / kernel)
+
+        for i in range(self.klength):
+
+            for j in range(self.kwidth):
+                self.kerneliterations.append(self.arrayValues[kernel * i: kernel * (i + 1), kernel * j :kernel * (j + 1)])
+                
+        ker = self.kerneliterations
+        return ker
+        
 #TODO: vegetation exporting and labelling dict with x and y
+
