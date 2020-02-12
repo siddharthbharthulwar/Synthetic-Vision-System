@@ -653,7 +653,7 @@ class TerrainGrid:
                 print(int(start - end), " seconds")
 
                 if (saveBool):
-                    with open("data.json", "w", encoding = 'utf-8') as f:
+                    with open("data2.json", "w", encoding = 'utf-8') as f:
                         json.dump(str(data), f, indent = 4)
 #TODO: vegetation exporting and labelling dict with x and y
 
