@@ -63,7 +63,7 @@ public class Demo {
         }
         
         @SuppressWarnings("rawtypes")
-        RunwayV2 runwayw = new RunwayV2(new Vector2f(1000, 0), new Vector2f(2000, 0), 20000, 150, 15, 300, 300);
+        RunwayV2 runwayw = new RunwayV2(new Vector2f(200, 0), new Vector2f(400, 0), 10000, -100, 60, 50, 30);
         @SuppressWarnings("unchecked")
         
 		/*
@@ -133,10 +133,13 @@ public class Demo {
         
         
         
-        RawModel model = loader.loadToVAO(runwayw.vertices, textureCoords, guidingBoxNormals, runwayw.indices);
+        RawModel model = loader.loadToVAO(runwayw.baseVertices, textureCoords, guidingBoxNormals, runwayw.baseIndices);
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
       	Entity runway = new Entity(staticModel, new Vector3f(20000, 10000, -20000), 0, 0, 0, 1);
 
+        RawModel centerlineModel = loader.loadToVAO(runwayw.centerlineVertices, textureCoords, guidingBoxNormals, runwayw.centerlineIndices);
+        TexturedModel staticCenterlineModel = new TexturedModel(centerlineModel, new ModelTexture(loader.loadTexture("black")));
+      	Entity centerlines = new Entity(staticCenterlineModel, new Vector3f(20000, 10000, -20000), 0, 0, 0, 1);
 
         
         
@@ -153,6 +156,7 @@ public class Demo {
         
    
         entities.add(runway);
+        entities.add(centerlines);
         Camera camera = new Camera(11110);
         
 

@@ -15,8 +15,10 @@ public class RunwayV2{
 	private float elevation;
 	
 	private List<Vector3f> centerlinePoints;
-	public float[] vertices;
-	public int[] indices;
+	public float[] baseVertices;
+	public float[] centerlineVertices;
+	public int[] baseIndices;
+	public int[] centerlineIndices;
 	
 	public RunwayV2(Vector2f anchor1, Vector2f anchor2, float length, float elevation, int numberOfMarkings, float marklength, float markwidth) {
 	
@@ -25,8 +27,11 @@ public class RunwayV2{
 		this.length = length;
 		this.elevation = elevation;
 		this.generateFullCenterlineVertices(numberOfMarkings, markwidth, marklength);
-		this.vertices = vecListToArray(this.generateVertices());
-		this.indices = intListToArray(this.generateIndices());
+		this.baseVertices = vecListToArray(this.generateVertices());
+		this.centerlineVertices = vecListToArray(this.centerlinePoints);
+		this.baseIndices = intListToArray(this.generateBaseIndices());
+		this.centerlineIndices = intListToArray(this.generateCenterlineIndices());
+		
 		
 		
 		
@@ -101,11 +106,11 @@ public class RunwayV2{
 		
 		float len = (length / 2);
 		float wid = (width / 2);
-		Vector3f zero = new Vector3f(position.getX() - wid, this.elevation, position.getZ() - len);
-		Vector3f one = new Vector3f(position.getX() + wid, this.elevation, position.getZ() - len);
+		Vector3f zero = new Vector3f(position.getX() - wid, this.elevation + 30, position.getZ() - len);
+		Vector3f one = new Vector3f(position.getX() + wid, this.elevation + 30, position.getZ() - len);
 		
-		Vector3f two = new Vector3f(position.getX() - wid, this.elevation, position.getZ() + len);
-		Vector3f three = new Vector3f(position.getX() + wid, this.elevation, position.getZ() + len);
+		Vector3f two = new Vector3f(position.getX() - wid, this.elevation + 30, position.getZ() + len);
+		Vector3f three = new Vector3f(position.getX() + wid, this.elevation + 30, position.getZ() + len);
 		
 
 		
@@ -146,7 +151,6 @@ public class RunwayV2{
 		baseVertices.add(new Vector3f(three.getX(), this.elevation, three.getY()));
 		baseVertices.add(new Vector3f(four.getX(), this.elevation, four.getY()));
 		
-		baseVertices.addAll(this.centerlinePoints);
 		
 		return baseVertices;
 		
@@ -155,7 +159,7 @@ public class RunwayV2{
 	}
 	
 	
-	public List<Integer> generateIndices(){
+	public List<Integer> generateBaseIndices(){
 		
 		List<Integer> ind = new ArrayList<Integer>();
 		
@@ -169,6 +173,14 @@ public class RunwayV2{
 		ind.add(3);
 		//END BASE INDICES
 		
+
+		return ind;
+		
+	}
+	
+	public List<Integer> generateCenterlineIndices(){
+		
+		List<Integer> ind = new ArrayList<Integer>();
 		for (int i = 4; i <= this.centerlinePoints.size(); i+=4) {
 			
 			ind.add(i + 2);
@@ -181,20 +193,7 @@ public class RunwayV2{
 			
 		}
 		return ind;
-		
 	}
-	
-	/*
-	public static void main(String[] args) {
-		
-		RunwayV2 runway = new RunwayV2(new Vector2f(100, 0), new Vector2f(400, 0), 2000, 15);
-		Vector3f pos = runway.centerlinePositionGeneration(15).get(4);
-		
-		runway.generateFullCenterlineVertices(4, 15, 15);
-		runway.generateVertices();
-		runway.generateIndices();
-		
-	}
-	*/
-	
+
+
 }
