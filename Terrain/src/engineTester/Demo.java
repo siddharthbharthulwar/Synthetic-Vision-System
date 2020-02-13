@@ -29,6 +29,7 @@ import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import entities.Runway;
+import entities.RunwayV2;
 import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
 import fontRendering.TextMaster;
@@ -49,27 +50,26 @@ public class Demo {
         Loader loader = new Loader();
         TextMaster.init(loader);
 
-        List<Building> buildings = FileUtil.loadBuildingsFromJSON("res/data.json");
-        
+        List<Building> buildings1 = FileUtil.loadBuildingsFromJSON("res/data.json");
+        //List<Building> buildings2 = FileUtil.loadBuildingsFromJSON("res/data2.json");
+       // buildings1.addAll(buildings2);
         
         List<Building> buildingList = null;
 
-        for(Object obj:buildings) {
+        for(Object obj:buildings1) {
         	 
         	 buildingList = (ArrayList<Building>) obj;
       	 
         }
         
         @SuppressWarnings("rawtypes")
-        Runway r = new Runway(45, 10000, new Vector2f(750, 1000), new Vector2f(1000, 750), 15, 18);
-        System.out.println(r.calculateHeading());
+        RunwayV2 runwayw = new RunwayV2(new Vector2f(1000, 0), new Vector2f(2000, 0), 20000, 150, 15, 300, 300);
         @SuppressWarnings("unchecked")
-		List<Vector3f> centerlines = r.centerlinePositionGeneration(25);
         
-		
+		/*
         glideSlopeMap rwyMap = new glideSlopeMap(r, 1001.5f, 20);
         List<guidingBox> guideList = rwyMap.getBoxes();
-        
+        */
         float[] textureCoords = {
         		1, 1	
 		};
@@ -104,14 +104,6 @@ public class Demo {
         	
         }
         
-        for (int i = 0; i < centerlines.size(); i++) {
-        	RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
-            TexturedModel staticTreeModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("water")));
-            ModelTexture treeTexture = staticTreeModel.getTexture();
-            Vector3f curPos = new Vector3f(centerlines.get(i).getX(), -1 * centerlines.get(i).getZ(), 1 * centerlines.get(i).getY());
-            Entity tree = new Entity(staticTreeModel, curPos, 0, 0, 0, 15);
-            entities.add(tree);
-        }
         
         
         
@@ -122,17 +114,12 @@ public class Demo {
         	1, 1, 1,
         	1, 1, 1,
         	
-        	1, 1, 1,1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1,
-        	1, 1, 1
+        	0, 0, 0,
+
         };
         
         
-        
+        /*
         for (guidingBox guide: guideList) {
         	RawModel model = loader.loadToVAO(guide.generateVertices(), textureCoords, guidingBoxNormals, guide.generateIndices());
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
@@ -142,31 +129,31 @@ public class Demo {
             
             staticModels.add(staticModel);
         }
+        */
         
         
         
-        
-        RawModel model = loader.loadToVAO(r.generateVertices(), textureCoords, guidingBoxNormals, r.generateIndices());
+        RawModel model = loader.loadToVAO(runwayw.vertices, textureCoords, guidingBoxNormals, runwayw.indices);
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
       	Entity runway = new Entity(staticModel, new Vector3f(20000, 10000, -20000), 0, 0, 0, 1);
 
 
         
         
-        for (int j = 0; j < buildingList.size() + guideList.size(); j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(7000, -10, -3000), 0, 0, 0, 1));
+        for (int j = 0; j < buildingList.size(); j++) {
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(70000, -10, -30000), 0, 0, 0, 1));
         	
         }
-        
+        /*
         for (int j = 0; j < guideList.size(); j++) {
         	entities.add(new Entity(staticModels.get(j), new Vector3f(0, 0, 0), 0, 0, 0, 1));
         	
         }
-        
+        */
         
    
         entities.add(runway);
-        Camera camera = new Camera(1100);
+        Camera camera = new Camera(11110);
         
 
         Light light = new Light(new Vector3f(10000, -4206, 5700), new Vector3f(1,1,1), 11100);
@@ -218,7 +205,6 @@ public class Demo {
             
             
             renderer.render(light, camera);
-            int config = glideslope.PAPIConfiguration(camera.getPosition(), r.getMidpoint());
             
 
             
