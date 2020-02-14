@@ -147,6 +147,11 @@ public class Building {
 		
 	}
 	
+	public static Vector3f posify(Vector3f init) {
+		
+		return new Vector3f(Math.abs(init.getX()), Math.abs(init.getY()), Math.abs(init.getZ()));
+	}
+	
 	public List<Vector3f> generateVertexNormals(){
 		
 		List<Vector3f> normals = new ArrayList<Vector3f>();
@@ -178,6 +183,14 @@ public class Building {
 			normals.set(vertC, newCross);
 			
 		}
+		System.out.println(normals +  " and "  + this.corners.size());
+		
+		for (int i = normals.size() - this.corners.size(); i < normals.size(); i++) {
+			
+			normals.set(i, posify(normals.get(i)));
+			
+		}
+		
 		return normals;
 	}
 	
@@ -200,20 +213,5 @@ public class Building {
 		return s;
 		
 	}
-	
-	public static void main(String[] args) {
-		
-		List<normPoint> p = new ArrayList<normPoint>();
-		p.add(new normPoint(0, 0));
-		p.add(new normPoint(150, 0));
-		p.add(new normPoint(150, 150));
-		p.add(new normPoint(75, 255));
-		p.add(new normPoint(60, 266));
-		p.add(new normPoint(0, 150));
-		
-		
-		Building b = new Building(5, p);
-		System.out.println(b.generateIndices());
-		
-	}
+
 }

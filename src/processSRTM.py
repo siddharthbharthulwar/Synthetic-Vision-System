@@ -12,12 +12,17 @@ SRTM1 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n52_e004_1arc_v3.tif"
 SRTM2 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n52_e005_1arc_v3.tif"
 SRTM3 = "D:\\Documents\\School\\2019-20\\ISEF 2020\SRTM\\n51_e004_1arc_v3.tif"
 SRTM4 = "D:\\Documents\\School\\2019-20\\ISEF 2020\\SRTM\\n51_e005_1arc_v3.tif"
+den = r"D:\Documents\School\2019-20\ISEF 2020\SRTM\n39_w106_1arc_v3.tif"
 
-
+'''
 a = TerrainGrid((SRTM1, SRTM2, SRTM3, SRTM4), (2,2), 0)
 a.arrayValues = a.arrayValues[3000:5048, 0:2048]
 a.show(-5, 50)
+'''
 
+a = TerrainGrid(den, (1,1), 0)
+a.arrayValues = a.arrayValues[0:2048, 0:2048]
+a.show(-5, 5000)
 water = ma.masked_not_equal(a.arrayValues, 1).astype('uint8') + np.ones(a.arrayValues.shape)
 ret, thresh = cv.threshold(water, 0, 1, cv.THRESH_BINARY_INV)
 plt.imshow(thresh)

@@ -63,7 +63,7 @@ public class Demo {
         }
         
         @SuppressWarnings("rawtypes")
-        RunwayV2 runwayw = new RunwayV2(new Vector2f(200, 0), new Vector2f(400, 0), 10000, -100, 60, 50, 30);
+        RunwayV2 runwayw = new RunwayV2(new Vector2f(200, 0), new Vector2f(400, 0), 10000, -100, 60, 60, 15);
         @SuppressWarnings("unchecked")
         
 		/*
@@ -113,8 +113,28 @@ public class Demo {
         	1, 1, 1,
         	1, 1, 1,
         	1, 1, 1,
-        	
-        	0, 0, 0,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1
 
         };
         
@@ -134,17 +154,17 @@ public class Demo {
         
         
         RawModel model = loader.loadToVAO(runwayw.baseVertices, textureCoords, guidingBoxNormals, runwayw.baseIndices);
-        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
-      	Entity runway = new Entity(staticModel, new Vector3f(20000, 10000, -20000), 0, 0, 0, 1);
+        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("black")));
+      	Entity runway = new Entity(staticModel, new Vector3f(70000, -10, -190000), 0, 0, 0, 1);
 
         RawModel centerlineModel = loader.loadToVAO(runwayw.centerlineVertices, textureCoords, guidingBoxNormals, runwayw.centerlineIndices);
-        TexturedModel staticCenterlineModel = new TexturedModel(centerlineModel, new ModelTexture(loader.loadTexture("black")));
-      	Entity centerlines = new Entity(staticCenterlineModel, new Vector3f(20000, 10000, -20000), 0, 0, 0, 1);
+        TexturedModel staticCenterlineModel = new TexturedModel(centerlineModel, new ModelTexture(loader.loadTexture("white")));
+      	Entity centerlines = new Entity(staticCenterlineModel, new Vector3f(70000, -10, -190000), 0, 0, 0, 1);
 
         
         
         for (int j = 0; j < buildingList.size(); j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(70000, -10, -30000), 0, 0, 0, 1));
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(70000, -10, -190000), 0, 0, 0, 1));
         	
         }
         /*
@@ -157,10 +177,10 @@ public class Demo {
    
         entities.add(runway);
         entities.add(centerlines);
-        Camera camera = new Camera(11110);
+        Camera camera = new Camera(1110);
         
 
-        Light light = new Light(new Vector3f(10000, -4206, 5700), new Vector3f(1,1,1), 11100);
+        Light light = new Light(new Vector3f(70000, 10000, -190000), new Vector3f(1,1,1), 11100);
         
         
         //******************************TERRAIN TEXTURE******************
@@ -199,7 +219,7 @@ public class Demo {
         while(!Display.isCloseRequested()){
         	
             camera.move();
-            light.setPosition(new Vector3f(camera.getPosition().getX(), camera.getPosition().getY() - 1000, camera.getPosition().getZ()));
+           // light.setPosition(new Vector3f(camera.getPosition().getX(), camera.getPosition().getY() - 1000, camera.getPosition().getZ()));
             renderer.processTerrain(terrain);
 
             for (Entity e: entities) {

@@ -16,6 +16,9 @@ public class Camera {
     }
      
     public void move(){
+    	
+    	
+    	//SLOW COMMANDS
         if(Keyboard.isKeyDown(Keyboard.KEY_W)){
             position.z-=this.speed * 0.01f;
             
@@ -48,6 +51,24 @@ public class Camera {
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
         	this.yaw += 0.2f;
+        }
+        
+        
+        
+        //FAST COMMANDS
+        
+        if(Keyboard.isKeyDown(Keyboard.KEY_I)){
+            position.z-=this.speed * 0.1f;
+            
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_L)){
+            position.x+=this.speed * 0.1f;
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_J)){
+            position.x-=this.speed * 0.1f;
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_K)){
+            position.z+=this.speed * 0.1f;
         }
 
     }
