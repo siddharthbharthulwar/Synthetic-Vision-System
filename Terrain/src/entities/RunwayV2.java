@@ -29,17 +29,23 @@ public class RunwayV2{
 	public float[] pianoVertices;
 	public int[] pianoIndices;
 	
+	private boolean borderbool;
+	
 	private float touchdownPointDisplacement;
 	private float touchdownLength;
 	
+	private float border;
+	
 	public RunwayV2(Vector2f anchor1, Vector2f anchor2, float length, float elevation, 
 			int numberOfMarkings, float marklength, float markwidth, float pianoLength, float pianoSpacing
-			, float touchdownPointDisplacement, float touchdownLength) {
+			, float touchdownPointDisplacement, float touchdownLength, float border, boolean borderbool) {
 	
 		this.anchor1 = anchor1;
+		this.border = border;
 		this.anchor2 = anchor2;
 		this.length = length;
 		this.elevation = elevation;
+		this.borderbool = borderbool;
 		this.touchdownPointDisplacement = touchdownPointDisplacement;
 		this.touchdownLength = touchdownLength;
 		this.generateFullCenterlineVertices(numberOfMarkings, markwidth, marklength);
@@ -156,6 +162,9 @@ public class RunwayV2{
 		return ret;
 		
 	}
+	
+
+	
 
 	public List<Vector3f> generateNormPianoKeyVertices(){
 		
@@ -230,7 +239,16 @@ public class RunwayV2{
 		pianoVertices.add(new Vector2f(x + 3 * w + 7 * W + 5 * l, y - w - this.touchdownPointDisplacement - this.touchdownLength));
 		
 		
-		return listDimensionalizeShift(pianoVertices, this.elevation);
+		List<Vector3f> ret = listDimensionalizeShift(pianoVertices, this.elevation);
+		
+		if (this.borderbool) {
+
+			ret.add(new Vector3f(anchor3.getX() - this.border, this.elevation - 10, anchor3.getY() + this.border));
+			ret.add(new Vector3f(anchor4.getX() + this.border, this.elevation - 10, anchor4.getY() + this.border));
+			ret.add(new Vector3f(anchor1.getX() - this.border, this.elevation - 10, anchor1.getY() - this.border));
+			ret.add(new Vector3f(anchor2.getX() + this.border, this.elevation - 10, anchor2.getY() - this.border));
+		}
+		return ret;
 	}
 	
 
@@ -260,7 +278,10 @@ public class RunwayV2{
 			32, 33, 35,
 			
 			38, 36, 39,
-			36, 37, 39
+			36, 37, 39,
+			
+			42, 40, 43,
+			40, 41, 43
 				
 		};
 		

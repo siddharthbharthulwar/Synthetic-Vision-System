@@ -46,7 +46,7 @@ public class Demo {
  
     public static void main(String[] args) throws IOException {
  
-        DisplayManager.createDisplay(800, 800);
+        DisplayManager.createDisplay(1920, 1080);
         Loader loader = new Loader();
         TextMaster.init(loader);
 
@@ -63,7 +63,7 @@ public class Demo {
         }
         
         @SuppressWarnings("rawtypes")
-        RunwayV2 runwayw = new RunwayV2(new Vector2f(200, 0), new Vector2f(400, 0), 10000, -100, 60, 60, 17, 60, 10, 150, 60);
+        RunwayV2 runwayw = new RunwayV2(new Vector2f(200, 0), new Vector2f(400, 0), 10000, -100, 60, 60, 17, 60, 10, 450, 90, 20, true);
         @SuppressWarnings("unchecked")
         
 		/*
@@ -166,7 +166,7 @@ public class Demo {
       	Entity pianoMarkings = new Entity(staticPianoModel, new Vector3f(70000, -10, -190000), 0, 0, 0, 1);
         
         for (int j = 0; j < buildingList.size(); j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(70000, -10, -185000), 0, 0, 0, 1));
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(70000, -10, -175000), 0, 0, 0, 1));
         	
         }
         /*
@@ -183,7 +183,7 @@ public class Demo {
         Camera camera = new Camera(1110);
         
 
-        Light light = new Light(new Vector3f(70000, 10000, -185000), new Vector3f(1,1,1), 11100);
+        Light light = new Light(new Vector3f(70000, 10000, -175000), new Vector3f(1,1,1), 11100);
         
         
         //******************************TERRAIN TEXTURE******************
@@ -204,7 +204,7 @@ public class Demo {
         
         
         List<GuiTexture> guis = new ArrayList<GuiTexture>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("2-2"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.03f));
+        GuiTexture gui = new GuiTexture(loader.loadTexture("2-2"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.05f));
         guis.add(gui);
         
         
