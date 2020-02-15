@@ -8,14 +8,14 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class RunwayV2{
 	
-	private Vector2f anchor1;
-	private Vector2f anchor2;
+	public Vector2f anchor1;
+	public Vector2f anchor2;
 	
-	private Vector2f anchor3;
-	private Vector2f anchor4;
+	public Vector2f anchor3;
+	public Vector2f anchor4;
 	
 	private float length;
-	private float elevation;
+	public float elevation;
 	
 	private List<Vector3f> centerlinePoints;
 	public float[] baseVertices;
@@ -120,7 +120,7 @@ public class RunwayV2{
 		float distance = this.length / markings;
 		List<Vector3f> centerlinePositions = new ArrayList<Vector3f>();
 		
-		for (int i = 1; i < markings; i++) {
+		for (int i = 2; i < markings; i++) {
 			
 			centerlinePositions.add(this.centerlinePointDownDistance(i * distance));
 			

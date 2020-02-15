@@ -33,6 +33,7 @@ import entities.RunwayV2;
 import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
 import fontRendering.TextMaster;
+import guidance.glideMap;
 import guidance.glideSlopeMap;
 import guidance.guidingBox;
 import guis.GuiRenderer;
@@ -63,13 +64,11 @@ public class Demo {
         }
         
         @SuppressWarnings("rawtypes")
-        RunwayV2 runwayw = new RunwayV2(new Vector2f(200, 0), new Vector2f(400, 0), 10000, -100, 60, 60, 17, 60, 10, 450, 90, 20, true);
+        RunwayV2 runwayw = new RunwayV2(new Vector2f(200, 0), new Vector2f(400, 0), 10000, -800, 60, 100, 10, 150, 7, 450, 90, 20, false);
         @SuppressWarnings("unchecked")
         
-		/*
-        glideSlopeMap rwyMap = new glideSlopeMap(r, 1001.5f, 20);
-        List<guidingBox> guideList = rwyMap.getBoxes();
-        */
+		glideMap boxes = new glideMap(runwayw, 50, 2400, 3, 250, 50, 15);
+        
         float[] textureCoords = {
         		1, 1	
 		};
@@ -138,18 +137,13 @@ public class Demo {
 
         };
         
-        
-        /*
-        for (guidingBox guide: guideList) {
+        for (guidingBox guide: boxes.boxes) {
+        	
         	RawModel model = loader.loadToVAO(guide.generateVertices(), textureCoords, guidingBoxNormals, guide.generateIndices());
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
-        	ModelTexture texture = staticModel.getTexture();
-            texture.setShineDamper(1000);
-            texture.setReflectivity(0.0f);
-            
-            staticModels.add(staticModel);
+        	staticModels.add(staticModel);
         }
-        */
+        
         
         
         
@@ -164,17 +158,23 @@ public class Demo {
         RawModel pianoModel = loader.loadToVAO(runwayw.pianoVertices, textureCoords, guidingBoxNormals, runwayw.pianoIndices);
         TexturedModel staticPianoModel = new TexturedModel(pianoModel, new ModelTexture(loader.loadTexture("white")));
       	Entity pianoMarkings = new Entity(staticPianoModel, new Vector3f(70000, -10, -190000), 0, 0, 0, 1);
-        
-        for (int j = 0; j < buildingList.size(); j++) {
+        /*
+        for (int j = 0; j < buildingList.size() + boxes.boxes.size(); j++) {
         	entities.add(new Entity(staticModels.get(j), new Vector3f(70000, -10, -175000), 0, 0, 0, 1));
         	
         }
-        /*
-        for (int j = 0; j < guideList.size(); j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(0, 0, 0), 0, 0, 0, 1));
-        	
-        }
         */
+        for (int i = 0; i < buildingList.size(); i++) {
+        	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -900, -178000), 0, 0, 0, 1));
+
+        }
+        
+        for (int i = buildingList.size(); i < buildingList.size() + boxes.boxes.size(); i++) {
+        	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -10, -175000), 0, 0, 0, 1));
+
+        }
+        
+        
         
    
         entities.add(runway);
