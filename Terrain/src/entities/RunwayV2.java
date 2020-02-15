@@ -11,6 +11,9 @@ public class RunwayV2{
 	private Vector2f anchor1;
 	private Vector2f anchor2;
 	
+	private Vector2f anchor3;
+	private Vector2f anchor4;
+	
 	private float length;
 	private float elevation;
 	
@@ -20,32 +23,37 @@ public class RunwayV2{
 	public int[] baseIndices;
 	public int[] centerlineIndices;
 	
-	private float pianoDisplacement;
 	private float pianoLength;
-	private float pianoWidth;
 	private float pianoSpacing;
 	
 	public float[] pianoVertices;
 	public int[] pianoIndices;
 	
-	public RunwayV2(Vector2f anchor1, Vector2f anchor2, float length, float elevation, int numberOfMarkings, float marklength, float markwidth, float pianoDisplacement, float pianoLength, float pianoWidth, float pianoSpacing) {
+	private float touchdownPointDisplacement;
+	private float touchdownLength;
+	
+	public RunwayV2(Vector2f anchor1, Vector2f anchor2, float length, float elevation, 
+			int numberOfMarkings, float marklength, float markwidth, float pianoLength, float pianoSpacing
+			, float touchdownPointDisplacement, float touchdownLength) {
 	
 		this.anchor1 = anchor1;
 		this.anchor2 = anchor2;
 		this.length = length;
 		this.elevation = elevation;
+		this.touchdownPointDisplacement = touchdownPointDisplacement;
+		this.touchdownLength = touchdownLength;
 		this.generateFullCenterlineVertices(numberOfMarkings, markwidth, marklength);
 		this.baseVertices = vecListToArray(this.generateVertices());
 		this.centerlineVertices = vecListToArray(this.centerlinePoints);
 		this.baseIndices = intListToArray(this.generateBaseIndices());
 		this.centerlineIndices = intListToArray(this.generateCenterlineIndices());
 		
-		this.pianoDisplacement = pianoDisplacement;
 		this.pianoLength = pianoLength;
-		this.pianoWidth = pianoWidth;
 		this.pianoSpacing = pianoSpacing;
 		
-		this.pianoVertices = vecListToArray(this.generatePianoKeysVertices());
+		this.pianoVertices = vecListToArray(this.generateNormPianoKeyVertices());
+		System.out.println(this.generateNormPianoKeyVertices());
+		
 		this.generatePianoKeysIndices();
 
 	}
@@ -119,11 +127,11 @@ public class RunwayV2{
 		
 		float len = (length / 2);
 		float wid = (width / 2);
-		Vector3f zero = new Vector3f(position.getX() - wid, this.elevation + 30, position.getZ() - len);
-		Vector3f one = new Vector3f(position.getX() + wid, this.elevation + 30, position.getZ() - len);
+		Vector3f zero = new Vector3f(position.getX() - wid, this.elevation + 5, position.getZ() - len);
+		Vector3f one = new Vector3f(position.getX() + wid, this.elevation + 5, position.getZ() - len);
 		
-		Vector3f two = new Vector3f(position.getX() - wid, this.elevation + 30, position.getZ() + len);
-		Vector3f three = new Vector3f(position.getX() + wid, this.elevation + 30, position.getZ() + len);
+		Vector3f two = new Vector3f(position.getX() - wid, this.elevation + 5, position.getZ() + len);
+		Vector3f three = new Vector3f(position.getX() + wid, this.elevation + 5, position.getZ() + len);
 		
 
 		
@@ -142,56 +150,91 @@ public class RunwayV2{
 		for (int i = 0; i < verts.size(); i++) {
 			
 			Vector2f temp = verts.get(i);
-			ret.add(new Vector3f(temp.getX(), elevation, temp.getY()));
+			ret.add(new Vector3f(temp.getX(), elevation + 5, temp.getY()));
 			
 		}
 		return ret;
 		
 	}
+
+	public List<Vector3f> generateNormPianoKeyVertices(){
 		
-	public List<Vector3f> generatePianoKeysVertices(){
-		
-		Vector2f one = this.anchor1;
 		List<Vector2f> pianoVertices = new ArrayList<Vector2f>();
 		
-		for (int i = 0; i < 4; i++) {
-			
-			pianoVertices.add(new Vector2f(one.getX() + this.pianoDisplacement + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement));
-			System.out.println(one.getX() + this.pianoDisplacement + (i * this.pianoSpacing));
-			System.out.println(one.getX() + "getX");
-			System.out.println(this.pianoDisplacement + "disp");
-			System.out.println(i * this.pianoSpacing + "spac");
-			pianoVertices.add(new Vector2f(one.getX() + this.pianoDisplacement + ((i + 1) * this.pianoWidth) + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement));
-			
-			pianoVertices.add(new Vector2f(one.getX() + this.pianoDisplacement + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement - ((i + 1) * this.pianoLength)));
-			
-			pianoVertices.add(new Vector2f(one.getX() + this.pianoDisplacement + ((i + 1) * this.pianoWidth) + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement - ((i + 1) * this.pianoLength)));
-			
-		}
-		/*
-		for (int i = 4; i < 8; i++) {
-			
-			pianoVertices.add(new Vector2f(one.getX() + (3 * this.pianoDisplacement) + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement));
-			
-			pianoVertices.add(new Vector2f(one.getX() + (3 * this.pianoDisplacement) + ((i + 1) * this.pianoWidth) + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement));
-			
-			pianoVertices.add(new Vector2f(one.getX() + (3 * this.pianoDisplacement) + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement - ((i + 1) * this.pianoLength)));
-			
-			pianoVertices.add(new Vector2f(one.getX() + this.pianoDisplacement + ((i + 1) * this.pianoWidth) + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement - ((i + 1) * this.pianoLength)));
-			
-		}
-		*/
-		System.out.println(listDimensionalizeShift(pianoVertices, this.elevation));
+		float dist = this.anchor2.getX() - this.anchor1.getX();
+		
+		float l = this.pianoSpacing;
+		float w = this.pianoSpacing;
+		float W = (dist - (10 * w)) / 8;
+		float v = this.pianoLength;
+		float x = this.anchor3.getX();
+		float y = this.anchor3.getY();
+		
+		pianoVertices.add(new Vector2f(x + w, y - w));
+		pianoVertices.add(new Vector2f(x + w + W, y - w));
+		pianoVertices.add(new Vector2f(x + w, y - w - v));
+		pianoVertices.add(new Vector2f(x + w + W, y - w - v));
+		
+		pianoVertices.add(new Vector2f(x + w + W + l, y - w));
+		pianoVertices.add(new Vector2f(x + w + 2 * W + l, y - w));
+		pianoVertices.add(new Vector2f(x + w + W + l, y - w - v));
+		pianoVertices.add(new Vector2f(x + w + 2 * W + l, y - w - v));
+		
+		pianoVertices.add(new Vector2f(x + w + 2 * W + 2 * l, y - w));
+		pianoVertices.add(new Vector2f(x + w + 3 * W + 2 * l, y - w));
+		pianoVertices.add(new Vector2f(x + w + 2 * W + 2 * l, y - w - v));
+		pianoVertices.add(new Vector2f(x + w + 3 * W + 2 * l, y - w - v));
+
+		pianoVertices.add(new Vector2f(x + w + 3 * W + 3 * l, y - w));
+		pianoVertices.add(new Vector2f(x + w + 4 * W + 3 * l, y - w));
+		pianoVertices.add(new Vector2f(x + w + 3 * W + 3 * l, y - w - v));
+		pianoVertices.add(new Vector2f(x + w + 4 * W + 3 * l, y - w - v));
+
+		
+		
+		
+		
+		pianoVertices.add(new Vector2f(x + 3 * w + 4 * W + 3 * l, y - w));
+		pianoVertices.add(new Vector2f(x + 3 * w + 5 * W + 3 * l, y - w));
+		pianoVertices.add(new Vector2f(x + 3 * w + 4 * W + 3 * l, y - w - v));
+		pianoVertices.add(new Vector2f(x + 3 * w + 5 * W + 3 * l, y - w - v));
+		
+
+		pianoVertices.add(new Vector2f(x + 3 * w + 5 * W + 4 * l, y - w));
+		pianoVertices.add(new Vector2f(x + 3 * w + 6 * W + 4 * l, y - w));
+		pianoVertices.add(new Vector2f(x + 3 * w + 5 * W + 4 * l, y - w - v));
+		pianoVertices.add(new Vector2f(x + 3 * w + 6 * W + 4 * l, y - w - v));
+		
+
+		pianoVertices.add(new Vector2f(x + 3 * w + 6 * W + 5 * l, y - w));
+		pianoVertices.add(new Vector2f(x + 3 * w + 7 * W + 5 * l, y - w));
+		pianoVertices.add(new Vector2f(x + 3 * w + 6 * W + 5 * l, y - w - v));
+		pianoVertices.add(new Vector2f(x + 3 * w + 7 * W + 5 * l, y - w - v));
+		
+
+		pianoVertices.add(new Vector2f(x + 3 * w + 7 * W + 6 * l, y - w));
+		pianoVertices.add(new Vector2f(x + 3 * w + 8 * W + 6 * l, y - w));
+		pianoVertices.add(new Vector2f(x + 3 * w + 7 * W + 6 * l, y - w - v));
+		pianoVertices.add(new Vector2f(x + 3 * w + 8 * W + 6 * l, y - w - v));
+		
+		
+		
+		pianoVertices.add(new Vector2f(x + w + W + l, y - w - this.touchdownPointDisplacement));
+		pianoVertices.add(new Vector2f(x + w + 3 * W + 2 * l, y - w - this.touchdownPointDisplacement));
+		pianoVertices.add(new Vector2f(x + w + W + l, y - w - this.touchdownPointDisplacement - this.touchdownLength));
+		pianoVertices.add(new Vector2f(x + w + 3 * W + 2 * l, y - w - this.touchdownPointDisplacement - this.touchdownLength));
+		
+		pianoVertices.add(new Vector2f(x + 3 * w + 5 * W + 4 * l, y - w - this.touchdownPointDisplacement));
+		pianoVertices.add(new Vector2f(x + 3 * w + 7 * W + 5 * l, y - w - this.touchdownPointDisplacement));
+		pianoVertices.add(new Vector2f(x + 3 * w + 5 * W + 4 * l, y - w - this.touchdownPointDisplacement - this.touchdownLength));
+		pianoVertices.add(new Vector2f(x + 3 * w + 7 * W + 5 * l, y - w - this.touchdownPointDisplacement - this.touchdownLength));
+		
+		
 		return listDimensionalizeShift(pianoVertices, this.elevation);
 	}
-	/*
-	public List<Vector3f> normgeneratePianoKeysVertices(){
-		
-		Vector2f one = this.anchor1 ;
-		List<Vector2f> pianoVertices = new ArrayList<Vector2f>();
-		
-	}
-	*/
+	
+
+	
 	public void generatePianoKeysIndices() {
 		
 		int[] ret = {
@@ -208,9 +251,16 @@ public class RunwayV2{
 			16, 17, 19,
 			22, 20, 23, 
 			20, 21, 23, 
-			26, 21, 27,
-			21, 24, 27,
-			30, 28, 31
+			26, 24, 27,
+			24, 25, 27,
+			30, 28, 31,
+			28, 29, 31,
+			
+			34, 32, 35,
+			32, 33, 35,
+			
+			38, 36, 39,
+			36, 37, 39
 				
 		};
 		
@@ -246,6 +296,9 @@ public class RunwayV2{
 		Vector2f three = new Vector2f(this.anchor1.getX(), this.anchor1.getY() + this.length);
 		Vector2f four = new Vector2f(this.anchor2.getX(), this.anchor2.getY() + this.length);
 		
+		this.anchor3 = three;
+		this.anchor4 = four;
+		
 		baseVertices.add(new Vector3f(three.getX(), this.elevation, three.getY()));
 		baseVertices.add(new Vector3f(four.getX(), this.elevation, four.getY()));
 		
@@ -277,6 +330,8 @@ public class RunwayV2{
 		return ind;
 		
 	}
+	
+	
 	
 	public List<Integer> generateCenterlineIndices(){
 		

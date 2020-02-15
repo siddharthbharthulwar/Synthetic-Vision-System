@@ -63,7 +63,7 @@ public class Demo {
         }
         
         @SuppressWarnings("rawtypes")
-        RunwayV2 runwayw = new RunwayV2(new Vector2f(200, 0), new Vector2f(400, 0), 10000, -100, 60, 60, 17, 5, 1, 1, 2);
+        RunwayV2 runwayw = new RunwayV2(new Vector2f(200, 0), new Vector2f(400, 0), 10000, -100, 60, 60, 17, 60, 10, 150, 60);
         @SuppressWarnings("unchecked")
         
 		/*
@@ -166,7 +166,7 @@ public class Demo {
       	Entity pianoMarkings = new Entity(staticPianoModel, new Vector3f(70000, -10, -190000), 0, 0, 0, 1);
         
         for (int j = 0; j < buildingList.size(); j++) {
-        	entities.add(new Entity(staticModels.get(j), new Vector3f(70000, -10, -190000), 0, 0, 0, 1));
+        	entities.add(new Entity(staticModels.get(j), new Vector3f(70000, -10, -185000), 0, 0, 0, 1));
         	
         }
         /*
