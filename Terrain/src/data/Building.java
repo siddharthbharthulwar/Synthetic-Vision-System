@@ -183,7 +183,7 @@ public class Building {
 			normals.set(vertC, newCross);
 			
 		}
-		System.out.println(normals +  " and "  + this.corners.size());
+		//System.out.println(normals +  " and "  + this.corners.size());
 		
 		for (int i = normals.size() - this.corners.size(); i < normals.size(); i++) {
 			

@@ -63,7 +63,7 @@ public class Demo {
         }
         
         @SuppressWarnings("rawtypes")
-        RunwayV2 runwayw = new RunwayV2(new Vector2f(200, 0), new Vector2f(400, 0), 10000, -100, 60, 60, 15);
+        RunwayV2 runwayw = new RunwayV2(new Vector2f(200, 0), new Vector2f(400, 0), 10000, -100, 60, 60, 17, 5, 1, 1, 2);
         @SuppressWarnings("unchecked")
         
 		/*
@@ -161,7 +161,9 @@ public class Demo {
         TexturedModel staticCenterlineModel = new TexturedModel(centerlineModel, new ModelTexture(loader.loadTexture("white")));
       	Entity centerlines = new Entity(staticCenterlineModel, new Vector3f(70000, -10, -190000), 0, 0, 0, 1);
 
-        
+        RawModel pianoModel = loader.loadToVAO(runwayw.pianoVertices, textureCoords, guidingBoxNormals, runwayw.pianoIndices);
+        TexturedModel staticPianoModel = new TexturedModel(pianoModel, new ModelTexture(loader.loadTexture("white")));
+      	Entity pianoMarkings = new Entity(staticPianoModel, new Vector3f(70000, -10, -190000), 0, 0, 0, 1);
         
         for (int j = 0; j < buildingList.size(); j++) {
         	entities.add(new Entity(staticModels.get(j), new Vector3f(70000, -10, -190000), 0, 0, 0, 1));
@@ -177,10 +179,11 @@ public class Demo {
    
         entities.add(runway);
         entities.add(centerlines);
+        entities.add(pianoMarkings);
         Camera camera = new Camera(1110);
         
 
-        Light light = new Light(new Vector3f(70000, 10000, -190000), new Vector3f(1,1,1), 11100);
+        Light light = new Light(new Vector3f(70000, 10000, -185000), new Vector3f(1,1,1), 11100);
         
         
         //******************************TERRAIN TEXTURE******************
@@ -219,7 +222,7 @@ public class Demo {
         while(!Display.isCloseRequested()){
         	
             camera.move();
-           // light.setPosition(new Vector3f(camera.getPosition().getX(), camera.getPosition().getY() - 1000, camera.getPosition().getZ()));
+            //light.setPosition(new Vector3f(camera.getPosition().getX(), camera.getPosition().getY() - 1000, camera.getPosition().getZ()));
             renderer.processTerrain(terrain);
 
             for (Entity e: entities) {

@@ -20,7 +20,15 @@ public class RunwayV2{
 	public int[] baseIndices;
 	public int[] centerlineIndices;
 	
-	public RunwayV2(Vector2f anchor1, Vector2f anchor2, float length, float elevation, int numberOfMarkings, float marklength, float markwidth) {
+	private float pianoDisplacement;
+	private float pianoLength;
+	private float pianoWidth;
+	private float pianoSpacing;
+	
+	public float[] pianoVertices;
+	public int[] pianoIndices;
+	
+	public RunwayV2(Vector2f anchor1, Vector2f anchor2, float length, float elevation, int numberOfMarkings, float marklength, float markwidth, float pianoDisplacement, float pianoLength, float pianoWidth, float pianoSpacing) {
 	
 		this.anchor1 = anchor1;
 		this.anchor2 = anchor2;
@@ -32,9 +40,14 @@ public class RunwayV2{
 		this.baseIndices = intListToArray(this.generateBaseIndices());
 		this.centerlineIndices = intListToArray(this.generateCenterlineIndices());
 		
+		this.pianoDisplacement = pianoDisplacement;
+		this.pianoLength = pianoLength;
+		this.pianoWidth = pianoWidth;
+		this.pianoSpacing = pianoSpacing;
 		
-		
-		
+		this.pianoVertices = vecListToArray(this.generatePianoKeysVertices());
+		this.generatePianoKeysIndices();
+
 	}
 	
 	public static int[] intListToArray(List<Integer> in) {
@@ -122,6 +135,91 @@ public class RunwayV2{
 		return vec;
 	}
 	
+	public static List<Vector3f> listDimensionalizeShift(List<Vector2f> verts, float elevation){
+		
+		List<Vector3f> ret = new ArrayList<Vector3f>();
+		
+		for (int i = 0; i < verts.size(); i++) {
+			
+			Vector2f temp = verts.get(i);
+			ret.add(new Vector3f(temp.getX(), elevation, temp.getY()));
+			
+		}
+		return ret;
+		
+	}
+		
+	public List<Vector3f> generatePianoKeysVertices(){
+		
+		Vector2f one = this.anchor1;
+		List<Vector2f> pianoVertices = new ArrayList<Vector2f>();
+		
+		for (int i = 0; i < 4; i++) {
+			
+			pianoVertices.add(new Vector2f(one.getX() + this.pianoDisplacement + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement));
+			System.out.println(one.getX() + this.pianoDisplacement + (i * this.pianoSpacing));
+			System.out.println(one.getX() + "getX");
+			System.out.println(this.pianoDisplacement + "disp");
+			System.out.println(i * this.pianoSpacing + "spac");
+			pianoVertices.add(new Vector2f(one.getX() + this.pianoDisplacement + ((i + 1) * this.pianoWidth) + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement));
+			
+			pianoVertices.add(new Vector2f(one.getX() + this.pianoDisplacement + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement - ((i + 1) * this.pianoLength)));
+			
+			pianoVertices.add(new Vector2f(one.getX() + this.pianoDisplacement + ((i + 1) * this.pianoWidth) + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement - ((i + 1) * this.pianoLength)));
+			
+		}
+		/*
+		for (int i = 4; i < 8; i++) {
+			
+			pianoVertices.add(new Vector2f(one.getX() + (3 * this.pianoDisplacement) + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement));
+			
+			pianoVertices.add(new Vector2f(one.getX() + (3 * this.pianoDisplacement) + ((i + 1) * this.pianoWidth) + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement));
+			
+			pianoVertices.add(new Vector2f(one.getX() + (3 * this.pianoDisplacement) + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement - ((i + 1) * this.pianoLength)));
+			
+			pianoVertices.add(new Vector2f(one.getX() + this.pianoDisplacement + ((i + 1) * this.pianoWidth) + (i * this.pianoSpacing), one.getY() - this.pianoDisplacement - ((i + 1) * this.pianoLength)));
+			
+		}
+		*/
+		System.out.println(listDimensionalizeShift(pianoVertices, this.elevation));
+		return listDimensionalizeShift(pianoVertices, this.elevation);
+	}
+	/*
+	public List<Vector3f> normgeneratePianoKeysVertices(){
+		
+		Vector2f one = this.anchor1 ;
+		List<Vector2f> pianoVertices = new ArrayList<Vector2f>();
+		
+	}
+	*/
+	public void generatePianoKeysIndices() {
+		
+		int[] ret = {
+				
+			2, 0, 3,
+			0, 1, 3,
+			6, 4, 7,
+			4, 5, 7,
+			10, 8, 11,
+			8, 9, 11,
+			14, 12, 15, 
+			12, 13, 15,
+			18, 16, 19,
+			16, 17, 19,
+			22, 20, 23, 
+			20, 21, 23, 
+			26, 21, 27,
+			21, 24, 27,
+			30, 28, 31
+				
+		};
+		
+		this.pianoIndices = ret;
+		
+	}
+	
+
+	
 	public List<Vector3f> generateFullCenterlineVertices(int num, float width, float length){
 		
 		List<Vector3f> ret = new ArrayList<Vector3f>();
@@ -157,6 +255,8 @@ public class RunwayV2{
 	
 	
 	}
+	
+	
 	
 	
 	public List<Integer> generateBaseIndices(){
