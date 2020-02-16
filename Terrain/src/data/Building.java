@@ -33,7 +33,7 @@ public class Building {
 		return height;
 	}
 	public void setHeight(int height) {
-		this.height = (2 * height) + 100;
+		this.height = 5 * height;
 	}
 	public List<normPoint> getCorners() {
 		return corners;

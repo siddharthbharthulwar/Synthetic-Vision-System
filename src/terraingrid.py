@@ -572,7 +572,7 @@ class TerrainGrid:
             np.save('vargrads1.npy', self.varianceresponses)
 
         if (saveBool):
-            with open(r"C:\Users\siddh\Projects\Synthetic Vision System\Terrain\res\data.json", 'w', encoding = 'utf-8') as f:
+            with open(r"C:\Users\siddh\Projects\Synthetic Vision System\Terrain\res\data2.json", 'w', encoding = 'utf-8') as f:
                 json.dump(str(data), f, indent = 4)
     
     def kernelclassification(self, threshold, kernel, minarea, cutoff, displayBool, erosionIterations, maxCorners, saveBool):

@@ -52,22 +52,29 @@ public class Demo {
         TextMaster.init(loader);
 
         List<Building> buildings1 = FileUtil.loadBuildingsFromJSON("res/data.json");
-        //List<Building> buildings2 = FileUtil.loadBuildingsFromJSON("res/data2.json");
-       // buildings1.addAll(buildings2);
+        List<Building> buildings2 = FileUtil.loadBuildingsFromJSON("res/data2.json");
         
-        List<Building> buildingList = null;
+        List<Building> buildingList1 = null;
 
         for(Object obj:buildings1) {
         	 
-        	 buildingList = (ArrayList<Building>) obj;
+        	 buildingList1 = (ArrayList<Building>) obj;
       	 
         }
         
+        List<Building> buildingList2 = null;
+        
+        for (Object obj: buildings2) {
+        	
+        	buildingList2 = (ArrayList<Building>) obj;
+        }
+        
+        
         @SuppressWarnings("rawtypes")
-        RunwayV2 runwayw = new RunwayV2(new Vector2f(200, 0), new Vector2f(400, 0), 10000, -800, 60, 100, 10, 150, 7, 450, 90, 20, false);
+        RunwayV2 runwayw = new RunwayV2(new Vector2f(2600, 0), new Vector2f(2680, 0), 5000, -800, 22, 100, 4, 150, 4, 450, 90, 20, false);
         @SuppressWarnings("unchecked")
         
-		glideMap boxes = new glideMap(runwayw, 50, 2400, 3, 250, 50, 15);
+		glideMap boxes = new glideMap(runwayw, 50, 2400, 3, 175, 50, 15);
         
         float[] textureCoords = {
         		1, 1	
@@ -79,7 +86,7 @@ public class Demo {
         
       
         
-        for (Building building: buildingList) {
+        for (Building building: buildingList1) {
         	
         	building.setHeight(building.getHeight());
         	building.vertices = Building.vecToArray(building.generateVertices());
@@ -115,22 +122,22 @@ public class Demo {
         	1, 1, 1,
         	1, 1, 1,
         	1, 1, 1,
-        	1, 1, 1,1, 1, 1,
         	1, 1, 1,
         	1, 1, 1,
-        	1, 1, 1,1, 1, 1,
         	1, 1, 1,
         	1, 1, 1,
-        	1, 1, 1,1, 1, 1,
         	1, 1, 1,
         	1, 1, 1,
-        	1, 1, 1,1, 1, 1,
         	1, 1, 1,
         	1, 1, 1,
-        	1, 1, 1,1, 1, 1,
         	1, 1, 1,
         	1, 1, 1,
-        	1, 1, 1,1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
         	1, 1, 1,
         	1, 1, 1,
         	1, 1, 1
@@ -144,33 +151,60 @@ public class Demo {
         	staticModels.add(staticModel);
         }
         
-        
+        for (Building building: buildingList2) {
+        	
+        	building.setHeight(building.getHeight());
+        	building.vertices = Building.vecToArray(building.generateVertices());
+        	building.indices = Building.intToArray(building.generateIndices());
+        	building.normals = Building.vecToArray(building.generateVertexNormals());
+        	
+        	
+        	
+        	
+        	if (true) {
+        		RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
+            	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("red")));
+            	ModelTexture texture = staticModel.getTexture();
+                texture.setShineDamper(10000);
+                texture.setReflectivity(0.0f);
+                
+                staticModels.add(staticModel);
+        	}
+        	
+            
+        	
+        }
         
         
         RawModel model = loader.loadToVAO(runwayw.baseVertices, textureCoords, guidingBoxNormals, runwayw.baseIndices);
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("black")));
-      	Entity runway = new Entity(staticModel, new Vector3f(70000, -10, -190000), 0, 0, 0, 1);
+      	Entity runway = new Entity(staticModel, new Vector3f(70000, -10, -186000), 0, 0, 0, 1);
 
         RawModel centerlineModel = loader.loadToVAO(runwayw.centerlineVertices, textureCoords, guidingBoxNormals, runwayw.centerlineIndices);
         TexturedModel staticCenterlineModel = new TexturedModel(centerlineModel, new ModelTexture(loader.loadTexture("white")));
-      	Entity centerlines = new Entity(staticCenterlineModel, new Vector3f(70000, -10, -190000), 0, 0, 0, 1);
+      	Entity centerlines = new Entity(staticCenterlineModel, new Vector3f(70000, -10, -186000), 0, 0, 0, 1);
 
         RawModel pianoModel = loader.loadToVAO(runwayw.pianoVertices, textureCoords, guidingBoxNormals, runwayw.pianoIndices);
         TexturedModel staticPianoModel = new TexturedModel(pianoModel, new ModelTexture(loader.loadTexture("white")));
-      	Entity pianoMarkings = new Entity(staticPianoModel, new Vector3f(70000, -10, -190000), 0, 0, 0, 1);
+      	Entity pianoMarkings = new Entity(staticPianoModel, new Vector3f(70000, -10, -186000), 0, 0, 0, 1);
         /*
         for (int j = 0; j < buildingList.size() + boxes.boxes.size(); j++) {
         	entities.add(new Entity(staticModels.get(j), new Vector3f(70000, -10, -175000), 0, 0, 0, 1));
         	
         }
         */
-        for (int i = 0; i < buildingList.size(); i++) {
-        	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -900, -178000), 0, 0, 0, 1));
+        for (int i = 0; i < buildingList1.size(); i++) {
+        	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -850, -178000), 0, 60, 0, 1));
 
         }
         
-        for (int i = buildingList.size(); i < buildingList.size() + boxes.boxes.size(); i++) {
+        for (int i = buildingList1.size(); i < buildingList1.size() + boxes.boxes.size(); i++) {
         	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -10, -175000), 0, 0, 0, 1));
+
+        }
+        
+        for (int i = buildingList1.size() + boxes.boxes.size(); i < buildingList1.size() + boxes.boxes.size() + buildingList2.size(); i++) {
+        	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -850, -186000), 0, 60, 0, 1));
 
         }
         
@@ -183,7 +217,7 @@ public class Demo {
         Camera camera = new Camera(1110);
         
 
-        Light light = new Light(new Vector3f(70000, 10000, -175000), new Vector3f(1,1,1), 11100);
+        Light light = new Light(new Vector3f(70000, 10000, -185000), new Vector3f(1,1,1), 11100);
         
         
         //******************************TERRAIN TEXTURE******************
