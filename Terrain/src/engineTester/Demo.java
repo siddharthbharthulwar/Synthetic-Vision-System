@@ -70,7 +70,7 @@ public class Demo {
         
         
         @SuppressWarnings("rawtypes")
-        RunwayV2 runwayw = new RunwayV2(new Vector2f(2600, 0), new Vector2f(2680, 0), 5000, -800, 22, 100, 4, 150, 4, 450, 90, 20, false);
+        RunwayV2 runwayw = new RunwayV2(new Vector2f(2600, 0), new Vector2f(2680, 0), 5000, -800, 22, 100, 4, 150, 4, 450, 90, 20, true);
         @SuppressWarnings("unchecked")
         
 		glideMap boxes = new glideMap(runwayw, 50, 2400, 3, 175, 50, 15);

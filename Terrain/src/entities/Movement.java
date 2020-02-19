@@ -10,6 +10,7 @@ public class Movement {
 	public Vector3f initialPosition;
 	public Vector3f transitionPosition;
 	public Vector3f finalPosition;
+	public RunwayV2 runway;
 	
 	public float average(float one, float two) {
 		
@@ -18,6 +19,7 @@ public class Movement {
 	
 	public Movement(RunwayV2 runway, glideMap gsMap, int indexDown) {
 		
+		this.runway = runway;
 		Vector2f anchor3 = runway.anchor3;
 		Vector2f anchor4 = runway.anchor4;
 		this.transitionPosition = new Vector3f(average(anchor3.getX(), anchor4.getX()), runway.elevation, average(anchor3.getY(), anchor4.getY()));

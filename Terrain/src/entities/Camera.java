@@ -99,7 +99,7 @@ public class Camera {
 
     		this.position.y += (speed / 15) * this.direction.getY();
     		this.position.z += (speed / 3) * this.direction.getZ();
-    		this.pitch -= 0.05;
+    		this.pitch -= 0.01;
     		
     	}
     	else if (state == 2) {
