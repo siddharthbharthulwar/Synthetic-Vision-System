@@ -52,6 +52,9 @@ public class Demo {
 
         List<Building> buildings1 = FileUtil.loadBuildingsFromJSON("res/data.json");
         List<Building> buildings2 = FileUtil.loadBuildingsFromJSON("res/data2.json");
+        List<Building> buildings3 = FileUtil.loadBuildingsFromJSON("res/data3.json");
+        List<Building> buildings4 = FileUtil.loadBuildingsFromJSON("res/data4.json");
+        
         
         List<Building> buildingList1 = null;
 
@@ -68,9 +71,24 @@ public class Demo {
         	buildingList2 = (ArrayList<Building>) obj;
         }
         
+        List<Building> buildingList3 = null;
+
+        for(Object obj:buildings1) {
+        	 
+        	 buildingList3 = (ArrayList<Building>) obj;
+      	 
+        }
+        
+        List<Building> buildingList4 = null;
+        
+        for (Object obj: buildings2) {
+        	
+        	buildingList4 = (ArrayList<Building>) obj;
+        }
+        
         
         @SuppressWarnings("rawtypes")
-        RunwayV2 runwayw = new RunwayV2(new Vector2f(2600, 0), new Vector2f(2680, 0), 5000, -800, 22, 100, 4, 150, 4, 450, 90, 20, true);
+        RunwayV2 runwayw = new RunwayV2(new Vector2f(2600, 0), new Vector2f(2680, 0), 5000, -800, 22, 100, 4, 150, 4, 450, 90, 20, false);
         @SuppressWarnings("unchecked")
         
 		glideMap boxes = new glideMap(runwayw, 50, 2400, 3, 175, 50, 15);
@@ -174,6 +192,56 @@ public class Demo {
         	
         }
         
+        for (Building building: buildingList3) {
+        	
+        	building.setHeight(building.getHeight());
+        	building.vertices = Building.vecToArray(building.generateVertices());
+        	building.indices = Building.intToArray(building.generateIndices());
+        	building.normals = Building.vecToArray(building.generateVertexNormals());
+        	
+        	
+        	
+        	
+        	if (true) {
+        		RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
+            	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
+            	ModelTexture texture = staticModel.getTexture();
+                texture.setShineDamper(10000);
+                texture.setReflectivity(0.0f);
+                
+                staticModels.add(staticModel);
+        	}
+        	
+            
+        	
+        }
+        
+        
+        for (Building building: buildingList4) {
+        	
+        	building.setHeight(building.getHeight());
+        	building.vertices = Building.vecToArray(building.generateVertices());
+        	building.indices = Building.intToArray(building.generateIndices());
+        	building.normals = Building.vecToArray(building.generateVertexNormals());
+        	
+        	
+        	
+        	
+        	if (true) {
+        		RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
+            	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
+            	ModelTexture texture = staticModel.getTexture();
+                texture.setShineDamper(10000);
+                texture.setReflectivity(0.0f);
+                
+                staticModels.add(staticModel);
+        	}
+        	
+            
+        	
+        }
+        
+        
         
         //@DISPLACEMENT VECTORS
         float dispX = 70000;
@@ -213,6 +281,16 @@ public class Demo {
 
         }
         
+        for (int i = buildingList1.size() + boxes.boxes.size()+buildingList2.size(); i < buildingList1.size() + boxes.boxes.size() + buildingList2.size() +buildingList3.size(); i++) {
+        	entities.add(new Entity(staticModels.get(i), new Vector3f(74000, -900, -186000), 0, 60, 0, 1));
+
+        }
+        /*
+        for (int i = buildingList1.size() + boxes.boxes.size()+buildingList2.size()+buildingList3.size(); i < buildingList1.size() + boxes.boxes.size() + buildingList2.size()+buildingList3.size() + buildingList4.size(); i++) {
+        	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -900, -170000), 0, 60, 0, 1));
+
+        }
+        */
         
         
    
@@ -220,7 +298,7 @@ public class Demo {
         entities.add(centerlines);
         entities.add(pianoMarkings);
         Vector3f boxLocation = boxes.boxes.get(8).getPosition();
-        Camera camera = new Camera(100, new Vector3f(boxLocation.getX() + 70000, boxLocation.getY() -10, 
+        Camera camera = new Camera(5000, new Vector3f(boxLocation.getX() + 70000, boxLocation.getY() -10, 
         		boxLocation.getZ() - 175000), new Vector3f(runwayw.getTarget().getX() + 70000, 
         		runwayw.getTarget().getY() -10, runwayw.getTarget().getZ() - 175000));
         System.out.println(runwayw.getTarget());
@@ -266,6 +344,7 @@ public class Demo {
         while(!Display.isCloseRequested()){
         	
             camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
+           // camera.move();
             System.out.println(mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             //light.setPosition(new Vector3f(camera.getPosition().getX(), camera.getPosition().getY() - 1000, camera.getPosition().getZ()));
             renderer.processTerrain(terrain);
