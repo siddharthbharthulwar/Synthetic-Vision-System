@@ -32,6 +32,10 @@ public class guidingBox {
 		return s;
 	}
 	
+	public Vector3f getPosition() {
+		return this.position;
+	}
+	
 	public static String arrayToString(int[] var) {
 		
 		String s = "";

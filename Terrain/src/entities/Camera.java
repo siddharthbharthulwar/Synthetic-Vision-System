@@ -6,13 +6,27 @@ import org.lwjgl.util.vector.Vector3f;
 public class Camera {
      
     private Vector3f position = new Vector3f(0,0,0);
+    private Vector3f direction;
     private float pitch;
     private float yaw;
     private float roll = 20;
     private int speed;
-     
-    public Camera(int s){
+    private Vector3f finalPosition;
+    
+    public Camera(int s, Vector3f initialPosition, Vector3f finalPosition){
+    	this.position = initialPosition;
     	this.speed = s;
+    	/*
+    	this.direction = new Vector3f(0, getUnitDirectionVector(initialPosition, 
+    			finalPosition).getY() + 0.005f, getUnitDirectionVector(initialPosition, finalPosition).getZ());
+    	*/
+    	this.direction = new Vector3f(0, -0.052335956f, -0.99862953475f);
+    	System.out.println(this.direction);
+    	this.finalPosition = finalPosition;
+    }
+    
+    public Vector3f getFinalPosition() {
+    	return this.finalPosition;
     }
      
     public void move(){
@@ -72,7 +86,59 @@ public class Camera {
         }
 
     }
+    
+    public void move(int speed, int state) {
+    	
+    	if (state == 0) {
+    		this.position.y += speed * this.direction.getY();
+    		this.position.z += speed * this.direction.getZ();
+    		
+    		
+    	}
+    	else if (state == 1) {
 
+    		this.position.y += (speed / 15) * this.direction.getY();
+    		this.position.z += (speed / 3) * this.direction.getZ();
+    		this.pitch -= 0.05;
+    		
+    	}
+    	else if (state == 2) {
+    		
+
+    		this.position.y += (speed / 100) * this.direction.getY();
+    		this.position.z += (speed / 7) * this.direction.getZ();
+    	}
+    }
+    
+    public void moveVector(int speed) {
+    	if (true) {
+
+        	position.y += speed * this.direction.getY();
+        	position.z += speed * this.direction.getZ();
+    	}
+    	//this.position.getZ() >= this.finalPosition.getZ()
+    	else {
+    		position.z += (speed / 10) * this.direction.getZ();
+    	}
+    	
+    }
+    
+    public void rotateVector(int speed) {
+    	
+    	
+    	
+    }
+
+    public Vector3f getUnitDirectionVector(Vector3f initialPos, Vector3f finalPos) {
+    	
+    	Vector3f difference = new Vector3f(finalPos.getX() - initialPos.getX(), finalPos.getY() - initialPos.getY(),
+    			finalPos.getZ() - initialPos.getZ());
+    	difference.normalise();
+    	return difference;
+    	
+    }
+    
+    
  
     public Vector3f getPosition() {
         return position;

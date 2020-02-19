@@ -28,17 +28,16 @@ import textures.TerrainTexturePack;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
+import entities.Movement;
 import entities.Runway;
 import entities.RunwayV2;
 import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
 import fontRendering.TextMaster;
 import guidance.glideMap;
-import guidance.glideSlopeMap;
 import guidance.guidingBox;
 import guis.GuiRenderer;
 import guis.GuiTexture;
-import logic.glideslope;
 
 import toolbox.arrayUtils;
 import util.FileUtil;
@@ -163,7 +162,7 @@ public class Demo {
         	
         	if (true) {
         		RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
-            	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("red")));
+            	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
             	ModelTexture texture = staticModel.getTexture();
                 texture.setShineDamper(10000);
                 texture.setReflectivity(0.0f);
@@ -176,17 +175,23 @@ public class Demo {
         }
         
         
+        //@DISPLACEMENT VECTORS
+        float dispX = 70000;
+        float dispY = -850;
+        float dispZ = -186500;
+        
+        
         RawModel model = loader.loadToVAO(runwayw.baseVertices, textureCoords, guidingBoxNormals, runwayw.baseIndices);
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("black")));
-      	Entity runway = new Entity(staticModel, new Vector3f(70000, -10, -186000), 0, 0, 0, 1);
+      	Entity runway = new Entity(staticModel, new Vector3f(dispX, -100, dispZ), 0, 0, 0, 1);
 
         RawModel centerlineModel = loader.loadToVAO(runwayw.centerlineVertices, textureCoords, guidingBoxNormals, runwayw.centerlineIndices);
         TexturedModel staticCenterlineModel = new TexturedModel(centerlineModel, new ModelTexture(loader.loadTexture("white")));
-      	Entity centerlines = new Entity(staticCenterlineModel, new Vector3f(70000, -10, -186000), 0, 0, 0, 1);
+      	Entity centerlines = new Entity(staticCenterlineModel, new Vector3f(dispX, -100, dispZ), 0, 0, 0, 1);
 
         RawModel pianoModel = loader.loadToVAO(runwayw.pianoVertices, textureCoords, guidingBoxNormals, runwayw.pianoIndices);
         TexturedModel staticPianoModel = new TexturedModel(pianoModel, new ModelTexture(loader.loadTexture("white")));
-      	Entity pianoMarkings = new Entity(staticPianoModel, new Vector3f(70000, -10, -186000), 0, 0, 0, 1);
+      	Entity pianoMarkings = new Entity(staticPianoModel, new Vector3f(dispX, -100, dispZ), 0, 0, 0, 1);
         /*
         for (int j = 0; j < buildingList.size() + boxes.boxes.size(); j++) {
         	entities.add(new Entity(staticModels.get(j), new Vector3f(70000, -10, -175000), 0, 0, 0, 1));
@@ -194,7 +199,7 @@ public class Demo {
         }
         */
         for (int i = 0; i < buildingList1.size(); i++) {
-        	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -850, -178000), 0, 60, 0, 1));
+        	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -900, -178000), 0, 60, 0, 1));
 
         }
         
@@ -204,7 +209,7 @@ public class Demo {
         }
         
         for (int i = buildingList1.size() + boxes.boxes.size(); i < buildingList1.size() + boxes.boxes.size() + buildingList2.size(); i++) {
-        	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -850, -186000), 0, 60, 0, 1));
+        	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -900, -186000), 0, 60, 0, 1));
 
         }
         
@@ -214,7 +219,12 @@ public class Demo {
         entities.add(runway);
         entities.add(centerlines);
         entities.add(pianoMarkings);
-        Camera camera = new Camera(1110);
+        Vector3f boxLocation = boxes.boxes.get(8).getPosition();
+        Camera camera = new Camera(100, new Vector3f(boxLocation.getX() + 70000, boxLocation.getY() -10, 
+        		boxLocation.getZ() - 175000), new Vector3f(runwayw.getTarget().getX() + 70000, 
+        		runwayw.getTarget().getY() -10, runwayw.getTarget().getZ() - 175000));
+        System.out.println(runwayw.getTarget());
+        System.out.println(camera.getFinalPosition());
         
 
         Light light = new Light(new Vector3f(70000, 10000, -185000), new Vector3f(1,1,1), 11100);
@@ -249,13 +259,14 @@ public class Demo {
         
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
-         
+        Movement mv = new Movement(runwayw, boxes, 8);
      
         MasterRenderer renderer = new MasterRenderer();
         System.out.println("SETUP");
         while(!Display.isCloseRequested()){
         	
-            camera.move();
+            camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
+            System.out.println(mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             //light.setPosition(new Vector3f(camera.getPosition().getX(), camera.getPosition().getY() - 1000, camera.getPosition().getZ()));
             renderer.processTerrain(terrain);
 

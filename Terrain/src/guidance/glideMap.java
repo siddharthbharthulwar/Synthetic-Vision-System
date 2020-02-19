@@ -15,6 +15,8 @@ public class glideMap {
 	private float distance;
 	public float angle;
 	
+	public List<Vector3f> centroids;
+	
 	private float width;
 	private float thickness;
 	private float size;
@@ -28,8 +30,10 @@ public class glideMap {
 		this.width = width;
 		this.size = size;
 		this.thickness = thickness;
+		this.centroids = new ArrayList<Vector3f>();
+
 		this.boxes = generateBoxes();
-		
+		System.out.println(this.centroids);
 		
 	}
 	
@@ -45,6 +49,9 @@ public class glideMap {
 		for (int i = 0; i < this.number; i++) {
 			float x = (float) (this.distance * Math.tan(localAngle));
 			Vector3f centerPos = new Vector3f(midpoint.getX(), midpoint.getY() + i * x + 300, midpoint.getZ() + i * this.distance);
+			System.out.println(this.centroids);
+			this.centroids.add(centerPos);
+
 			ret.add(new guidingBox(this.size, centerPos, this.width, this.thickness));
 			
 		}
