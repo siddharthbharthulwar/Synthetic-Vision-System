@@ -35,6 +35,7 @@ public class RunwayV2{
 	private float touchdownLength;
 	
 	private float border;
+	private Vector3f targetPoint;
 	
 	public RunwayV2(Vector2f anchor1, Vector2f anchor2, float length, float elevation, 
 			int numberOfMarkings, float marklength, float markwidth, float pianoLength, float pianoSpacing
@@ -58,6 +59,10 @@ public class RunwayV2{
 		this.pianoSpacing = pianoSpacing;
 		
 		this.pianoVertices = vecListToArray(this.generateNormPianoKeyVertices());
+		
+		this.targetPoint = new Vector3f((this.anchor3.getX() + this.anchor4.getX()) / 2, this.elevation, (this.anchor3.getY() + this.anchor4.getY()) / 2);
+		
+		
 		System.out.println(this.generateNormPianoKeyVertices());
 		
 		this.generatePianoKeysIndices();
@@ -72,6 +77,10 @@ public class RunwayV2{
 			ret[i] = in.get(i);
 		}
 		return ret;
+	}
+	
+	public Vector3f getTarget() {
+		return this.targetPoint;
 	}
 	
 	public static float[] vecListToArray(List<Vector3f> vecs) {
