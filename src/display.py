@@ -12,6 +12,5 @@ rotterdam = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_51bz2.tif"
 
 a = TerrainGrid((rd1), (1,1), 1)
 a.show(-5, 50)
-a.arrayValues = a.arrayValues[1500:6500, 500:5500]
-a.show(-5,50)
+
 a.full_classification(3, 700, 1, True, 15, 15, True)
