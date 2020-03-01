@@ -130,6 +130,7 @@ public class Demo {
         
         
         
+        
         float[] guidingBoxNormals = {
         		
         	1, 1, 1,
@@ -353,16 +354,8 @@ public class Demo {
             	renderer.processEntity(e);
             }
             
-            
-            
             renderer.render(light, camera);
-            
-
-            
             guiRenderer.render(guis);
-            
-            
-            
             DisplayManager.updateDisplay();
             
         }
