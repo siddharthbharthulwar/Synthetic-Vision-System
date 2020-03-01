@@ -312,9 +312,9 @@ public class Demo {
         //******************************TERRAIN TEXTURE******************
         
         
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("lower"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("water"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("water2"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("higher"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("white"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("white"));
         
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
