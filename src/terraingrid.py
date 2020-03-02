@@ -371,6 +371,10 @@ class TerrainGrid:
         n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(b, connectivity = connectivity)
         self.dupValues = labels
         return labels
+    def replaceKernel(self, inArray, anchorTup):
+        shape = inArray.shape
+
+
     def classification(self, threshold, kernelsize, iterations, connectivity, minarea, cutoff, bldval, vegval, yes, maxCorners):
         derivative = np.gradient(self.arrayValues)[0]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
@@ -575,85 +579,74 @@ class TerrainGrid:
             with open(r"C:\Users\siddh\Projects\Synthetic Vision System\Terrain\res\data2.json", 'w', encoding = 'utf-8') as f:
                 json.dump(str(data), f, indent = 4)
     
-    def kernelclassification(self, threshold, kernel, minarea, cutoff, displayBool, erosionIterations, maxCorners, saveBool):
-        self.derivative = np.gradient(self.arrayValues)[1]
+    
+    def kernelclassv2(self, threshold, kernelsize, minarea, maxarea, cutoff, displayBool, erosionIterations, maxCorners, saveBool):
+        derivative = np.gradient(self.arrayValues)[1]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
-        thresh = cv.erode(thresh, np.ones((2, 2), np.uint8), iterations = 1)
-        self.harris_response = harrisresponse(thresh)
-        
+        harris = harrisresponse(thresh)
+
+        self.labelled_buildings = np.zeros(self.arrayValues.shape)
+        self.labelled_vegetation = np.zeros(self.arrayValues.shape)
+
 
         if (displayBool):
-            plt.imshow(self.arrayValues)
-            plt.imshow(thresh)
+            plt.imshow(self.arrayValues, cmap = 'jet', vmin = -5, vmax = 40)
+            plt.imshow(ma.masked_values(thresh, 0), cmap = 'gist_gray_r')
             plt.show()
 
-            plt.imshow(self.derivative)
-            plt.show()
+        kwidth = int(self.arrayValues.shape[1] / kernelsize)
+        klength = int(self.arrayValues.shape[0] / kernelsize)
 
-        self.kwidth = int(self.arrayValues.shape[1] / kernel)
-        self.klength = int(self.arrayValues.shape[0] / kernel)
-        self.variance = []
-        self.harris = []
+        varianceList  = []
+        harrisList = []
 
-        for i in range(self.klength):
+        for i in range(klength):
 
-            for j in range(self.kwidth):
-                kernelArr = self.arrayValues[kernel * i: kernel * (i + 1), kernel * j :kernel * (j + 1)]
-                derivArr = self.derivative[kernel * i: kernel * (i + 1), kernel * j :kernel * (j + 1)]
-                harrisArr = self.harris_response[kernel * i: kernel * (i + 1), kernel * j :kernel * (j + 1)]
-                thresharr = thresh[kernel * i: kernel * (i + 1), kernel * j :kernel * (j + 1)]
+            for j in range(kwidth):
+                kernelArr = self.arrayValues[kernelsize * i: kernelsize * (i + 1), kernelsize * j :kernelsize * (j + 1)]
+                derivArr = derivative[kernelsize * i: kernelsize * (i + 1), kernelsize * j :kernelsize * (j + 1)]
+                harrisArr = harris[kernelsize * i: kernelsize * (i + 1), kernelsize * j :kernelsize * (j + 1)]
+                thresharr = thresh[kernelsize * i: kernelsize * (i + 1), kernelsize * j :kernelsize * (j + 1)]
+
+
                 n_labels, labels, stats, centroids = cv.connectedComponentsWithStats(thresharr, connectivity = 4)
+                localveglabel = np.zeros((kernelsize, kernelsize))
+                localbldlabel = np.zeros((kernelsize, kernelsize))
+                print(j, i)
 
                 for k in np.delete(np.unique(labels), 0):
                     if (stats[k, 4] > minarea):
-                        print(k)
-                        org = (ma.masked_not_equal(labels, i) / i).astype('uint8')
-                        har = (ma.mean(harrisArr * org))
+                        org = (ma.masked_not_equal(labels, k) / k).astype('uint8')
+                        har = ma.mean(harrisArr * org)
                         var = np.std(org * derivArr)
-                        self.variance.append(var)
-                        self.harris.append(har)
 
-                        if (har > 1):
+                        varianceList.append(var)
+                        harrisList.append(har)
+
+                        if (har > cutoff):
                             height = int(np.mean(org * kernelArr))
-                            self.vegetation.append((height, shiftcentroid(centroids[i]), har))
+                            localveglabel = np.add(localveglabel, org.filled(0))
                         else:
-                            if (stats[k, 4] < 40000):
-                                height = int(np.mean(org * kernelArr))
-                                temp = org.filled()
-                                temp = erodilate(temp, 2, erosionIterations)
-                                corners = cv.goodFeaturesToTrack(temp, maxCorners, 0.01, 15)
-                                if (len(corners) > 2): #also add exception for nonetype corners
-                                    trueindices = tsp.tsp(corners)[1]
-                                    truecorners = []
+                            height = int(np.mean(org * kernelArr))
+                            localbldlabel = np.add(localbldlabel, org.filled(0))
+                self.labelled_buildings[kernelsize * i: kernelsize * (i + 1), kernelsize * j: kernelsize * (j + 1)] = localbldlabel
+                self.labelled_vegetation[kernelsize * i: kernelsize * (i + 1), kernelsize * j: kernelsize * (j + 1)] = localveglabel
+        
+        if (displayBool):
+            plt.imshow(self.arrayValues)
+            plt.imshow(ma.masked_values(self.labelled_buildings, 0), cmap = 'gist_gray', vmin = 0, vmax = 1)
+            plt.imshow(ma.masked_values(self.labelled_vegetation, 0), cmap = 'winter', vmin = 0, vmax = 1)
+            plt.show()
 
-                                    for i in trueindices:
-                                        truecorners.append(corners[i])
-                                    truecorners = shiftcorners(truecorners, i, j)
+        '''
+        nb_labels, blabels, bstats, bcentroids = cv.connectedComponentsWithStats(self.labelled_buildings, connectivity = 4)
+        nv_labels, vlabels, vstats, vcentroids = cv.connectedComponentsWithStats(self.labelled_buildings, connectivity = 4)
+        '''
 
-                                    rlcorners = []
-                                    for corner in truecorners:
 
-                                        rlcorners.append({
 
-                                            "x": corner[0][0],
-                                            "y": corner[0][1]
 
-                                        })
 
-                                    self.buildings.append((height, truecorners.tolist(), har))
 
-                                    data['Building'].append({
-
-                                        'height': height,
-                                        'corners': rlcorners
-
-                                    })
-
-                end = time.time()
-                print(int(start - end), " seconds")
-
-                if (saveBool):
-                    with open("data2.json", "w", encoding = 'utf-8') as f:
-                        json.dump(str(data), f, indent = 4)
 #TODO: vegetation exporting and labelling dict with x and y
 

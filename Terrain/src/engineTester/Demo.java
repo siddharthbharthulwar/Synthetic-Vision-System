@@ -110,9 +110,7 @@ public class Demo {
         	building.indices = Building.intToArray(building.generateIndices());
         	building.normals = Building.vecToArray(building.generateVertexNormals());
         	
-        	
-        	
-        	
+        	      	
         	if (true) {
         		RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
             	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
@@ -240,6 +238,7 @@ public class Demo {
             
         	
         }
+
         
         
         
@@ -285,12 +284,31 @@ public class Demo {
         	entities.add(new Entity(staticModels.get(i), new Vector3f(74000, -900, -186000), 0, 60, 0, 1));
 
         }
-        /*
-        for (int i = buildingList1.size() + boxes.boxes.size()+buildingList2.size()+buildingList3.size(); i < buildingList1.size() + boxes.boxes.size() + buildingList2.size()+buildingList3.size() + buildingList4.size(); i++) {
-        	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -900, -170000), 0, 60, 0, 1));
-
+        
+        List<Vector3f> treeList = new ArrayList<Vector3f>();
+        treeList.add(new Vector3f(2000, -70, 0));
+        treeList.add(new Vector3f(2100, -70, 115));
+        treeList.add(new Vector3f(2200, -70, 6500));
+        treeList.add(new Vector3f(2250, -70, 6515));
+        treeList.add(new Vector3f(2290, -70, 6500));
+        // treeList.add(new Vector3f(2000, -70, 0));
+        //treeList.add(new Vector3f(2000, -70, 50));
+/*
+        for (int i = -100; i < 6000; i+= 70) {
+        	treeList.add(new Vector3f(3000, -70, i));
+        }
+        
+        for (int i = -100; i < 1000; i+= 70) {
+        	treeList.add(new Vector3f(2000, -70, i));
         }
         */
+        
+        for (Vector3f vector: treeList) {
+            RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
+            TexturedModel staticTreeModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("water")));
+            Entity tree = new Entity(staticTreeModel, Vector3f.add(vector, new Vector3f(dispX, dispY, dispZ), null), 0, 0, 0, 7);
+            entities.add(tree);
+        }
         
         
    
@@ -298,7 +316,7 @@ public class Demo {
         entities.add(centerlines);
         entities.add(pianoMarkings);
         Vector3f boxLocation = boxes.boxes.get(8).getPosition();
-        Camera camera = new Camera(5000, new Vector3f(boxLocation.getX() + 70000, boxLocation.getY() -10, 
+        Camera camera = new Camera(10000, new Vector3f(boxLocation.getX() + 70000, boxLocation.getY() -10, 
         		boxLocation.getZ() - 175000), new Vector3f(runwayw.getTarget().getX() + 70000, 
         		runwayw.getTarget().getY() -10, runwayw.getTarget().getZ() - 175000));
         System.out.println(runwayw.getTarget());
@@ -332,9 +350,7 @@ public class Demo {
         
         
         GuiRenderer guiRenderer = new GuiRenderer(loader);
-        
-        
-        
+
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
         Movement mv = new Movement(runwayw, boxes, 8);
@@ -342,31 +358,20 @@ public class Demo {
         MasterRenderer renderer = new MasterRenderer();
         System.out.println("SETUP");
         while(!Display.isCloseRequested()){
-        	
-            camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
-           // camera.move();
+        	//camera.move();
+        	camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             System.out.println(mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
-            //light.setPosition(new Vector3f(camera.getPosition().getX(), camera.getPosition().getY() - 1000, camera.getPosition().getZ()));
             renderer.processTerrain(terrain);
 
             for (Entity e: entities) {
             	renderer.processEntity(e);
             }
-            
-            
-            
+         
             renderer.render(light, camera);
-            
-
-            
             guiRenderer.render(guis);
-            
-            
-            
             DisplayManager.updateDisplay();
             
         }
-        
         
         //***********CLEAN UP *************
         
