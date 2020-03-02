@@ -367,11 +367,7 @@ public class Demo {
             for (Entity e: entities) {
             	renderer.processEntity(e);
             }
-<<<<<<< HEAD
          
-=======
-            
->>>>>>> 4ec53d7e194e2dba619508598581671241e7c605
             renderer.render(light, camera);
             guiRenderer.render(guis);
             DisplayManager.updateDisplay();

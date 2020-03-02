@@ -14,5 +14,13 @@ The second principal iteration of this project is currently private but will be 
  - GDAL
  - LWJGL 2
  - TSP
+
+ TODO: 
+ - Fix building polygon triangulation at index 0
+ - Fix normals for counterclockwise vertex normal lighting
+ - Record corners in proper index with new kernel-based approach
+ - Kalman Filter for SimData and real world data
+ - Real World Simulated Testing with Kalman Filter
+
  
 
