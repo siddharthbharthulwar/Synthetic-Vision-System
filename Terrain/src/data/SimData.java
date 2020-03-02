@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 
 public class SimData {
@@ -23,6 +24,7 @@ public class SimData {
 	private List<Float> vY;
 	private List<Float> vZ;
 	private List<Float> distNM;
+	private List<Float> tempList = new ArrayList<Float>();
 	
 	public SimData(String path) {
 		
@@ -33,46 +35,45 @@ public class SimData {
 		try {
 			sc = new Scanner(file);
 			while(sc.hasNextLine()){
-				String str = sc.nextLine();
+			    String str = sc.nextLine();
 			    lines.add(str);
-			}
+			   }
 			   
-		} catch (IOException  exp) {
-			exp.printStackTrace();
-		}
+			  } catch (IOException  exp) {
+			   exp.printStackTrace();
+			  }
+			  
 			  sc.close();
-			  System.out.println(lines.get(0));
+			  for (int i = 1; i < lines.size(); i++) {
+				 ParseLine(lines.get(i));
+			  }
+
 
 	}
 	
-	public List<Float> ParseLine(String line){
+	public void ParseLine(String line){
 		
-		return null;
+		StringTokenizer tokenizer = new StringTokenizer(line, "|");
+		
+		while (tokenizer.hasMoreTokens()) {
+			
+			String token = tokenizer.nextToken();
+			token = token.trim();
+			if (!token.isEmpty()) {
+				this.tempList.add(Float.parseFloat(token));
+			}
+			
+		}
+		
 	}
 	
-	/*
+	
 	public static void main(String[] args) {
 		
-	File file = new File("res/sensors.txt");
-	Scanner sc = null;
-	List<String> lines = new ArrayList<String>();
-	
-	try {
-		sc = new Scanner(file);
-		   // Check if there is another line of input
-		while(sc.hasNextLine()){
-		    String str = sc.nextLine();
-		    lines.add(str);
-		   }
-		   
-		  } catch (IOException  exp) {
-		   // TODO Auto-generated catch block
-		   exp.printStackTrace();
-		  }
-		  
-		  sc.close();
-		  System.out.println(lines.get(0));
-
+		
+		SimData sim = new SimData("res/sensors.txt");
+		System.out.println(sim.tempList.size());
+		
 	}
-	*/
+
 }
