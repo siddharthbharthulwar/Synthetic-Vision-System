@@ -128,6 +128,7 @@ public class Demo {
         
         
         
+        
         float[] guidingBoxNormals = {
         		
         	1, 1, 1,
@@ -329,9 +330,9 @@ public class Demo {
         //******************************TERRAIN TEXTURE******************
         
         
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("lower"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("water"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("water2"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("higher"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("white"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("white"));
         
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
@@ -366,7 +367,11 @@ public class Demo {
             for (Entity e: entities) {
             	renderer.processEntity(e);
             }
+<<<<<<< HEAD
          
+=======
+            
+>>>>>>> 4ec53d7e194e2dba619508598581671241e7c605
             renderer.render(light, camera);
             guiRenderer.render(guis);
             DisplayManager.updateDisplay();
