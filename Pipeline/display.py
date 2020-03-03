@@ -11,6 +11,7 @@ path = r"C:\Users\siddh\Documents\DSMS\R_25GN1\r_25gn1.tif"
 rotterdam = r"D:\Documents\School\2019-20\ISEF 2020\HighProcessed\r_51bz2.tif"
 
 a = TerrainGrid((path), (1,1), 1)
-a.arrayValues = a.arrayValues[0:2000, 1000:2000]
+#a.arrayValues = a.arrayValues[0:2000, 1000:2000]
+#a.full_classification(3, 500, 1, True, 15, 15, False)
 a.kernelclassv2(3, 500, 200, 50000, 1, True, 15, 15, False)
 

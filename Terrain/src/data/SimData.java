@@ -72,7 +72,7 @@ public class SimData {
 		
 		
 		SimData sim = new SimData("res/sensors.txt");
-		System.out.println(sim.tempList.size());
+		System.out.println(sim.tempList.get(1));
 		
 	}
 

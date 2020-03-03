@@ -628,7 +628,9 @@ class TerrainGrid:
                             localveglabel = np.add(localveglabel, org.filled(0))
                         else:
                             height = int(np.mean(org * kernelArr))
-                            localbldlabel = np.add(localbldlabel, org.filled(0))
+                            temp = org.filled(0)
+                            #temp = erodilate(temp, 2, erosionIterations)
+                            localbldlabel = np.add(localbldlabel, temp)
                 self.labelled_buildings[kernelsize * i: kernelsize * (i + 1), kernelsize * j: kernelsize * (j + 1)] = localbldlabel
                 self.labelled_vegetation[kernelsize * i: kernelsize * (i + 1), kernelsize * j: kernelsize * (j + 1)] = localveglabel
         
@@ -638,10 +640,13 @@ class TerrainGrid:
             plt.imshow(ma.masked_values(self.labelled_vegetation, 0), cmap = 'winter', vmin = 0, vmax = 1)
             plt.show()
 
-        '''
-        nb_labels, blabels, bstats, bcentroids = cv.connectedComponentsWithStats(self.labelled_buildings, connectivity = 4)
-        nv_labels, vlabels, vstats, vcentroids = cv.connectedComponentsWithStats(self.labelled_buildings, connectivity = 4)
-        '''
+        
+        nb_labels, blabels, bstats, bcentroids = cv.connectedComponentsWithStats(self.labelled_buildings.astype('uint8'), connectivity = 4)
+        plt.imshow(blabels)
+        plt.show()
+        nv_labels, vlabels, vstats, vcentroids = cv.connectedComponentsWithStats(self.labelled_vegetation.astype('uint8'), connectivity = 4)
+        plt.imshow(vlabels)
+        plt.show()
 
 
 
