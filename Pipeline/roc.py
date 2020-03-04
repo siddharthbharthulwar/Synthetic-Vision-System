@@ -15,7 +15,7 @@ from sklearn.multiclass import OneVsRestClassifier
 plt.style.use('ggplot')
 
 
-X, y = make_classification(n_samples=2000, random_state=100, flip_y=0.05)
+X, y = make_classification(n_samples=2000, random_state=100, flip_y=0.09)
 
 kf = KFold(n_splits = 5, shuffle = True, random_state= 0)
 clf = LinearDiscriminantAnalysis()

@@ -245,6 +245,7 @@ def erodilate(val, kernel, iterate):
     img_erosion = cv.erode(val, np.ones((kernel, kernel), np.uint8), iterations = iterate)
     img_errdil = cv.dilate(np.array(img_erosion), np.ones((kernel, kernel), np.uint8), iterations = iterate)
     return img_errdil
+
 class TerrainGrid:
     #class for a grid of rastered array tiff files
     def __init__(self, path, dimensions, fill):
@@ -511,7 +512,7 @@ class TerrainGrid:
                         incount +=1
                         height = int(np.mean(org * self.arrayValues))
                         temp = org.filled()
-                        temp = erodilate(temp, 2, erosionIterations)
+                        temp = erodilate(temp, 10, erosionIterations)
                         corners = cv.goodFeaturesToTrack(temp, maxCorners, 0.01, 15)
                         if (len(corners) > 2):
                             trueindices = tsp.tsp(corners)[1]
@@ -580,7 +581,7 @@ class TerrainGrid:
                 json.dump(str(data), f, indent = 4)
     
     
-    def kernelclassv2(self, threshold, kernelsize, minarea, maxarea, cutoff, displayBool, erosionIterations, maxCorners, saveBool):
+    def kernelclassv2(self, threshold, kernelsize, minarea, maxarea, cutoff, displayBool, erosionIterations, erosioonSize, maxCorners, saveBool):
         derivative = np.gradient(self.arrayValues)[1]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
         harris = harrisresponse(thresh)
@@ -588,7 +589,8 @@ class TerrainGrid:
         self.labelled_buildings = np.zeros(self.arrayValues.shape)
         self.labelled_vegetation = np.zeros(self.arrayValues.shape)
 
-
+        self.ebuildings = np.zeros(self.arrayValues.shape)
+        self.evegetation = np.zeros(self.arrayValues.shape)
         if (displayBool):
             plt.imshow(self.arrayValues, cmap = 'jet', vmin = -5, vmax = 40)
             plt.imshow(ma.masked_values(thresh, 0), cmap = 'gist_gray_r')
@@ -629,7 +631,6 @@ class TerrainGrid:
                         else:
                             height = int(np.mean(org * kernelArr))
                             temp = org.filled(0)
-                            #temp = erodilate(temp, 2, erosionIterations)
                             localbldlabel = np.add(localbldlabel, temp)
                 self.labelled_buildings[kernelsize * i: kernelsize * (i + 1), kernelsize * j: kernelsize * (j + 1)] = localbldlabel
                 self.labelled_vegetation[kernelsize * i: kernelsize * (i + 1), kernelsize * j: kernelsize * (j + 1)] = localveglabel
@@ -642,11 +643,24 @@ class TerrainGrid:
 
         
         nb_labels, blabels, bstats, bcentroids = cv.connectedComponentsWithStats(self.labelled_buildings.astype('uint8'), connectivity = 4)
-        plt.imshow(blabels)
-        plt.show()
+        if (displayBool):
+            plt.imshow(blabels)
+            plt.show()
         nv_labels, vlabels, vstats, vcentroids = cv.connectedComponentsWithStats(self.labelled_vegetation.astype('uint8'), connectivity = 4)
-        plt.imshow(vlabels)
-        plt.show()
+        if (displayBool):
+                
+            plt.imshow(vlabels)
+            plt.show()
+        for k in np.delete(np.unique(blabels), 0):
+            org = (ma.masked_not_equal(blabels, k) / k).astype('uint8')
+            org = org.filled()
+            org = erodilate(org, erosioonSize, erosionIterations)
+            self.ebuildings = np.add(self.ebuildings, org)
+        if (displayBool):
+            plt.imshow(self.arrayValues)
+            plt.imshow(self.ebuildings, cmap = 'gist_gray')
+            plt.show()
+
 
 
 

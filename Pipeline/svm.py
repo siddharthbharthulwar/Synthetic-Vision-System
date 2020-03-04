@@ -25,5 +25,6 @@ plt.scatter(X[:, 0], X[:, 1], s=4, c=Y, cmap=plt.cm.Paired,
             edgecolors='k')
 plt.xticks(())
 plt.yticks(())
+plt.title("Support Vector Machine for Multimodal Structural Classification")
 plt.axis([-3, 3, -3, 3])
 plt.show()

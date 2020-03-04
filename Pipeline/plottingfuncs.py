@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 
 from sklearn.cluster import AgglomerativeClustering
 
-harris = np.load('harrisresponse1.npy')
-var = np.load('vargrads1.npy')
+harris = np.load('harrisresponse.npy')
+var = np.load('vargrads.npy')
 
 var2 = np.add(var, 5 * np.random.rand(len(var)))
 
