@@ -359,8 +359,8 @@ public class Demo {
         MasterRenderer renderer = new MasterRenderer();
         System.out.println("SETUP");
         while(!Display.isCloseRequested()){
-        	//camera.move();
-        	camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
+        	camera.move();
+        	//camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             System.out.println(mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             renderer.processTerrain(terrain);
 
