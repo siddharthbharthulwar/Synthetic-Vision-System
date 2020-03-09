@@ -656,6 +656,7 @@ class TerrainGrid:
             org = org.filled()
             org = erodilate(org, erosioonSize, erosionIterations)
             self.ebuildings = np.add(self.ebuildings, org)
+            print(k, " / ", nb_labels)
         if (displayBool):
             plt.imshow(self.arrayValues)
             plt.imshow(self.ebuildings, cmap = 'gist_gray')

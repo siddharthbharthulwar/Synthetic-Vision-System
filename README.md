@@ -17,6 +17,7 @@ The second principal iteration of this project is currently private but will be 
 
  TODO: 
  - Fix building polygon triangulation at index 0
+ - Write new set of renderer classes for rendering without surface normal-based lighting
  - Fix normals for counterclockwise vertex normal lighting
  - Record corners in proper index with new kernel-based approach
  - Kalman Filter for SimData and real world data
