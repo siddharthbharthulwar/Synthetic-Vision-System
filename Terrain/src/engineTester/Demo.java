@@ -46,7 +46,7 @@ public class Demo {
  
     public static void main(String[] args) throws IOException {
  
-        DisplayManager.createDisplay(1920, 1080);
+        DisplayManager.createDisplay(700, 700);
         Loader loader = new Loader();
         TextMaster.init(loader);
 
