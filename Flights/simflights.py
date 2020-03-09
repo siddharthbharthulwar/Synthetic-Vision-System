@@ -1,6 +1,6 @@
 import numpy as np 
 import matplotlib.pyplot as plt 
-import pandas as pd 
+from mpl_toolkits.mplot3d import Axes3D
 
 class SimFlight:
     #class for a grid of rastered array tiff files
@@ -74,12 +74,16 @@ class SimFlight:
                 else:
                     line = fp.readline()
                     cnt +=1
-
+    def positionPlot(self):
+        fig = plt.figure()
+        ax = fig.gca(projection = '3d')
+        ax.plot(self.lon, self.lat, self.altitude)
+        plt.show()
+    def velocityPlot(self):
+        fig = plt.figure()
+        ax = fig.gca(projection = '3d')
+        ax.plot(self.vX, self.vY, self.vZ)
+        plt.show()
 sim = SimFlight(r"C:\Users\siddh\Projects\Synthetic Vision System\Flights\sim\f1.txt")
-print(len(sim.altitude))
-
-plt.plot(sim.totalTime, sim.altitude)
-plt.show()
-
-print(sim.totalTime)
-
+sim.positionPlot()
+sim.velocityPlot()
