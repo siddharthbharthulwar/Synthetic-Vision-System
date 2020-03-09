@@ -116,7 +116,7 @@ public class SimData {
 		
 		
 		SimData sim = new SimData("res/sensors.txt");
-		System.out.println(sim.vX.get(0));
+		System.out.println(sim.vX);
 		
 	}
 
