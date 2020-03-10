@@ -1,77 +1,80 @@
 import numpy as np
-from numpy.linalg import inv
 import matplotlib.pyplot as plt
 
-x_observations = np.array([4000, 4260, 4550, 4860, 5110])
-v_observations = np.array([280, 282, 285, 286, 290])
+def kalman_xy(x, P, measurement, R,
+              motion = np.matrix('0. 0. 0. 0.').T,
+              Q = np.matrix(np.eye(4))):
+    """
+    Parameters:    
+    x: initial state 4-tuple of location and velocity: (x0, x1, x0_dot, x1_dot)
+    P: initial uncertainty convariance matrix
+    measurement: observed position
+    R: measurement noise 
+    motion: external motion added to state vector x
+    Q: motion noise (same shape as P)
+    """
+    return kalman(x, P, measurement, R, motion, Q,
+                  F = np.matrix('''
+                      1. 0. 1. 0.;
+                      0. 1. 0. 1.;
+                      0. 0. 1. 0.;
+                      0. 0. 0. 1.
+                      '''),
+                  H = np.matrix('''
+                      1. 0. 0. 0.;
+                      0. 1. 0. 0.'''))
 
-z = np.c_[x_observations, v_observations]
+def kalman(x, P, measurement, R, motion, Q, F, H):
+    '''
+    Parameters:
+    x: initial state
+    P: initial uncertainty convariance matrix
+    measurement: observed position (same shape as H*x)
+    R: measurement noise (same shape as H)
+    motion: external motion added to state vector x
+    Q: motion noise (same shape as P)
+    F: next state function: x_prime = F*x
+    H: measurement function: position = H*x
 
-# Initial Conditions
-a = 2  # Acceleration
-v = 280
-t = 1  # Difference in time
+    Return: the updated and predicted new values for (x, P)
 
-# Process / Estimation Errors
-error_est_x = 20
-error_est_v = 5
+    See also http://en.wikipedia.org/wiki/Kalman_filter
 
-# Observation Errors
-error_obs_x = 25  # Uncertainty in the measurement
-error_obs_v = 6
+    This version of kalman can be applied to many different situations by
+    appropriately defining F and H 
+    '''
+    # UPDATE x, P based on measurement m    
+    # distance between measured and current position-belief
+    y = np.matrix(measurement).T - H * x
+    S = H * P * H.T + R  # residual convariance
+    K = P * H.T * S.I    # Kalman gain
+    x = x + K*y
+    I = np.matrix(np.eye(F.shape[0])) # identity matrix
+    P = (I - K*H)*P
 
-def prediction2d(x, v, t, a):
-    A = np.array([[1, t],
-                  [0, 1]])
-    X = np.array([[x],
-                  [v]])
-    B = np.array([[0.5 * t ** 2],
-                  [t]])
-    X_prime = A.dot(X) + B.dot(a)
-    return X_prime
+    # PREDICT x, P based on motion
+    x = F*x + motion
+    P = F*P*F.T + Q
 
+    return x, P
 
-def covariance2d(sigma1, sigma2):
-    cov1_2 = sigma1 * sigma2
-    cov2_1 = sigma2 * sigma1
-    cov_matrix = np.array([[sigma1 ** 2, cov1_2],
-                           [cov2_1, sigma2 ** 2]])
-    return np.diag(np.diag(cov_matrix))
+def demo_kalman_xy():
+    x = np.matrix('0. 0. 0. 0.').T 
+    P = np.matrix(np.eye(4))*1000 # initial uncertainty
 
+    N = 20
+    true_x = np.linspace(0.0, 10.0, N)
+    true_y = true_x**2
+    observed_x = true_x + 0.05*np.random.random(N)*true_x
+    observed_y = true_y + 0.05*np.random.random(N)*true_y
+    plt.plot(observed_x, observed_y, 'ro')
+    result = []
+    R = 0.01**2
+    for meas in zip(observed_x, observed_y):
+        x, P = kalman_xy(x, P, meas, R)
+        result.append((x[:2]).tolist())
+    kalman_x, kalman_y = zip(*result)
+    plt.plot(kalman_x, kalman_y, 'g-')
+    plt.show()
 
-# Initial Estimation Covariance Matrix
-P = covariance2d(error_est_x, error_est_v)
-A = np.array([[1, t],
-              [0, 1]])
-
-# Initial State Matrix
-X = np.array([[z[0][0]],
-              [v]])
-n = len(z[0])
-
-for data in z[1:]:
-    X = prediction2d(X[0][0], X[1][0], t, a)
-    # To simplify the problem, professor
-    # set off-diagonal terms to 0.
-    P = np.diag(np.diag(A.dot(P).dot(A.T)))
-
-    # Calculating the Kalman Gain
-    H = np.identity(n)
-    R = covariance2d(error_obs_x, error_obs_v)
-    S = H.dot(P).dot(H.T) + R
-    K = P.dot(H).dot(inv(S))
-
-    # Reshape the new data into the measurement space.
-    Y = H.dot(data).reshape(n, -1)
-
-    # Update the State Matrix
-    # Combination of the predicted state, measured values, covariance matrix and Kalman Gain
-    X = X + K.dot(Y - H.dot(X))
-
-    # Update Process Covariance Matrix
-    P = (np.identity(len(K)) - K.dot(H)).dot(P)
-
-plt.plot()
-
-
-print("Kalman Filter State Matrix:\n", X)
+demo_kalman_xy()

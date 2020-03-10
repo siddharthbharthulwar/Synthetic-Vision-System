@@ -84,6 +84,6 @@ class SimFlight:
         ax = fig.gca(projection = '3d')
         ax.plot(self.vX, self.vY, self.vZ)
         plt.show()
-sim = SimFlight(r"C:\Users\siddh\Projects\Synthetic Vision System\Flights\sim\f1.txt")
+sim = SimFlight(r"C:\Users\siddh\Projects\Synthetic Vision System\Flights\sim\f2.txt")
 sim.positionPlot()
 sim.velocityPlot()
