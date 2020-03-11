@@ -22,6 +22,7 @@ The second principal iteration of this project is currently private but will be 
  - Record corners in proper index with new kernel-based approach
  - Kalman Filter for SimData and real world data
  - Real World Simulated Testing with Kalman Filter
+ - Predict Anomalies with Autoencoder
 
  
 
