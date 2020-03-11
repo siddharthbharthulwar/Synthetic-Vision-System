@@ -49,6 +49,10 @@ public class Demo {
         DisplayManager.createDisplay(700, 700);
         Loader loader = new Loader();
         TextMaster.init(loader);
+        
+        FontType font = new FontType(loader.loadTexture("segoeUI"), new File("res/segoeUI.fnt"));
+        GUIText text = new GUIText("Synthetic Vision System", 1, font, new Vector2f(0, 0), 0.5f, true);
+        text.setColour(1, 1, 1);
 
         List<Building> buildings1 = FileUtil.loadBuildingsFromJSON("res/data.json");
         List<Building> buildings2 = FileUtil.loadBuildingsFromJSON("res/data2.json");
@@ -345,7 +349,8 @@ public class Demo {
         
         
         List<GuiTexture> guis = new ArrayList<GuiTexture>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("2-2"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.05f));
+       // GuiTexture gui = new GuiTexture(loader.loadTexture("2-2"), new Vector2f(0.75f, 0.75f), new Vector2f(0.1f, 0.05f));
+        GuiTexture gui = new GuiTexture(loader.loadTexture("hud"), new Vector2f(0.194f, -0.5f), new Vector2f(1, 1));
         guis.add(gui);
         
         
@@ -359,9 +364,9 @@ public class Demo {
         MasterRenderer renderer = new MasterRenderer();
         System.out.println("SETUP");
         while(!Display.isCloseRequested()){
-        	camera.move();
-        	//camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
-            System.out.println(mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
+        	//camera.move();
+        	camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
+            //System.out.println(mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             renderer.processTerrain(terrain);
 
             for (Entity e: entities) {
