@@ -13,6 +13,7 @@ import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import models.TexturedModel;
+import paths.PathModel;
 import shaders.StaticShader;
 import shaders.TerrainShader;
 import terrain.Terrain;
@@ -31,8 +32,11 @@ public class MasterRenderer {
 	private TerrainRenderer terrainRenderer;
 	private TerrainShader terrainShader = new TerrainShader();
 	
+	private LineRenderer lineRenderer;
+	
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
+	private List<PathModel> paths = new ArrayList<PathModel>();
 	
 	
 	public MasterRenderer() {
@@ -43,6 +47,7 @@ public class MasterRenderer {
 		
 		renderer = new EntityRenderer(shader, projectionMatrix);
 		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+		lineRenderer = new LineRenderer(terrainShader, projectionMatrix);
 	}
 	
 	public void render(Light sun, Camera camera) {
