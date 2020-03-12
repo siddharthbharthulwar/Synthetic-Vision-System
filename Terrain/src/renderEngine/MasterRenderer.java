@@ -35,6 +35,7 @@ public class MasterRenderer {
 	private LineRenderer lineRenderer;
 	
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
+	private Map<TexturedModel, List<Entity>> lineEntities = new HashMap<TexturedModel, List<Entity>>();
 	private List<Terrain> terrains = new ArrayList<Terrain>();
 	private List<PathModel> paths = new ArrayList<PathModel>();
 	
@@ -47,7 +48,7 @@ public class MasterRenderer {
 		
 		renderer = new EntityRenderer(shader, projectionMatrix);
 		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
-		lineRenderer = new LineRenderer(terrainShader, projectionMatrix);
+		lineRenderer = new LineRenderer(shader, projectionMatrix);
 	}
 	
 	public void render(Light sun, Camera camera) {
@@ -57,6 +58,7 @@ public class MasterRenderer {
 		shader.loadLight(sun);
 		shader.loadViewMatrix(camera);
 		renderer.render(entities);
+		lineRenderer.render(lineEntities);
 		shader.stop();
 		terrainShader.start();
 		terrainShader.loadLight(sun);
@@ -81,6 +83,22 @@ public class MasterRenderer {
 			List<Entity> newBatch = new ArrayList<Entity>();
 			newBatch.add(entity);
 			entities.put(entityModel, newBatch);
+		}
+	}
+	
+	public void processLine(Entity entity) {
+		
+		TexturedModel entityModel = entity.getModel();
+		List<Entity> batch = lineEntities.get(entityModel);
+		
+		if (batch != null) {
+			
+			batch.add(entity);
+		}
+		else {
+			List<Entity> newBatch = new ArrayList<Entity>();
+			newBatch.add(entity);
+			lineEntities.put(entityModel, newBatch);
 		}
 	}
 	

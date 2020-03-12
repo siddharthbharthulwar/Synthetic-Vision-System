@@ -2,6 +2,7 @@ package engineTester;
  
 import models.RawModel;
 import models.TexturedModel;
+import paths.Path;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
 import renderEngine.EntityRenderer;
+import renderEngine.LineRenderer;
 import shaders.StaticShader;
 import terrain.Terrain;
 import textures.ModelTexture;
@@ -129,9 +131,26 @@ public class Demo {
         	
         }
         
+        List<Vector3f> pathPoints = new ArrayList<Vector3f>();
+        pathPoints.add(new Vector3f(0, 0, 0));
+        pathPoints.add(new Vector3f(1000, 0, 0));
+        pathPoints.add(new Vector3f(1000, 0, 1000));
+        pathPoints.add(new Vector3f(0, 0, 1000));
         
         
+        //@DISPLACEMENT VECTORS
+        float dispX = 70000;
+        float dispY = -850;
+        float dispZ = -186500;
         
+        
+        Path path = new Path(pathPoints);
+        
+        RawModel pathModel = loader.loadToVAO(path.vertices, textureCoords, path.normals, path.indices);
+        TexturedModel staticPathModel = new TexturedModel(pathModel, new ModelTexture(loader.loadTexture("white")));
+      	Entity pathM = new Entity(staticPathModel, new Vector3f(dispX, -100, dispZ), 0, 0, 0, 1);        
+        
+      	
         
         float[] guidingBoxNormals = {
         		
@@ -246,13 +265,6 @@ public class Demo {
 
         
         
-        
-        //@DISPLACEMENT VECTORS
-        float dispX = 70000;
-        float dispY = -850;
-        float dispZ = -186500;
-        
-        
         RawModel model = loader.loadToVAO(runwayw.baseVertices, textureCoords, guidingBoxNormals, runwayw.baseIndices);
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("black")));
       	Entity runway = new Entity(staticModel, new Vector3f(dispX, -100, dispZ), 0, 0, 0, 1);
@@ -360,17 +372,27 @@ public class Demo {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
         Movement mv = new Movement(runwayw, boxes, 8);
+        
+        List<Entity> lineEntities = new ArrayList<Entity>();
+        
+        lineEntities.add(pathM);
+        
      
         MasterRenderer renderer = new MasterRenderer();
         System.out.println("SETUP");
         while(!Display.isCloseRequested()){
-        	//camera.move();
-        	camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
+        	camera.move();
+        	//camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             //System.out.println(mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             renderer.processTerrain(terrain);
 
             for (Entity e: entities) {
             	renderer.processEntity(e);
+            }
+            
+            for (Entity e: lineEntities) {
+            	
+            	renderer.processLine(e);
             }
          
             renderer.render(light, camera);
