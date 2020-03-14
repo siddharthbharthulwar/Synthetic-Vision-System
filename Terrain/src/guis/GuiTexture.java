@@ -22,6 +22,13 @@ public class GuiTexture {
 		return scale;
 	}
 	
+	public void move(Vector2f vector) {
+		
+		this.position.x += vector.getX();
+		this.position.y -= vector.getY();
+		
+	}
+	
 	
 	
 }

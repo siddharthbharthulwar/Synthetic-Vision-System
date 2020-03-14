@@ -132,26 +132,12 @@ public class Demo {
         }
         
         List<Vector3f> pathPoints = new ArrayList<Vector3f>();
-        pathPoints.add(new Vector3f(0, 0, 0));
-        pathPoints.add(new Vector3f(1000, 0, 0));
-        pathPoints.add(new Vector3f(1000, 0, 1000));
-        pathPoints.add(new Vector3f(0, 0, 1000));
-        
         
         //@DISPLACEMENT VECTORS
         float dispX = 70000;
         float dispY = -850;
         float dispZ = -186500;
-        
-        
-        Path path = new Path(pathPoints);
-        
-        RawModel pathModel = loader.loadToVAO(path.vertices, textureCoords, path.normals, path.indices);
-        TexturedModel staticPathModel = new TexturedModel(pathModel, new ModelTexture(loader.loadTexture("white")));
-      	Entity pathM = new Entity(staticPathModel, new Vector3f(dispX, -100, dispZ), 0, 0, 0, 1);        
-        
-      	
-        
+       
         float[] guidingBoxNormals = {
         		
         	1, 1, 1,
@@ -186,6 +172,7 @@ public class Demo {
         for (guidingBox guide: boxes.boxes) {
         	
         	RawModel model = loader.loadToVAO(guide.generateVertices(), textureCoords, guidingBoxNormals, guide.generateIndices());
+        	pathPoints.add(guide.getPosition());
         	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
         	staticModels.add(staticModel);
         }
@@ -375,6 +362,12 @@ public class Demo {
         
         List<Entity> lineEntities = new ArrayList<Entity>();
         
+        Path path = new Path(pathPoints);
+        
+        RawModel pathModel = loader.loadToVAO(path.vertices, textureCoords, path.normals, path.indices);
+        TexturedModel staticPathModel = new TexturedModel(pathModel, new ModelTexture(loader.loadTexture("red")));
+      	Entity pathM = new Entity(staticPathModel, new Vector3f(dispX, -100, dispZ), 0, 0, 0, 1);     
+        
         lineEntities.add(pathM);
         
      
@@ -397,6 +390,13 @@ public class Demo {
          
             renderer.render(light, camera);
             guiRenderer.render(guis);
+            /*
+            for (GuiTexture g: guis) {
+            	
+            	g.move(new Vector2f(0, 0.001f));
+            	
+            }
+            */
             DisplayManager.updateDisplay();
             
         }
