@@ -38,7 +38,7 @@ public class Path {
 		float[] ret = new float[floatVertices.size()];
 		
 		System.out.println(floatVertices);
-		for (int i = 0; i < floatVertices.size(); i++) {
+		for (int i = 0; i < floatVertices.size() - 1; i++) {
 			
 			ret[i] = floatVertices.get(i);
 		}
@@ -63,21 +63,5 @@ public class Path {
 		}
 		this.indices = indices;
 	}
-	
-	
-	/*
-	public static void main(String[] args) {
-		
-		List<Vector3f> points = new ArrayList<Vector3f>();
-		
-		points.add(new Vector3f(0, 0, 0));
-		//points.add(new Vector3f(50, 50, 50));
-		points.add(new Vector3f(50, 0, 100));
-		
-		Path path = new Path(points);
-		
-	}
-	
-	*/
 	
 }

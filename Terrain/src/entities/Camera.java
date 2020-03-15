@@ -9,7 +9,7 @@ public class Camera {
     private Vector3f direction;
     private float pitch;
     private float yaw;
-    private float roll = 20;
+    private float roll = 0;
     private int speed;
     private Vector3f finalPosition;
     
@@ -61,10 +61,10 @@ public class Camera {
         }
         
         if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
-        	this.yaw -= 0.2f;
+        	this.roll -= 0.2f;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
-        	this.yaw += 0.2f;
+        	this.roll += 0.2f;
         }
         
         

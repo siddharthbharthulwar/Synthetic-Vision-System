@@ -17,6 +17,7 @@ import org.lwjgl.util.vector.Vector3f;
 import data.Building;
 import data.normPoint;
 import renderEngine.DisplayManager;
+
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
@@ -119,7 +120,7 @@ public class Demo {
         	      	
         	if (true) {
         		RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
-            	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
+            	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("red")));
             	ModelTexture texture = staticModel.getTexture();
                 texture.setShineDamper(10000);
                 texture.setReflectivity(0.0f);
