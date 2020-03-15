@@ -12,6 +12,36 @@ public class guidingBox {
 	private float width;
 	private float thickness;
 	
+	public final float[] normals = {
+			
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1,
+        	1, 1, 1	
+	};
+	
 	public guidingBox(float s, Vector3f pos, float w, float th) {
 		this.size = s;
 		this.position = pos;

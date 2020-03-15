@@ -33,7 +33,7 @@ public class Building {
 		return height;
 	}
 	public void setHeight(int height) {
-		this.height = (3 * height) + 15;
+		this.height = height;
 	}
 	public List<normPoint> getCorners() {
 		return corners;
@@ -88,25 +88,28 @@ public class Building {
 		List<Vector3f> vec = new ArrayList<Vector3f>();
 		normPoint init = this.corners.get(0);
 		
+		
+		float realHeight = 3 * this.height;
+		
 		//SIDE FACES
 		vec.add(new Vector3f(init.getX(), 0, init.getY()));
-		vec.add(new Vector3f(init.getY(), this.height, init.getY()));
+		vec.add(new Vector3f(init.getY(), realHeight, init.getY()));
 		
 		for (int i = 1; i < this.corners.size(); i++) {
 			normPoint corner = this.corners.get(i);
 			vec.add(new Vector3f(corner.getX(), 0, corner.getY()));
-			vec.add(new Vector3f(corner.getX(), this.height, corner.getY()));
+			vec.add(new Vector3f(corner.getX(), realHeight, corner.getY()));
 			
 			vec.add(new Vector3f(corner.getX(), 0, corner.getY()));
-			vec.add(new Vector3f(corner.getX(), this.height, corner.getY()));
+			vec.add(new Vector3f(corner.getX(), realHeight, corner.getY()));
 		}
 		
 		vec.add(new Vector3f(init.getX(), 0, init.getY()));
-		vec.add(new Vector3f(init.getY(), this.height, init.getY()));
+		vec.add(new Vector3f(init.getY(), realHeight, init.getY()));
 		//END SIDE FACES
 		
 		for (normPoint point: this.corners) {
-			vec.add(new Vector3f(point.getX(), this.height, point.getY()));
+			vec.add(new Vector3f(point.getX(), realHeight, point.getY()));
 		}
 		
 		return vec;

@@ -15,6 +15,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import data.Building;
+import data.BuildingEnvironment;
 import data.normPoint;
 import renderEngine.DisplayManager;
 
@@ -49,14 +50,16 @@ public class Demo {
  
     public static void main(String[] args) throws IOException {
  
-        DisplayManager.createDisplay(700, 700);
+        DisplayManager.createDisplay(1000, 1000);
         Loader loader = new Loader();
         TextMaster.init(loader);
         
+        
         FontType font = new FontType(loader.loadTexture("segoeUI"), new File("res/segoeUI.fnt"));
         GUIText text = new GUIText("Synthetic Vision System", 1, font, new Vector2f(0, 0), 0.5f, true);
-        text.setColour(1, 1, 1);
+        text.setColour(0, 1, 0);
 
+        TextMaster.loadText(text);
         List<Building> buildings1 = FileUtil.loadBuildingsFromJSON("res/data.json");
         List<Building> buildings2 = FileUtil.loadBuildingsFromJSON("res/data2.json");
         List<Building> buildings3 = FileUtil.loadBuildingsFromJSON("res/data3.json");
@@ -80,7 +83,7 @@ public class Demo {
         
         List<Building> buildingList3 = null;
 
-        for(Object obj:buildings1) {
+        for(Object obj:buildings3) {
         	 
         	 buildingList3 = (ArrayList<Building>) obj;
       	 
@@ -88,50 +91,57 @@ public class Demo {
         
         List<Building> buildingList4 = null;
         
-        for (Object obj: buildings2) {
+        for (Object obj: buildings4) {
         	
         	buildingList4 = (ArrayList<Building>) obj;
         }
         
+    //    buildingList1.addAll(buildingList2);
+      //  buildingList1.addAll(buildingList3);
+        //buildingList1.addAll(buildingList4);
+        BuildingEnvironment buildingEnvironment = new BuildingEnvironment(buildingList1, 15);
+        
+        float[] textureCoords = {
+        		1, 1	
+		};
+        
+        List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
+        List<Entity> entities = new ArrayList<Entity>();
+   
+        for (Building building: buildingEnvironment.highRiskBuildings) {
+        	
+        	System.out.println(building.getHeight());
+        	building.setHeight(building.getHeight());
+        	building.vertices = Building.vecToArray(building.generateVertices());
+        	building.indices = Building.intToArray(building.generateIndices());
+        	building.normals = Building.vecToArray(building.generateVertexNormals());
+        	
+        	RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
+        	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("red")));
+        	staticModels.add(staticModel);
+        }
+        
+        for (Building building: buildingEnvironment.lowRiskBuildings) {
+        	
+        	
+        	System.out.println(building.getHeight());
+        	building.setHeight(building.getHeight());
+        	building.vertices = Building.vecToArray(building.generateVertices());
+        	building.indices = Building.intToArray(building.generateIndices());
+        	building.normals = Building.vecToArray(building.generateVertexNormals());
+        	
+        	RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
+        	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
+        	staticModels.add(staticModel);
+        }
+
         
         @SuppressWarnings("rawtypes")
         RunwayV2 runwayw = new RunwayV2(new Vector2f(2600, 0), new Vector2f(2680, 0), 5000, -800, 22, 100, 4, 150, 4, 450, 90, 20, false);
         @SuppressWarnings("unchecked")
         
 		glideMap boxes = new glideMap(runwayw, 50, 2400, 3, 175, 50, 15);
-        
-        float[] textureCoords = {
-        		1, 1	
-		};
-   
-        
-        List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
-        List<Entity> entities = new ArrayList<Entity>();
-        
-      
-        
-        for (Building building: buildingList1) {
-        	
-        	building.setHeight(building.getHeight());
-        	building.vertices = Building.vecToArray(building.generateVertices());
-        	building.indices = Building.intToArray(building.generateIndices());
-        	building.normals = Building.vecToArray(building.generateVertexNormals());
-        	
-        	      	
-        	if (true) {
-        		RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
-            	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("red")));
-            	ModelTexture texture = staticModel.getTexture();
-                texture.setShineDamper(10000);
-                texture.setReflectivity(0.0f);
-                
-                staticModels.add(staticModel);
-        	}
-        	
-            
-        	
-        }
-        
+
         List<Vector3f> pathPoints = new ArrayList<Vector3f>();
         
         //@DISPLACEMENT VECTORS
@@ -178,78 +188,6 @@ public class Demo {
         	staticModels.add(staticModel);
         }
         
-        for (Building building: buildingList2) {
-        	
-        	building.setHeight(building.getHeight());
-        	building.vertices = Building.vecToArray(building.generateVertices());
-        	building.indices = Building.intToArray(building.generateIndices());
-        	building.normals = Building.vecToArray(building.generateVertexNormals());
-        	
-        	
-        	
-        	
-        	if (true) {
-        		RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
-            	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
-            	ModelTexture texture = staticModel.getTexture();
-                texture.setShineDamper(10000);
-                texture.setReflectivity(0.0f);
-                
-                staticModels.add(staticModel);
-        	}
-        	
-            
-        	
-        }
-        
-        for (Building building: buildingList3) {
-        	
-        	building.setHeight(building.getHeight());
-        	building.vertices = Building.vecToArray(building.generateVertices());
-        	building.indices = Building.intToArray(building.generateIndices());
-        	building.normals = Building.vecToArray(building.generateVertexNormals());
-        	
-        	
-        	
-        	
-        	if (true) {
-        		RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
-            	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
-            	ModelTexture texture = staticModel.getTexture();
-                texture.setShineDamper(10000);
-                texture.setReflectivity(0.0f);
-                
-                staticModels.add(staticModel);
-        	}
-        	
-            
-        	
-        }
-        
-        
-        for (Building building: buildingList4) {
-        	
-        	building.setHeight(building.getHeight());
-        	building.vertices = Building.vecToArray(building.generateVertices());
-        	building.indices = Building.intToArray(building.generateIndices());
-        	building.normals = Building.vecToArray(building.generateVertexNormals());
-        	
-        	
-        	
-        	
-        	if (true) {
-        		RawModel model = loader.loadToVAO(building.vertices, textureCoords, building.normals, building.indices);
-            	TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
-            	ModelTexture texture = staticModel.getTexture();
-                texture.setShineDamper(10000);
-                texture.setReflectivity(0.0f);
-                
-                staticModels.add(staticModel);
-        	}
-        	
-            
-        	
-        }
 
         
         
@@ -279,7 +217,7 @@ public class Demo {
         	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -10, -175000), 0, 0, 0, 1));
 
         }
-        
+        /*
         for (int i = buildingList1.size() + boxes.boxes.size(); i < buildingList1.size() + boxes.boxes.size() + buildingList2.size(); i++) {
         	entities.add(new Entity(staticModels.get(i), new Vector3f(70000, -900, -186000), 0, 60, 0, 1));
 
@@ -289,7 +227,7 @@ public class Demo {
         	entities.add(new Entity(staticModels.get(i), new Vector3f(74000, -900, -186000), 0, 60, 0, 1));
 
         }
-        
+        */
         List<Vector3f> treeList = new ArrayList<Vector3f>();
         treeList.add(new Vector3f(2000, -70, 0));
         treeList.add(new Vector3f(2100, -70, 115));
@@ -335,8 +273,8 @@ public class Demo {
         
         
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("water"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("water2"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("white"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("black"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("green"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("white"));
         
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
@@ -379,7 +317,6 @@ public class Demo {
         	//camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             //System.out.println(mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             renderer.processTerrain(terrain);
-
             for (Entity e: entities) {
             	renderer.processEntity(e);
             }
@@ -391,17 +328,12 @@ public class Demo {
          
             renderer.render(light, camera);
             guiRenderer.render(guis);
-            /*
-            for (GuiTexture g: guis) {
-            	
-            	g.move(new Vector2f(0, 0.001f));
-            	
-            }
-            */
+            text.setTextString(Float.toString(camera.getRoll()));
+            TextMaster.render();
+
             DisplayManager.updateDisplay();
             
         }
-        
         //***********CLEAN UP *************
         
         TextMaster.cleanUp();
