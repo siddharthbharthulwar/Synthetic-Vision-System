@@ -3,7 +3,7 @@ package entities;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import guidance.glideMap;
+import guidance.GlideMap;
 
 public class Movement {
 
@@ -17,7 +17,7 @@ public class Movement {
 		return (one + two) / 2;
 	}
 	
-	public Movement(RunwayV2 runway, glideMap gsMap, int indexDown) {
+	public Movement(RunwayV2 runway, GlideMap gsMap, int indexDown) {
 		
 		this.runway = runway;
 		Vector2f anchor3 = runway.anchor3;

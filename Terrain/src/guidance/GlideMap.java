@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import entities.RunwayV2;
 
-public class glideMap {
+public class GlideMap {
 
 	public List<guidingBox> boxes;
 	private RunwayV2 runway;
@@ -21,7 +21,7 @@ public class glideMap {
 	private float thickness;
 	private float size;
 	
-	public glideMap(RunwayV2 runway, int number, float distance, float angle, float size, float width, float thickness) {
+	public GlideMap(RunwayV2 runway, int number, float distance, float angle, float size, float width, float thickness) {
 		
 		this.runway = runway;
 		this.number = number;

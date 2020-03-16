@@ -38,7 +38,7 @@ import entities.RunwayV2;
 import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
 import fontRendering.TextMaster;
-import guidance.glideMap;
+import guidance.GlideMap;
 import guidance.guidingBox;
 import guis.GuiRenderer;
 import guis.GuiTexture;
@@ -55,9 +55,19 @@ public class Demo {
         TextMaster.init(loader);
         
         
+        //INITIALIZING ALL TEXT FIELDS HERE:::
+        
         FontType font = new FontType(loader.loadTexture("segoeUI"), new File("res/segoeUI.fnt"));
         GUIText text = new GUIText("Synthetic Vision System", 1, font, new Vector2f(0, 0), 0.5f, true);
         text.setColour(0, 1, 0);
+        
+        GUIText speed = new GUIText("Speed", 1, font, new Vector2f(0.5f, 0.5f), 0.5f, true);
+        speed.setColour(0, 1, 0);
+        
+        GUIText altitude = new GUIText("Altitude", 1, font, new Vector2f(0.25f, 0.5f), 0.5f, true);
+        altitude.setColour(0, 1, 0);
+        
+        //END INITIALIZING ALL TEXT FIELDS ::
 
         TextMaster.loadText(text);
         List<Building> buildings1 = FileUtil.loadBuildingsFromJSON("res/data.json");
@@ -140,7 +150,7 @@ public class Demo {
         RunwayV2 runwayw = new RunwayV2(new Vector2f(2600, 0), new Vector2f(2680, 0), 5000, -800, 22, 100, 4, 150, 4, 450, 90, 20, false);
         @SuppressWarnings("unchecked")
         
-		glideMap boxes = new glideMap(runwayw, 50, 2400, 3, 175, 50, 15);
+		GlideMap boxes = new GlideMap(runwayw, 50, 2400, 3, 175, 50, 15);
 
         List<Vector3f> pathPoints = new ArrayList<Vector3f>();
         
@@ -328,7 +338,13 @@ public class Demo {
          
             renderer.render(light, camera);
             guiRenderer.render(guis);
-            text.setTextString(Float.toString(camera.getRoll()));
+            
+            
+            text.setTextString("Stall Probability: " + Float.toString(camera.getRoll()));
+            speed.setTextString(Float.toString(camera.getPosition().getZ()));
+            altitude.setTextString(Float.toString(camera.getPosition().getY() + 1000));
+            
+            
             TextMaster.render();
 
             DisplayManager.updateDisplay();
