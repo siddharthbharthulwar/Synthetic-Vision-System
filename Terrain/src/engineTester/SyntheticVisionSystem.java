@@ -3,6 +3,7 @@ package engineTester;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.Display;
@@ -31,6 +32,7 @@ import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import terrain.Terrain;
 import util.FileUtil;
+import java.math.*;
 
 import textures.ModelTexture;
 import textures.TerrainTexture;
@@ -57,6 +59,8 @@ public class SyntheticVisionSystem {
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 	};
+	
+	
 	private GlideMap glideMap;
 	private List<Vector3f> intendedPath = new ArrayList<Vector3f>(); //@todo: THIS SHOULD BE A CLASS
 	private Path path;
@@ -66,15 +70,11 @@ public class SyntheticVisionSystem {
 	
 	//RENDERERS:
 	
-	
 	private GuiRenderer guiRenderer;
 	private Terrain terrain;
 	private Movement movement;
 	private MasterRenderer renderer;
 	private Loader loader;
-	
-	
-	
 	
 	@SuppressWarnings("unchecked")
 	public SyntheticVisionSystem(int displayWidth, int displayHeight) throws IOException {
@@ -89,10 +89,10 @@ public class SyntheticVisionSystem {
 		//FONT AND TEXT INITIALIZATION
 		FontType font = new FontType(loader.loadTexture("segoeUI"), new File("res/segoeUI.fnt"));
 		
-		this.altitude = new GUIText("Altitude", 1, font, new Vector2f(0, 0), 0.5f, true);
+		this.altitude = new GUIText("Altitude", 1, font, new Vector2f(0.25f, 0.5f), 0.5f, true);
 		this.altitude.setColour(0, 1, 0);
 		
-		this.airspeed = new GUIText("Airspeed", 1, font, new Vector2f(0, 0), 0.5f, true);
+		this.airspeed = new GUIText("Airspeed", 1, font, new Vector2f(0.5f, 0.5f), 0.5f, true);
 		this.airspeed.setColour(0, 1, 0);
 		
 		//END FONT AND TEXT INITIALIZATION
@@ -110,7 +110,6 @@ public class SyntheticVisionSystem {
 		this.buildingEnvironment = new BuildingEnvironment(buildingList1, 15);
 		
 		List<TexturedModel> staticModels = new ArrayList<TexturedModel>();
-		List<Entity> entities = new ArrayList<Entity>();
 		
 		for (Building building: this.buildingEnvironment.highRiskBuildings) {
 			
@@ -123,7 +122,8 @@ public class SyntheticVisionSystem {
 					building.normals, building.indices);
 			
 			TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("red")));
-			this.staticModels.add(staticModel);
+			Entity e = new Entity(staticModel, new Vector3f(10000, -850, -70000), 0, 0, 0, 1);
+			this.entities.add(e);
 			
 		}
 		
@@ -138,7 +138,8 @@ public class SyntheticVisionSystem {
 					building.normals, building.indices);
 			
 			TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white")));
-			this.staticModels.add(staticModel);
+			Entity e = new Entity(staticModel, new Vector3f(10000, -850, -70000), 0, 0, 0, 1);
+			this.entities.add(e);
 			
 		}
 		
@@ -167,14 +168,14 @@ public class SyntheticVisionSystem {
 		//END RUNWAY AND GLIDESLOPE INITIALIZATION
 		
 		//ENTITY INDEXING AND AGGREGATION
-				
+		/*
 		for (int i = 0; i < 1; i++) {
 			this.entities.add(new Entity(this.staticModels.get(i), 
 					new Vector3f(70000, -10, -175000), 
 					0, 0, 0, 1));
 			
 		}
-		
+		*/
 		Vector3f boxLocation = this.glideMap.boxes.get(8).getPosition();
 		this.camera = new Camera(10000, boxLocation, runway.getTarget());
 		this.light = new Light(new Vector3f(0, 1000, 0), 
@@ -195,6 +196,9 @@ public class SyntheticVisionSystem {
         this.terrain = new Terrain(0, -1, loader, texturePack, 
         		blendMap, "heightmap");
         
+        GuiTexture gui = new GuiTexture(loader.loadTexture("hud"), new Vector2f(0.194f, -0.5f), new Vector2f(1, 1));
+        this.guis.add(gui);
+        
         //END TERRAIN TEXTURES
         
         //ENTITY AGGREGATION V2
@@ -206,11 +210,22 @@ public class SyntheticVisionSystem {
 		
 		this.renderer = new MasterRenderer();
 		this.guiRenderer = new GuiRenderer(this.loader);
+		int speed = 150;
 		
 		while (!Display.isCloseRequested()) {
 			
 			this.camera.move();
-			System.out.println(this.renderer.getClass());
+			int upper = 1;
+			int lower = -1;
+			if (speed <= 140) {
+				speed += 2;
+			}
+			else if (speed >= 160) {
+				speed -= 2;
+			}
+			else {
+				speed += (int) (Math.random() * (upper - lower)) + lower;
+			}
 			this.renderer.processTerrain(this.terrain);
 			
 			for (Entity e: this.entities) {
@@ -220,11 +235,9 @@ public class SyntheticVisionSystem {
 			
 			this.renderer.render(this.light, this.camera);
 			this.guiRenderer.render(this.guis);
-			
-			this.airspeed.setTextString(Float.toString(
-					this.camera.getPitch()));
-			this.altitude.setTextString(Float.toString(
-					this.camera.getPosition().getZ()));
+						
+			this.airspeed.setTextString(Integer.toString(speed));
+			this.altitude.setTextString(Integer.toString((int) (this.camera.getPosition().getY() + 1000)));
 			
 			TextMaster.render();
 			DisplayManager.updateDisplay();
