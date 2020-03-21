@@ -66,6 +66,12 @@ public class Camera {
         if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
         	this.roll += 0.2f;
         }
+        if (Keyboard.isKeyDown(Keyboard.KEY_X)) {
+        	this.yaw -= 0.2f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_V)) {
+        	this.yaw += 0.2f;
+        }
         
         
         

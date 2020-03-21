@@ -50,7 +50,7 @@ public class Demo {
  
     public static void main(String[] args) throws IOException {
  
-        DisplayManager.createDisplay(1000, 1000);
+        DisplayManager.createDisplay(1920, 1080);
         Loader loader = new Loader();
         TextMaster.init(loader);
         
@@ -323,8 +323,8 @@ public class Demo {
         MasterRenderer renderer = new MasterRenderer();
         System.out.println("SETUP");
         while(!Display.isCloseRequested()){
-        	camera.move();
-        	//camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
+        	//camera.move();
+        	camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             //System.out.println(mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             renderer.processTerrain(terrain);
             for (Entity e: entities) {

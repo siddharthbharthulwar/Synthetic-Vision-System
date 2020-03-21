@@ -160,28 +160,19 @@ public class SyntheticVisionSystem {
 			TexturedModel staticModel = new TexturedModel(model, 
 					new ModelTexture(loader.loadTexture("white")));
 			
-			this.intendedPath.add(guide.getPosition());
+			//this.intendedPath.add(guide.getPosition());
 			this.staticModels.add(staticModel);
 					
 		}
 		
 		//END RUNWAY AND GLIDESLOPE INITIALIZATION
 		
-		//ENTITY INDEXING AND AGGREGATION
-		/*
-		for (int i = 0; i < 1; i++) {
-			this.entities.add(new Entity(this.staticModels.get(i), 
-					new Vector3f(70000, -10, -175000), 
-					0, 0, 0, 1));
-			
-		}
-		*/
+
 		Vector3f boxLocation = this.glideMap.boxes.get(8).getPosition();
 		this.camera = new Camera(10000, boxLocation, runway.getTarget());
 		this.light = new Light(new Vector3f(0, 1000, 0), 
 				new Vector3f(1, 1, 1), 11100);
 		
-		//END ENTITY INDEXING AND AGGREGATION
 		
 		//TERRAIN TEXTURES
 		
@@ -203,6 +194,18 @@ public class SyntheticVisionSystem {
         
         //ENTITY AGGREGATION V2
         
+        this.intendedPath.add(new Vector3f(10000, 1000, -10000));
+        this.intendedPath.add(new Vector3f(12000, 1000, -10000));
+        this.intendedPath.add(new Vector3f(14000, 1000, -100000));
+        
+        this.path = new Path(this.intendedPath);
+        System.out.println("PATH: " + this.path.points);
+        System.out.println(this.path.points.size());
+        RawModel pathModel = loader.loadToVAO(this.path.vertices, this.textureCoords, this.path.normals, this.path.indices);
+        TexturedModel staticPathModel = new TexturedModel(pathModel, new ModelTexture(loader.loadTexture("red")));
+        Entity pathEntity = new Entity(staticPathModel, new Vector3f(0, 0, 0), 0, 0, 0, 1);
+        
+        this.lineEntities.add(pathEntity);
         
 	}
 	
@@ -233,6 +236,11 @@ public class SyntheticVisionSystem {
 				this.renderer.processEntity(e);
 			}
 			
+			for (Entity e: this.lineEntities) {
+				
+				this.renderer.processLine(e);
+			}
+			
 			this.renderer.render(this.light, this.camera);
 			this.guiRenderer.render(this.guis);
 						
@@ -253,7 +261,7 @@ public class SyntheticVisionSystem {
 	
 	public static void main(String[] args) throws IOException {
 		
-		SyntheticVisionSystem svs = new SyntheticVisionSystem(1000, 1000);
+		SyntheticVisionSystem svs = new SyntheticVisionSystem(800, 800);
 		svs.initialize();
 	}
 }

@@ -26,7 +26,6 @@ public class Building {
 		this.indices = intToArray(this.generateIndices());
 		this.normals = vecToArray(this.generateVertexNormals());
 		
-		//System.out.println("Building(...) parameter constructor..... " + this.vertices + " and " + this.indices);
 	}
 	
 	public int getHeight() {
