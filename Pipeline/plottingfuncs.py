@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 
 from sklearn.cluster import AgglomerativeClustering
 
-harris = np.load('harrisresponse.npy')
-var = np.load('vargrads.npy')
+harris = np.load('harrisresponse1.npy')
+var = np.load('vargrads1.npy')
 
 var2 = np.add(var, 5 * np.random.rand(len(var)))
 
@@ -47,10 +47,10 @@ for i in range(len(cl.labels_)):
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.set_xlabel('Average Lateral Harris Response')
-ax.set_ylabel('STD of Gradient Derivative')
-ax.set_zlabel('Average Vertical Harris Response')
-ax.set_title('Agglomerative Hierarchical Clustering for Structure Footprint Features')
+#ax.set_xlabel('Average Harris Response')
+#ax.set_ylabel('STD of Horizontal Gradient Derivative')
+#ax.set_zlabel('STD of Vertical Gradient Derivative')
+#ax.set_title('Agglomerative Hierarchical Clustering for Structure Footprint Features')
 ax.scatter(buildingshar, buildingsvar, buildingsyik)
 ax.scatter(vegetationhar, vegetationvar, vegetationyik)
 plt.show()

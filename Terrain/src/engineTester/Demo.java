@@ -61,10 +61,10 @@ public class Demo {
         GUIText text = new GUIText("Synthetic Vision System", 1, font, new Vector2f(0, 0), 0.5f, true);
         text.setColour(0, 1, 0);
         
-        GUIText speed = new GUIText("Speed", 1, font, new Vector2f(0.5f, 0.5f), 0.5f, true);
+        GUIText speed = new GUIText("Speed", 1, font, new Vector2f(0.55f, 0.55f), 0.5f, true);
         speed.setColour(0, 1, 0);
         
-        GUIText altitude = new GUIText("Altitude", 1, font, new Vector2f(0.25f, 0.5f), 0.5f, true);
+        GUIText altitude = new GUIText("Altitude", 1, font, new Vector2f(-0.068f, 0.55f), 0.5f, true);
         altitude.setColour(0, 1, 0);
         
         //END INITIALIZING ALL TEXT FIELDS ::
@@ -269,7 +269,7 @@ public class Demo {
         entities.add(centerlines);
         entities.add(pianoMarkings);
         Vector3f boxLocation = boxes.boxes.get(8).getPosition();
-        Camera camera = new Camera(10000, new Vector3f(boxLocation.getX() + 70000, boxLocation.getY() -10, 
+        Camera camera = new Camera(1000, new Vector3f(boxLocation.getX() + 70000, boxLocation.getY() -10, 
         		boxLocation.getZ() - 175000), new Vector3f(runwayw.getTarget().getX() + 70000, 
         		runwayw.getTarget().getY() -10, runwayw.getTarget().getZ() - 175000));
         System.out.println(runwayw.getTarget());
@@ -322,9 +322,23 @@ public class Demo {
      
         MasterRenderer renderer = new MasterRenderer();
         System.out.println("SETUP");
+        int camSpeed = 150;
         while(!Display.isCloseRequested()){
-        	//camera.move();
-        	camera.move(25, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
+        	
+        	int upper = 1;
+			int lower = -1;
+			if (camSpeed <= 140) {
+				camSpeed += 2;
+			}
+			else if (camSpeed >= 160) {
+				camSpeed -= 2;
+			}
+			else {
+				camSpeed += (int) (Math.random() * (upper - lower)) + lower;
+			}
+			
+			camera.move();
+        	//camera.move(8, mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             //System.out.println(mv.calculateCameraState(camera, new Vector3f(dispX, dispY, dispZ)));
             renderer.processTerrain(terrain);
             for (Entity e: entities) {
@@ -341,8 +355,8 @@ public class Demo {
             
             
             text.setTextString("Stall Probability: " + Float.toString(camera.getRoll()));
-            speed.setTextString(Float.toString(camera.getPosition().getZ()));
-            altitude.setTextString(Float.toString(camera.getPosition().getY() + 1000));
+            speed.setTextString(Integer.toString(camSpeed));
+            altitude.setTextString(Integer.toString((int) (camera.getPosition().getY() + 1000)));
             
             
             TextMaster.render();

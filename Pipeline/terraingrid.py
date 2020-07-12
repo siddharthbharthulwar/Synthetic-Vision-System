@@ -584,7 +584,13 @@ class TerrainGrid:
     def kernelclassv2(self, threshold, kernelsize, minarea, maxarea, cutoff, displayBool, erosionIterations, erosioonSize, maxCorners, saveBool):
         derivative = np.gradient(self.arrayValues)[1]
         thresh = cv.threshold(self.arrayValues, threshold, 1, cv.THRESH_BINARY)[1].astype('uint8')
+
+        plt.imshow(thresh,cmap='gist_gray')
+
+        plt.show()
         harris = harrisresponse(thresh)
+
+        
 
         self.labelled_buildings = np.zeros(self.arrayValues.shape)
         self.labelled_vegetation = np.zeros(self.arrayValues.shape)
@@ -647,26 +653,39 @@ class TerrainGrid:
             plt.imshow(blabels)
             plt.show()
         nv_labels, vlabels, vstats, vcentroids = cv.connectedComponentsWithStats(self.labelled_vegetation.astype('uint8'), connectivity = 4)
+
+        totalLabels = np.add(self.labelled_buildings.astype('uint8'), self.labelled_vegetation.astype('uint8'))
+
+        zn_labels, zlabels, zstats, zcentroids = cv.connectedComponentsWithStats(totalLabels, connectivity= 4)
+        plt.imshow(zlabels)
+        plt.show()
+
+
         if (displayBool):
                 
             plt.imshow(vlabels)
             plt.show()
-        for k in np.delete(np.unique(blabels), 0):
-            org = (ma.masked_not_equal(blabels, k) / k).astype('uint8')
-            org = org.filled()
-            org = erodilate(org, erosioonSize, erosionIterations)
-            self.ebuildings = np.add(self.ebuildings, org)
-            print(k, " / ", nb_labels)
+        for i in range(erosionIterations):
+            
+            temparray = np.zeros(self.arrayValues.shape)
+            for k in np.delete(np.unique(blabels), 0):
+                org = (ma.masked_not_equal(blabels, k) / k).astype('uint8')
+                org = org.filled()
+                org = erodilate(org, erosioonSize, i)
+                temparray = np.add(temparray, org)
+            #plt.imshow(self.arrayValues)
+            #plt.imshow(temparray, cmap = 'gist_gray')
+            #plt.title(i)
+            #plt.show()
+        self.final_building_labels = temparray
+        '''     
         if (displayBool):
             plt.imshow(self.arrayValues)
             plt.imshow(self.ebuildings, cmap = 'gist_gray')
             plt.show()
+        '''
 
 
 
 
-
-
-
-#TODO: vegetation exporting and labelling dict with x and y
 

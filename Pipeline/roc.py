@@ -12,7 +12,7 @@ from itertools import cycle
 from scipy import interp
 from sklearn.preprocessing import label_binarize
 from sklearn.multiclass import OneVsRestClassifier
-plt.style.use('ggplot')
+#plt.style.use('ggplot')
 
 
 X, y = make_classification(n_samples=2000, random_state=100, flip_y=0.09)
